@@ -1,0 +1,9 @@
+# ignore all dlls and Visual Studio files
+*.dll
+*.vcxproj
+*.filters
+*.user
+
+# ignore Debug and Release
+Debug
+Release
