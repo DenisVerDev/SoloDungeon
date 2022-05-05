@@ -8,7 +8,7 @@ GameException::GameException(std::string header, GeType type, std::string file, 
 
 	this->type = type;
 
-	if (file.find_last_of('\\') != std::string::npos) this->file = getFileName(file);
+	if (file.find_last_of('\\') != std::string::npos) this->file = dt::getFileName(file);
 	else this->file = "NONE";
 
 	this->line = line;
@@ -26,7 +26,7 @@ GameException::GameException(std::string header, std::string exception_text, GeT
 
 	this->type = type;
 
-	if (file.find_last_of('\\') != std::string::npos) this->file = getFileName(file);
+	if (file.find_last_of('\\') != std::string::npos) this->file = dt::getFileName(file);
 	else this->file = "NONE";
 
 	this->line = line;
@@ -43,7 +43,7 @@ GameException::GameException(std::string header, const std::exception& e, GeType
 
 	this->type = type;
 
-	if (file.find_last_of('\\') != std::string::npos) this->file = getFileName(file);
+	if (file.find_last_of('\\') != std::string::npos) this->file = dt::getFileName(file);
 	else this->file = "NONE";
 
 	this->line = line;
@@ -59,7 +59,7 @@ GameException::GameException(const std::exception& e, std::string file, int line
 
 	this->type = GeType::Standart;
 
-	if (file.find_last_of('\\') != std::string::npos) this->file = getFileName(file);
+	if (file.find_last_of('\\') != std::string::npos) this->file = dt::getFileName(file);
 	else this->file = "NONE";
 
 	this->line = line;

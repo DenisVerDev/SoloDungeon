@@ -7,5 +7,10 @@
 #define rEnd(stream,buff) std::getline(stream, buff);
 #endif 
 
+namespace dt
+{
 
-std::string getFileName(const std::string& path);
+	// Get file name from it's path
+	std::string getFileName(const std::string& path);
+
+}
