@@ -47,9 +47,11 @@ void Settings::saveSettings() //save settings to file
 
 		ostream.close();
 	}
-	catch (...) //[TODO]:2
+	catch (std::exception& e)
 	{
 		ostream.close();
+
+		GameException ge("Failed to save settings to file!", e, GeType::Settings, __FILE__, __LINE__);
 	}
 }
 
@@ -108,10 +110,12 @@ void Settings::loadSettings() //load settings from file
 
 		istream.close();
 	}
-	catch (...) //[TODO]:2
+	catch (std::exception& e)
 	{
 		istream.close();
 		Settings::setStandartSettings();
+
+		GameException ge("Failed to load settings to file!", e, GeType::Settings, __FILE__, __LINE__);
 	}
 }
 
@@ -154,9 +158,11 @@ void Settings::setIconFileName(std::string filename)
 		if (stat(fullpath.c_str(), &buffer) == 0) Settings::iconfile_name = filename;
 		else Settings::iconfile_name = "NONE";
 	}
-	catch (...) //[TODO]:2
+	catch (std::exception& e)
 	{
 		Settings::iconfile_name = "NONE";
+
+		GameException ge(e, __FILE__, __LINE__); //standart exception
 	}
 }
 

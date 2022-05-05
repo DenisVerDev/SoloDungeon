@@ -14,10 +14,6 @@
 	GameException class:
 	- unite custom and standart exceptions
 	- various ways of formatting exception message
-	[TODO]:1
-	- create different namespace for diftools
-	[TODO]:2
-	- go to Settings.h to the same problem
 -------------------------------------------------------------------------------------------*/
 
 // game exception type
