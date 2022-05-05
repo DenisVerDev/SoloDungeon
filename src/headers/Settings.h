@@ -2,6 +2,7 @@
 #include<string>
 #include<fstream>
 #include"DifferentTools.h"
+#include"GameException.h"
 #include<SFML/Window.hpp>
 
 /*-------------------------------------------------------------------------------------------
@@ -19,8 +20,6 @@
 	[TODO]:1
 	- applies render and audio settings in case they were changed
 	[TODO]:2
-	- try catch blocks, add custom exception class and log class to keep track of errors
-	[TODO]:3
 	- icons_path should be in some Resource class or something
 -------------------------------------------------------------------------------------------*/
 
@@ -38,6 +37,7 @@ private:
 	Settings();		//private constructor in order to avoid making an object of this class
 
 	//------PRIVATE VARS------
+
 	static unsigned int frame_limit; 
 
 	static float music_volume;	
@@ -49,6 +49,7 @@ private:
 public:
 
 	//------CONSTANTS------
+
 	static const unsigned int max_frame_limit;	// non changeable
 	static const unsigned int min_frame_limit;	// non changeable
 
@@ -57,11 +58,13 @@ public:
 	static const sf::VideoMode video_mode;		// non changeable | only one video mode
 	
 	//------PUBLIC VARS------
+
 	static bool vertical_sync;
 
 	static FrameDependency dependency_mode;
 
 	//------METHODS------
+
 	static void applySettings(); //[TODO]:1
 
 	static void saveSettings(); 
@@ -71,6 +74,7 @@ public:
 	static void setStandartSettings();
 
 	//------SETTERS------
+
 	static void setFrameLimit(unsigned int frame_limit);
 	static void setMusicVolume(float volume);
 	static void setSoundVolume(float volume);
@@ -79,6 +83,7 @@ public:
 	static void setDependencyMode(unsigned int dependecy_mode);
 
 	//------GETTERS------
+
 	static int getFrameLimit();
 	static float getMusicVolume();
 	static float getSoundVolume();
