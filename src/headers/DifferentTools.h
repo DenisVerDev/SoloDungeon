@@ -6,3 +6,6 @@
 #ifndef rEnd
 #define rEnd(stream,buff) std::getline(stream, buff);
 #endif 
+
+
+std::string getFileName(const std::string& path);
