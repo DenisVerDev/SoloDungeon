@@ -1,12 +1,14 @@
 #include"headers/Settings.h"
 
 //------Initializing constants------
+
 const unsigned int Settings::max_frame_limit = 144;
 const unsigned int Settings::min_frame_limit = 30;
 const std::string Settings::icons_path = "res/icons/";
 const sf::VideoMode Settings::video_mode = sf::VideoMode::getFullscreenModes()[0]; //gets the highest resolution possible
 
 //------Initializing variables------
+
 unsigned int Settings::frame_limit = 60;
 
 float Settings::music_volume = 100.f;
@@ -20,6 +22,7 @@ std::string Settings::iconfile_name = "NONE";
 FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
 //------Methods definition------
+
 void Settings::applySettings() //[TODO]:1
 {
 
@@ -125,6 +128,7 @@ void Settings::loadSettings() //load settings from file
 }
 
 //------Setters definition------
+
 void Settings::setStandartSettings()
 {
 	Settings::setFrameLimit(60);
@@ -191,6 +195,7 @@ void Settings::setDependencyMode(unsigned int dependecy_mode)
 }
 
 //------Getters definition------
+
 int Settings::getFrameLimit()
 {
 	return Settings::frame_limit;
@@ -217,6 +222,7 @@ std::string Settings::getWindowTitle()
 }
 
 //------Overload operators definition------
+
 std::ifstream& operator>>(std::ifstream& stream, FrameDependency& fd)
 {
 	int idm; //int dependecy_mode
