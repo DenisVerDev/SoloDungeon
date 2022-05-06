@@ -15,8 +15,6 @@
 	- [id] variable for every log's type is the same
 	[TODO]:1
 	- log_path and exc_log_path should be in some Resource class
-	[TODO]:2
-	- create logs for settings exceptions in settings.cpp
 	[TODO]:3
 	- add comments to GameException.h and .cpp
 -------------------------------------------------------------------------------------------*/
