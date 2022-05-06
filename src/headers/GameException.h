@@ -27,6 +27,7 @@ class GameException : public std::exception
 {
 
 private:
+
 	std::string header;					  // short main information
 	std::string exception_text;			  // additional information
 	std::string formatted_exception_text; // formatted exception text

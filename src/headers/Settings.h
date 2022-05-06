@@ -3,6 +3,7 @@
 #include<fstream>
 #include"DifferentTools.h"
 #include"GameException.h"
+#include"GameLog.h"
 #include<SFML/Window.hpp>
 
 /*-------------------------------------------------------------------------------------------

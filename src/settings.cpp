@@ -1,12 +1,14 @@
 #include"headers/Settings.h"
 
 //------Initializing constants------
+
 const unsigned int Settings::max_frame_limit = 144;
 const unsigned int Settings::min_frame_limit = 30;
 const std::string Settings::icons_path = "res/icons/";
 const sf::VideoMode Settings::video_mode = sf::VideoMode::getFullscreenModes()[0]; //gets the highest resolution possible
 
 //------Initializing variables------
+
 unsigned int Settings::frame_limit = 60;
 
 float Settings::music_volume = 100.f;
@@ -20,6 +22,7 @@ std::string Settings::iconfile_name = "NONE";
 FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
 //------Methods definition------
+
 void Settings::applySettings() //[TODO]:1
 {
 
@@ -43,6 +46,8 @@ void Settings::saveSettings() //save settings to file
 			ostream << "iconfile_name=" << Settings::iconfile_name << "\n";
 			ostream << "window_title=" << Settings::window_title << "\n";
 			ostream << "dependency_mode=" << (int)Settings::dependency_mode << "\n";
+
+			GameLog::log("Settings were successfully saved!");
 		}
 
 		ostream.close();
@@ -52,6 +57,7 @@ void Settings::saveSettings() //save settings to file
 		ostream.close();
 
 		GameException ge("Failed to save settings to file!", e, GeType::Settings, __FILE__, __LINE__);
+		GameLog::log(ge);
 	}
 }
 
@@ -106,6 +112,7 @@ void Settings::loadSettings() //load settings from file
 			istream >> Settings::dependency_mode;
 			rEnd(istream, buff)
 
+			GameLog::log("Settings were successfully loaded!");
 		}
 
 		istream.close();
@@ -116,10 +123,12 @@ void Settings::loadSettings() //load settings from file
 		Settings::setStandartSettings();
 
 		GameException ge("Failed to load settings to file!", e, GeType::Settings, __FILE__, __LINE__);
+		GameLog::log(ge);
 	}
 }
 
 //------Setters definition------
+
 void Settings::setStandartSettings()
 {
 	Settings::setFrameLimit(60);
@@ -129,6 +138,8 @@ void Settings::setStandartSettings()
 	Settings::setSoundVolume(100.f);
 	Settings::setWindowTitle("Standart game window");
 	Settings::setIconFileName("NONE");
+
+	GameLog::log("Settings have been reset!");
 }
 
 void Settings::setFrameLimit(unsigned int frame_limit)
@@ -156,13 +167,18 @@ void Settings::setIconFileName(std::string filename)
 	{
 		struct stat buffer;
 		if (stat(fullpath.c_str(), &buffer) == 0) Settings::iconfile_name = filename;
-		else Settings::iconfile_name = "NONE";
+		else
+		{
+			Settings::iconfile_name = "NONE";
+			GameLog::log("Such icon does not exist or file is corrupted!");
+		}
 	}
 	catch (std::exception& e)
 	{
 		Settings::iconfile_name = "NONE";
 
 		GameException ge(e, __FILE__, __LINE__); //standart exception
+		GameLog::log(ge);
 	}
 }
 
@@ -179,6 +195,7 @@ void Settings::setDependencyMode(unsigned int dependecy_mode)
 }
 
 //------Getters definition------
+
 int Settings::getFrameLimit()
 {
 	return Settings::frame_limit;
@@ -205,6 +222,7 @@ std::string Settings::getWindowTitle()
 }
 
 //------Overload operators definition------
+
 std::ifstream& operator>>(std::ifstream& stream, FrameDependency& fd)
 {
 	int idm; //int dependecy_mode

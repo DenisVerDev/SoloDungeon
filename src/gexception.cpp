@@ -1,6 +1,7 @@
 #include"headers/GameException.h"
 
 //------Constructors definition------
+
 GameException::GameException(std::string header, GeType type, std::string file, int line)
 {
 	if (!header.empty()) this->header = header;
@@ -68,6 +69,7 @@ GameException::GameException(const std::exception& e, std::string file, int line
 }
 
 //------Methods definition------
+
 const std::string GameException::typeToString()
 {
 	switch (this->type)
