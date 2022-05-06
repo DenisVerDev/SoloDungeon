@@ -1,4 +1,4 @@
-#include "headers/GameLog.h"
+#include "../../src/headers/tools/GameLog.h"
 
 //------Initializing constants------
 

@@ -1,9 +1,9 @@
 #pragma once
 #include<string>
 #include<fstream>
-#include"DifferentTools.h"
-#include"GameException.h"
-#include"GameLog.h"
+#include"../../headers/tools/DifferentTools.h"
+#include"../../headers/tools/GameException.h"
+#include"../../headers/tools/GameLog.h"
 #include<SFML/Window.hpp>
 
 /*-------------------------------------------------------------------------------------------

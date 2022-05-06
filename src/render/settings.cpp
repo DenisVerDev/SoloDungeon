@@ -1,4 +1,4 @@
-#include"headers/Settings.h"
+#include"../../src/headers/render/Settings.h"
 
 //------Initializing constants------
 
