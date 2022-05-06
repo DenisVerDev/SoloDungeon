@@ -1,4 +1,4 @@
-#include"headers/GameException.h"
+#include"../../src/headers/tools/GameException.h"
 
 //------Constructors definition------
 

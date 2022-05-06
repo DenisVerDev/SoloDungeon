@@ -1,9 +1,10 @@
 #pragma once
 #include<string>
 #include<fstream>
-#include"DifferentTools.h"
-#include"GameException.h"
-#include"GameLog.h"
+#include"../../headers/tools/DifferentTools.h"
+#include"../../headers/tools/GameException.h"
+#include"../../headers/tools/GameLog.h"
+#include"../../headers/tools/GameResources.h"
 #include<SFML/Window.hpp>
 
 /*-------------------------------------------------------------------------------------------
@@ -20,8 +21,6 @@
 	- load settings from file
 	[TODO]:1
 	- applies render and audio settings in case they were changed
-	[TODO]:2
-	- icons_path should be in some Resource class or something
 -------------------------------------------------------------------------------------------*/
 
 
@@ -53,8 +52,6 @@ public:
 
 	static const unsigned int max_frame_limit;	// non changeable
 	static const unsigned int min_frame_limit;	// non changeable
-
-	static const std::string icons_path;			// non changeable
 
 	static const sf::VideoMode video_mode;		// non changeable | only one video mode
 	
