@@ -4,7 +4,7 @@
 
 const unsigned int Settings::max_frame_limit = 144;
 const unsigned int Settings::min_frame_limit = 30;
-const std::string Settings::icons_path = "res/icons/";
+
 const sf::VideoMode Settings::video_mode = sf::VideoMode::getFullscreenModes()[0]; //gets the highest resolution possible
 
 //------Initializing variables------
@@ -30,12 +30,11 @@ void Settings::applySettings() //[TODO]:1
 
 void Settings::saveSettings() //save settings to file
 {
-	std::string path = "configs/settings.conf";
 	std::ofstream ostream;
 
 	try
 	{
-		ostream.open(path);
+		ostream.open(GameResources::settings_path);
 
 		if (ostream.good())
 		{
@@ -49,26 +48,23 @@ void Settings::saveSettings() //save settings to file
 
 			GameLog::log("Settings were successfully saved!");
 		}
-
-		ostream.close();
 	}
 	catch (std::exception& e)
 	{
-		ostream.close();
-
 		GameException ge("Failed to save settings to file!", e, GeType::Settings, __FILE__, __LINE__);
 		GameLog::log(ge);
 	}
+
+	ostream.close();
 }
 
 void Settings::loadSettings() //load settings from file
 {
-	std::string path = "configs/settings.conf";
 	std::ifstream istream;
 
 	try
 	{
-		istream.open(path);
+		istream.open(GameResources::settings_path);
 
 		if (istream.good())
 		{
@@ -114,17 +110,16 @@ void Settings::loadSettings() //load settings from file
 
 			GameLog::log("Settings were successfully loaded!");
 		}
-
-		istream.close();
 	}
 	catch (std::exception& e)
 	{
-		istream.close();
 		Settings::setStandartSettings();
 
 		GameException ge("Failed to load settings to file!", e, GeType::Settings, __FILE__, __LINE__);
 		GameLog::log(ge);
 	}
+
+	istream.close();
 }
 
 //------Setters definition------
@@ -162,7 +157,7 @@ void Settings::setSoundVolume(float volume)
 
 void Settings::setIconFileName(std::string filename)
 {
-	std::string fullpath = Settings::icons_path + filename;
+	std::string fullpath = GameResources::icons_path + filename;
 	try
 	{
 		struct stat buffer;

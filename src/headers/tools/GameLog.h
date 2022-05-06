@@ -4,6 +4,7 @@
 #include<fstream>
 #include<iomanip>
 #include"DifferentTools.h"
+#include"GameResources.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameLog class:
@@ -13,8 +14,6 @@
 	  2) for exceptions
 	- private constructor => only static functions and variables
 	- [id] variable for every log's type is the same
-	[TODO]:1
-	- log_path and exc_log_path should be in some Resource class
 -------------------------------------------------------------------------------------------*/
 
 class GameLog
@@ -23,11 +22,6 @@ class GameLog
 private:
 
 	GameLog();									// private constructor
-
-	//------CONSTANTS------
-
-	static const std::string log_path;			// path to file with standart logs
-	static const std::string exc_log_path;		// path to log file which contains exceptions
 
 	//------PRIVATE VARS------
 

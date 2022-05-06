@@ -1,10 +1,5 @@
 #include "../../src/headers/tools/GameLog.h"
 
-//------Initializing constants------
-
-const std::string GameLog::log_path = "logs/logs.log";
-const std::string GameLog::exc_log_path = "logs/exceptions.log";
-
 //------Initializing variables------
 
 unsigned int GameLog::id = 1;
@@ -20,7 +15,7 @@ void GameLog::log(std::string text)
 
 	try
 	{
-		stream.open(GameLog::log_path,GameLog::log_mode);
+		stream.open(GameResources::log_path,GameLog::log_mode);
 
 		if (stream.good())
 		{
@@ -47,7 +42,7 @@ void GameLog::log(const std::exception& e)
 
 	try
 	{
-		stream.open(GameLog::exc_log_path, GameLog::exc_log_mode);
+		stream.open(GameResources::exc_log_path, GameLog::exc_log_mode);
 
 		if (stream.good())
 		{
