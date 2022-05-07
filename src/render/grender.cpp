@@ -2,34 +2,54 @@
 
 //------Constructor/Destructor definition------
 
-GameRender::GameRender(sf::Event& system_event)
+GameRender::GameRender()
 {
 	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen);
 	
 	this->setRefreshRate();
 	this->setIcon();
-
-	this->rwindow->pollEvent(system_event);
 }
 
 GameRender::~GameRender()
 {
 	delete this->rwindow;
 	this->rwindow = nullptr;
+
+	GameLog::log("Main window was destroyed!");
 }
 
 //------Methods definition------
 
 void GameRender::render(GameScene& gs)
 {
-	this->rwindow->clear();
+	try
+	{
+		this->rwindow->clear();
 
-	// render stuff
+		// draw stuff
 
-	this->rwindow->display();
+		this->rwindow->display();
+	}
+	catch (std::exception& e)
+	{
+		GameException ge(e, __FILE__, __LINE__);
+		GameLog::log(ge);
+	}
 }
 
-const bool GameRender::isRunning() const
+void GameRender::stopRender()
+{
+	this->rwindow->close();
+	
+	GameLog::log("Render process was stopped!");
+}
+
+bool GameRender::listenEvent(sf::Event& system_event)
+{
+	return this->rwindow->pollEvent(system_event);
+}
+
+const bool GameRender::running() const
 {
 	return this->rwindow->isOpen();
 }
@@ -54,9 +74,10 @@ void GameRender::setIcon()
 	if (icon_file_name != "NONE")
 	{
 		sf::Image icon;
-		icon.loadFromFile(GameResources::icons_path + icon_file_name);
-
-		sf::Vector2u icon_size = icon.getSize();
-		this->rwindow->setIcon(icon_size.x, icon_size.y, icon.getPixelsPtr());
+		if (icon.loadFromFile(GameResources::icons_path + icon_file_name))
+		{
+			sf::Vector2u icon_size = icon.getSize();
+			this->rwindow->setIcon(icon_size.x, icon_size.y, icon.getPixelsPtr());
+		}
 	}
 }

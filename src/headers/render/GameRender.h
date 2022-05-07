@@ -1,5 +1,4 @@
 #pragma once
-#include"SFML/Window.hpp"
 #include"SFML/Graphics.hpp"
 #include"Settings.h"
 #include"../../headers/GameScene.h"
@@ -7,7 +6,9 @@
 /*-------------------------------------------------------------------------------------------
 	GameRender class:
 	- renders all game objects
-	- frame dependency mode is realised in GameScene class
+	- frame dependency mode work is realised in GameScene class
+	- render process works in the main thread
+	- core of the game's visual
 -------------------------------------------------------------------------------------------*/
 
 class GameRender
@@ -26,17 +27,27 @@ private:
 
 public:
 
-	// public constructor with Event parameter
-	GameRender(sf::Event& system_event);
+	// public constructor
+	GameRender();
 
-	// destructor => frees memory when game process is killed
+	// destructor => frees memory from the main window
 	~GameRender();
 
 	//------METHODS------
 
-	// renders whole game scene
+	// renders everything(game scene, menues, etc.)
 	void render(GameScene& gs);
 
+	// stop render process by closing the main window
+	void stopRender();
+
+	/*
+		Main window listens for an event:
+		true => new event has come,
+		false => nothing new
+	*/
+	bool listenEvent(sf::Event& system_event);
+
 	// if main window is open
-	const bool isRunning() const;
+	const bool running() const;
 };
