@@ -12,7 +12,7 @@
 	*  Final amount of types is not defined yet
 	
 	GameException class:
-	- unite custom and standart exceptions
+	- unites custom and standart exceptions
 	- various ways of formatting exception message
 -------------------------------------------------------------------------------------------*/
 

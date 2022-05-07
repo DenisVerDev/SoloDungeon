@@ -3,12 +3,12 @@
 
 /*-------------------------------------------------------------------------------------------
 	GameResources class:
-	- store all constant paths
-	- store all graphical objects like sprite sheets
-	- store all threads
-	- store all game related resources
+	- stores all constant paths
+	- stores all graphical objects like sprite sheets
+	- stores all threads
+	- stores all game related resources
 	- private constructor => only static functions and variables
-	- load resources
+	- loads resources
 -------------------------------------------------------------------------------------------*/
 
 class GameResources

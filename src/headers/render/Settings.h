@@ -13,12 +13,12 @@
 	2) settings that are initialized from the start and not changeable	->	non changeable
 
 	Settings class:
-	- store all necessary infornation about rendering process and audio settings
+	- stores all necessary infornation about rendering process and audio settings
 	- private constructor => only static functions and variables
 	- two different states of render: frame dependent and independent
 	- setter for 'iconfile_name' checks if such file exist, if negative => NONE
-	- save settings in file
-	- load settings from file
+	- saves settings in file
+	- loads settings from file
 	[TODO]:1
 	- applies render and audio settings in case they were changed
 -------------------------------------------------------------------------------------------*/
