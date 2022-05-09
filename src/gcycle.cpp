@@ -1,5 +1,9 @@
 #include"../src/headers/GameCycle.h"
 
+//------Initializing static variables------
+
+MouseData GameCycle::mouse_data;
+
 //------Constructor/Destructor definition------
 
 GameCycle::GameCycle()
@@ -28,10 +32,10 @@ void GameCycle::start()
 	try
 	{
 		GameLog::log("Game cycle started!");
-		while (this->grender->running()) // main thread, only render and handling events
+		while (this->grender->running()) // main thread, only render and handling system events
 		{
-			// event handler
-			this->handleEvents();
+			// system event handler
+			this->handleSystemEvents();
 
 			// render game scene
 			this->grender->render(*this->gscene);
@@ -46,17 +50,20 @@ void GameCycle::start()
 	}
 }
 
-void GameCycle::handleEvents()
+void GameCycle::handleSystemEvents()
 {
 	while (this->grender->listenEvent(this->system_event))
 	{
-		switch (this->system_event.type)
+		switch (this->system_event.type)  // handling system events for main window behaviour
 		{
 
 			case sf::Event::Closed:
 				this->kill();
 				break;
 		}
+
+		// handling system events for different needs
+		mouse_data.updateData(this->system_event);
 	}
 }
 
