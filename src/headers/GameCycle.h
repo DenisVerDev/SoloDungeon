@@ -8,26 +8,56 @@
 	- render, update and work with files are separated in different threads
 	[TODO]:1
 	- every thread's lifespan should be based on the main window state(grender state)
+	[TODO]:2
+	- update audio settings
 -------------------------------------------------------------------------------------------*/
+
+class GameRender;
+class GameScene;
+
+/* game events are handling in the main thread, so they can access every component of the game cycle
+   * list is not finished
+*/
+enum class GameEvent
+{
+	SettingsUpdate,	// update render and audio settings
+	SetMainMenue,	// set MainMenue game state
+	SetLoading,		// set Loading game state
+	SetGameplay,	// set Gameplay game state
+	SetPause		// set Pause game state
+};
+
+/* almost each game state has it's own game scene and render
+   * list is not finished
+*/
+enum class GameState
+{
+	MainMenue,
+	Loading,
+	Gameplay,
+	Pause
+};
 
 class GameCycle
 {
 
 private:
 
+	static GameState gstate;			// current game state
+
+	static std::vector<GameEvent> game_events; // game events
+
 	//------PRIVATE VARS------	
 
-	sf::Event system_event;			// system window event
+	sf::Event system_event;				// system window event
 
-	GameRender* grender;			// renders everything on screen
+	GameRender* grender;				// renders everything on screen
 
-	GameScene* gscene;				// contains game objects and realise game logic
+	GameScene* gscene;					// contains game objects and realise game logic
 
 public:
 
-	//------STATIC VARS------	
-
-	static MouseData mouse_data;
+	static MouseData mouse_data;		// current mouse data
 
 	//------CONSTRUCTOR/DESTRUCTOR------	
 
@@ -45,6 +75,17 @@ public:
 	// handle window's system events
 	void handleSystemEvents();		
 
+	// handle game events
+	void handleGameEvents();
+
+	// add game event to the queue
+	static void addGameEvent(GameEvent game_event);
+
 	// end game process
 	void kill();				// this method may be useless!!! need to check it on later versions of the game
+
+	//------GETTERS------	
+	
+	// get current game state
+	static GameState getCurrentState();
 };

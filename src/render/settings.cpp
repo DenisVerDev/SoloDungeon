@@ -23,9 +23,10 @@ FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
 //------Methods definition------
 
-void Settings::applySettings() //[TODO]:1
+void Settings::applySettings() // audio settings are not realised yet!
 {
-
+	GameCycle::addGameEvent(GameEvent::SettingsUpdate);
+	Settings::saveSettings();
 }
 
 void Settings::saveSettings() //save settings to file

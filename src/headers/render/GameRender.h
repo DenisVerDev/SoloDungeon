@@ -41,6 +41,9 @@ public:
 	// stop render process by closing the main window
 	void stopRender();
 
+	// get current settings and apply them to the window
+	void updateSettings();
+
 	/*
 		Main window listens for an event:
 		true => new event has come,
