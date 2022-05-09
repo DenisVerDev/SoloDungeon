@@ -44,6 +44,11 @@ void GameRender::stopRender()
 	GameLog::log("Render process was stopped!");
 }
 
+void GameRender::updateSettings()
+{
+	this->setRefreshRate();
+}
+
 bool GameRender::listenEvent(sf::Event& system_event)
 {
 	return this->rwindow->pollEvent(system_event);

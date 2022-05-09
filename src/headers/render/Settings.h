@@ -5,6 +5,7 @@
 #include"../../headers/tools/GameException.h"
 #include"../../headers/tools/GameLog.h"
 #include"../../headers/tools/GameResources.h"
+#include"../../headers/GameCycle.h"
 #include<SFML/Window.hpp>
 
 /*-------------------------------------------------------------------------------------------
@@ -19,8 +20,6 @@
 	- setter for 'iconfile_name' checks if such file exist, if negative => NONE
 	- saves settings in file
 	- loads settings from file
-	[TODO]:1
-	- applies render and audio settings in case they were changed
 -------------------------------------------------------------------------------------------*/
 
 
@@ -63,7 +62,7 @@ public:
 
 	//------METHODS------
 
-	static void applySettings(); //[TODO]:1
+	static void applySettings();
 
 	static void saveSettings(); 
 
