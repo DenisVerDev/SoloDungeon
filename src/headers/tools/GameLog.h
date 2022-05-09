@@ -5,6 +5,7 @@
 #include<iomanip>
 #include"DifferentTools.h"
 #include"GameResources.h"
+#include"../../headers/GameCycle.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameLog class:
@@ -16,6 +17,12 @@
 	- [id] variable for every log's type is the same
 -------------------------------------------------------------------------------------------*/
 
+enum class LogType
+{
+	Log,
+	Exception
+};
+
 class GameLog
 {
 
@@ -25,14 +32,21 @@ private:
 
 	//------PRIVATE VARS------
 
-	static unsigned int id;						// log id
+	static unsigned int id;											// log id
 
-	static std::ios::openmode log_mode;			// log file open mode
-	static std::ios::openmode exc_log_mode;		// log file for exceptions open mode
+	static std::vector<std::pair<std::string, LogType>> logs;		// all added logs
+
+	//------PRIVATE METHODS------
+
+	// writes log to file
+	static void writeLog(std::ofstream& stream, std::string text);
 
 public:
 
 	//------METHODS------
+
+	// handles all logs in different thread
+	static void handleLogs();
 
 	// create log with simple text
 	static void log(std::string text);
