@@ -1,13 +1,12 @@
 #pragma once
 #include"../headers/render/GameRender.h"
+#include"../headers/tools/MouseData.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameCycle class:
 	- main core of the game
 	- render, update and work with files are separated in different threads
 	[TODO]:1
-	- handling events should be realised in different classes
-	[TODO]:2
 	- every thread's lifespan should be based on the main window state(grender state)
 -------------------------------------------------------------------------------------------*/
 
@@ -26,6 +25,12 @@ private:
 
 public:
 
+	//------STATIC VARS------	
+
+	static MouseData mouse_data;
+
+	//------CONSTRUCTOR/DESTRUCTOR------	
+
 	// public constructor
 	GameCycle();
 
@@ -37,8 +42,8 @@ public:
 	// start game cycle
 	void start();
 
-	// handle window's events
-	void handleEvents();		//[TODO]:1
+	// handle window's system events
+	void handleSystemEvents();		
 
 	// end game process
 	void kill();				// this method may be useless!!! need to check it on later versions of the game
