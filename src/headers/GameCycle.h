@@ -7,7 +7,7 @@
 	- main core of the game
 	- render, update and work with files are separated in different threads
 	[TODO]:1
-	- every thread's lifespan should be based on the main window state(grender state)
+	- every thread's lifespan should be based on the game state except gamelog thread
 	[TODO]:2
 	- update audio settings
 -------------------------------------------------------------------------------------------*/
@@ -35,7 +35,8 @@ enum class GameState
 	MainMenue,
 	Loading,
 	Gameplay,
-	Pause
+	Pause,
+	Kill	// quit game, stop all threads
 };
 
 class GameCycle
@@ -55,9 +56,13 @@ private:
 
 	GameScene* gscene;					// contains game objects and realise game logic
 
+	sf::Thread gamelog_thread;			// gamelog thread
+
 public:
 
 	static MouseData mouse_data;		// current mouse data
+
+	static bool running;				// if game is running
 
 	//------CONSTRUCTOR/DESTRUCTOR------	
 
@@ -81,8 +86,8 @@ public:
 	// add game event to the queue
 	static void addGameEvent(GameEvent game_event);
 
-	// end game process
-	void kill();				// this method may be useless!!! need to check it on later versions of the game
+	// end game process and all threads
+	void kill();
 
 	//------GETTERS------	
 	

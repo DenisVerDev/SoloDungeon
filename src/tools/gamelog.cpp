@@ -4,61 +4,71 @@
 
 unsigned int GameLog::id = 1;
 
-std::ios::openmode GameLog::log_mode = std::ios::out;
-std::ios::openmode GameLog::exc_log_mode = std::ios::out;
+std::vector<std::pair<std::string, LogType>> GameLog::logs;
 
 //------Methods definition------
 
-void GameLog::log(std::string text)
+void GameLog::writeLog(std::ofstream& stream,std::string text)
 {
-	std::ofstream stream;
+	stream << std::setw(51) << std::setfill('=') << "=\n";
+	stream << "[Log id]: " << GameLog::id << ", [Date-Time]: " << dt::getCurrentDateTime();
+	stream << std::setw(51) << std::setfill('-') << "-\n";
+	stream << text;
+
+	stream.flush();
+
+	GameLog::id++;	// increasing log id
+}
+
+void GameLog::handleLogs()
+{
+	std::ofstream log_stream;
+	std::ofstream exc_stream;
 
 	try
 	{
-		stream.open(GameResources::log_path,GameLog::log_mode);
+		log_stream.open(GameResources::log_path);
+		exc_stream.open(GameResources::exc_log_path);
 
-		if (stream.good())
+		while (GameCycle::running == true && log_stream.good() && exc_stream.good())
 		{
-			stream << std::setw(51) << std::setfill('=') << "=\n";
-			stream << "[Log id]: " << GameLog::id << ", [Date-Time]: " << dt::getCurrentDateTime();
-			stream << std::setw(51) << std::setfill('-') << "-\n";
-			stream << text << "\n";
+			if (GameLog::logs.size() > 0)
+			{
+				std::string text = GameLog::logs[0].first;
+				LogType type = GameLog::logs[0].second;
+
+				GameLog::logs.erase(GameLog::logs.begin());
+
+				switch (type)
+				{
+					case LogType::Log:
+						GameLog::writeLog(log_stream, text);
+						break;
+
+					case LogType::Exception:
+						GameLog::writeLog(exc_stream, text);
+						break;
+				}
+			}
 		}
 	}
-	catch (std::exception& ex)
+	catch (std::exception& e)
 	{
-		// if some exception appeares in log process => still increase id and change open mode
+		// if some exception appeares in log process => do nothing
 	}
 
-	stream.close();
+	GameLog::logs.clear();
 
-	GameLog::log_mode = std::ios::app; // change mode to append
-	GameLog::id++;					   // increasing log id
+	log_stream.close();
+	exc_stream.close();
+}
+
+void GameLog::log(std::string text)
+{
+	GameLog::logs.push_back(std::pair<std::string, LogType>(text+"\n",LogType::Log));
 }
 
 void GameLog::log(const std::exception& e)
 {
-	std::ofstream stream;
-
-	try
-	{
-		stream.open(GameResources::exc_log_path, GameLog::exc_log_mode);
-
-		if (stream.good())
-		{
-			stream << std::setw(51) << std::setfill('=') << "=\n";
-			stream << "[Log id]: " << GameLog::id << ", [Date-Time]: " << dt::getCurrentDateTime();
-			stream << std::setw(51) << std::setfill('-') << "-\n";
-			stream << e.what(); // don't require '\n'
-		}
-	}
-	catch (std::exception& ex) 
-	{
-		// if some exception appeares in log process => still increase id and change open mode
-	}
-
-	stream.close();
-
-	GameLog::exc_log_mode = std::ios::app; // change mode to append
-	GameLog::id++;						   // increasing log id
+	GameLog::logs.push_back(std::pair<std::string, LogType>(e.what(), LogType::Exception));
 }
