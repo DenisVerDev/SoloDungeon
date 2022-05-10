@@ -1,7 +1,7 @@
 #pragma once
 #include"SFML/Graphics.hpp"
 #include"Settings.h"
-#include"../../headers/GameScene.h"
+#include"../../headers/scenes/GameScene.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameRender class:
@@ -10,6 +10,8 @@
 	- render process works in the main thread
 	- core of the game's visual
 -------------------------------------------------------------------------------------------*/
+
+class GameScene;
 
 class GameRender
 {

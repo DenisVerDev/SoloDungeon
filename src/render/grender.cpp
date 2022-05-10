@@ -26,7 +26,7 @@ void GameRender::render(GameScene& gs)
 	{
 		this->rwindow->clear();
 
-		// draw stuff
+		gs.draw(*this->rwindow);
 
 		this->rwindow->display();
 	}
