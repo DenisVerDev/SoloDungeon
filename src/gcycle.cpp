@@ -2,7 +2,7 @@
 
 //------Initializing static variables------
 
-GameState GameCycle::gstate = GameState::Gameplay;
+GameState GameCycle::gstate = GameState::MainMenue;
 
 std::vector<GameEvent> GameCycle::game_events;
 
@@ -16,15 +16,15 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
 	Settings::loadSettings();
 
-	this->gscene = new GameScene();
+	this->mscene = new MenueScene();
+
 	this->grender = new GameRender();
 }
 
 GameCycle::~GameCycle()
 {
 	// free memory
-	delete this->gscene;
-	this->gscene = nullptr;
+	this->destroyGameScene((GameScene*&)this->mscene);
 
 	delete this->grender;
 	this->grender = nullptr;
@@ -47,6 +47,10 @@ void GameCycle::start()
 		// game log thread
 
 		gamelog_thread.launch();
+
+		// main menue thread -- entry scene
+
+		this->mscene->start();
 		
 		// main thread
 
@@ -61,8 +65,8 @@ void GameCycle::start()
 			// render game scenes depending on current game state
 			switch (this->gstate)
 			{
-				case GameState::Gameplay:
-					this->grender->render(*this->gscene);
+				case GameState::MainMenue:
+					this->grender->render(*this->mscene);
 					break;
 			}
 
@@ -109,6 +113,7 @@ void GameCycle::handleGameEvents()
 				this->grender->updateSettings();
 				GameLog::log("Game event: settings update!");
 				break;
+
 		}
 	}
 }
@@ -116,6 +121,12 @@ void GameCycle::handleGameEvents()
 void GameCycle::addGameEvent(GameEvent game_event)
 {
 	GameCycle::game_events.push_back(game_event);
+}
+
+void GameCycle::destroyGameScene(GameScene*& scene)
+{
+	delete scene;
+	scene = nullptr;
 }
 
 void GameCycle::kill()

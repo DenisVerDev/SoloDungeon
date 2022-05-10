@@ -1,5 +1,6 @@
 #pragma once
 #include"../headers/render/GameRender.h"
+#include"../headers/scenes/MenueScene.h"
 #include"../headers/tools/MouseData.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -14,6 +15,7 @@
 
 class GameRender;
 class GameScene;
+class MenueScene;
 
 /* game events are handling in the main thread, so they can access every component of the game cycle
    * list is not finished
@@ -54,7 +56,7 @@ private:
 
 	GameRender* grender;				// renders everything on screen
 
-	GameScene* gscene;					// contains game objects and realise game logic
+	MenueScene* mscene;					// Main menue scene
 
 	sf::Thread gamelog_thread;			// gamelog thread
 
@@ -85,6 +87,9 @@ public:
 
 	// add game event to the queue
 	static void addGameEvent(GameEvent game_event);
+
+	// free memory from game scene
+	void destroyGameScene(GameScene*& scene);
 
 	// end game process and all threads
 	void kill();
