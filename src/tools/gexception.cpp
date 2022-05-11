@@ -82,6 +82,14 @@ const std::string GameException::typeToString()
 			return "Settings";
 			break;
 
+		case GeType::Resources:
+			return "Resources";
+			break;
+
+		case GeType::Rendering:
+			return "Rendering";
+			break;
+
 		default: return "Standart";
 	}
 }

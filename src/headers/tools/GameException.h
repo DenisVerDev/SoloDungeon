@@ -20,7 +20,9 @@
 enum class GeType
 {
 	Standart,
-	Settings
+	Settings,
+	Resources,
+	Rendering
 };
 
 class GameException : public std::exception

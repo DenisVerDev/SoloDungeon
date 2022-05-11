@@ -4,9 +4,19 @@
 
 MenueScene::MenueScene() : GameScene()
 {
-	// initializing objects
+	// game title initialization
+	this->game_title.setFont(GameResources::head_font);
+	this->game_title.setCharacterSize(100);
+	this->game_title.setFillColor(sf::Color::Yellow);
+	this->game_title.setString(Settings::getWindowTitle());
+	this->game_title.setStyle(sf::Text::Bold);
+	
+	float width = this->game_title.getLocalBounds().width;
+	float height = this->game_title.getLocalBounds().height;
+	sf::Vector2f game_title_pos((Settings::video_mode.width / 2.f) - (width/1.8f), (Settings::video_mode.height / 2.f) - height*3);
 
-
+	this->game_title.setPosition(game_title_pos);
+	
 	GameLog::log("Menue scene was initialized!");
 }
 
@@ -55,7 +65,16 @@ void MenueScene::logic()
 
 void MenueScene::draw(sf::RenderTarget& target)
 {
-	// drawing here
+	try
+	{
+		// drawing game logo
+		target.draw(this->game_title);
+	}
+	catch (std::exception& e)
+	{
+		GameException ge("Menue scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
+		GameLog::log(ge);
+	}
 }
 
 void MenueScene::dispose()

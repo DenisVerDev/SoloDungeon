@@ -16,6 +16,8 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
 	Settings::loadSettings();
 
+	GameResources::loadFonts();
+
 	this->mscene = new MenueScene();
 
 	this->grender = new GameRender();

@@ -1,5 +1,8 @@
 #pragma once
 #include<string>
+#include"GameLog.h"
+#include"GameException.h"
+#include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
 	GameResources class:
@@ -28,4 +31,18 @@ public:
 	static const std::string exc_log_path;	// path to log file with exceptions
 
 	static const std::string settings_path; // path to settings config file
+
+	static const std::string fonts_path;	// path to all game fonts
+
+	//------FONTS------
+
+	static sf::Font head_font;				// font for headers
+
+	static sf::Font text_font;				// font for simple texts
+
+	//------METHODS------
+
+	// load all game fonts
+	static void loadFonts();
+
 };

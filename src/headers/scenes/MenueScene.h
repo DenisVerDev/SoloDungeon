@@ -11,6 +11,10 @@ class MenueScene : public GameScene
 {
 private:
 
+	//------MENUE COMPONENTS------
+
+	sf::Text game_title;	// big game title
+
 	//------PRIVATE METHODS------
 	
 	// 'MainMenue' scene logic
