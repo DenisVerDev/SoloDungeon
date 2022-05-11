@@ -16,6 +16,8 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
 	Settings::loadSettings();
 
+	GameResources::loadFonts();
+
 	this->mscene = new MenueScene();
 
 	this->grender = new GameRender();
@@ -112,6 +114,12 @@ void GameCycle::handleGameEvents()
 			case GameEvent::SettingsUpdate:
 				this->grender->updateSettings();
 				GameLog::log("Game event: settings update!");
+				break;
+
+			case GameEvent::Quit:
+				GameLog::log("Game event: quit from the game!");
+				if(this->gstate == GameState::MainMenue) this->mscene->resetEventSent();
+				this->kill();
 				break;
 
 		}

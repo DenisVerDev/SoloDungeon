@@ -17,6 +17,8 @@ protected:
 
 	bool isLoaded;				// if resources are loaded
 
+	bool isEventSent;			// if event was sent to the game cycle
+
 	sf::Thread logic_thread;	// thread that handles game scene logic
 
 	//------PRIVATE METHODS------
@@ -38,6 +40,7 @@ public:
 	GameScene() :logic_thread(&GameScene::logic, this)
 	{
 		this->isLoaded = false;
+		this->isEventSent = false;
 	}
 
 	// destructor => delete game scene objects
@@ -56,6 +59,12 @@ public:
 
 	// draw whole game scene
 	virtual void draw(sf::RenderTarget& target) = 0;
+
+	// reset event sent process state
+	virtual void resetEventSent()
+	{
+		this->isEventSent = false;
+	}
 
 	bool getIsLoaded()
 	{

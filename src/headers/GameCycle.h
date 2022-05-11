@@ -26,7 +26,8 @@ enum class GameEvent
 	SetMainMenue,	// set MainMenue game state
 	SetLoading,		// set Loading game state
 	SetGameplay,	// set Gameplay game state
-	SetPause		// set Pause game state
+	SetPause,		// set Pause game state
+	Quit			// quit from game
 };
 
 /* almost each game state has it's own game scene and render
