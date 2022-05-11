@@ -90,6 +90,10 @@ const std::string GameException::typeToString()
 			return "Rendering";
 			break;
 
+		case GeType::Logic:
+			return "Logic";
+			break;
+
 		default: return "Standart";
 	}
 }

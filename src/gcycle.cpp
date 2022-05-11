@@ -116,6 +116,12 @@ void GameCycle::handleGameEvents()
 				GameLog::log("Game event: settings update!");
 				break;
 
+			case GameEvent::Quit:
+				GameLog::log("Game event: quit from the game!");
+				if(this->gstate == GameState::MainMenue) this->mscene->resetEventSent();
+				this->kill();
+				break;
+
 		}
 	}
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include"../../headers/gui/GameButton.h"
 #include"GameScene.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -13,12 +14,23 @@ private:
 
 	//------MENUE COMPONENTS------
 
-	sf::Text game_title;	// big game title
+	sf::Text game_title;		// big game title
+
+	sf::Text author_credit;		// author info
+
+	GameButton btn_new_game;	// new game button
+
+	GameButton btn_settings;	// settings button
+
+	GameButton btn_quit;		// quit from the game
 
 	//------PRIVATE METHODS------
 	
 	// 'MainMenue' scene logic
 	virtual void logic();
+
+	// handle buttons click event
+	void buttonsClickHandle();
 
 	// load graphical/audio resources
 	virtual void loadResources();
