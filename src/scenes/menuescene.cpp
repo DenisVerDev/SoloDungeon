@@ -90,22 +90,29 @@ void MenueScene::logic()
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::MainMenue)
 	{
-		try
+		if (GameCycle::isPaused == false)
 		{
-			sf::Vector2f mouse_pos(GameCycle::mouse_data.getPosition());	// get cursor position
+			try
+			{
+				sf::Vector2f mouse_pos(GameCycle::mouse_data.getPosition());	// get cursor position
 
-			// update button states
-			this->btn_new_game.update(mouse_pos);
-			this->btn_settings.update(mouse_pos);
-			this->btn_quit.update(mouse_pos);
+				// update button states
+				this->btn_new_game.update(mouse_pos);
+				this->btn_settings.update(mouse_pos);
+				this->btn_quit.update(mouse_pos);
 
-			// handle buttons click event
-			this->buttonsClickHandle();
+				// handle buttons click event
+				this->buttonsClickHandle();
+			}
+			catch (std::exception& e)
+			{
+				GameException ge("Menue scene logic exception!", e, GeType::Logic, __FILE__, __LINE__);
+				GameLog::log(ge);
+			}
 		}
-		catch (std::exception& e)
+		else
 		{
-			GameException ge("Menue scene logic exception!", e, GeType::Logic, __FILE__, __LINE__);
-			GameLog::log(ge);
+			// settings menue logic here
 		}
 	}
 }
@@ -119,7 +126,8 @@ void MenueScene::buttonsClickHandle()
 
 	if (this->btn_settings.getIsClicked() && this->isEventSent == false)	// open settings menue
 	{
-
+		this->isEventSent = true;
+		GameCycle::addGameEvent(GameEvent::StartPause);
 	}
 
 	if (this->btn_quit.getIsClicked() && this->isEventSent == false)	// quit from game
@@ -134,12 +142,20 @@ void MenueScene::draw(sf::RenderTarget& target)
 {
 	try
 	{
-		// drawing game logo
-		target.draw(this->game_title);
-		// drawing buttons
-		this->btn_new_game.draw(target);
-		this->btn_settings.draw(target);
-		this->btn_quit.draw(target);
+		if (GameCycle::isPaused == false)
+		{
+			// drawing game logo
+			target.draw(this->game_title);
+			// drawing buttons
+			this->btn_new_game.draw(target);
+			this->btn_settings.draw(target);
+			this->btn_quit.draw(target);
+		}
+		else
+		{
+			// draw settings menue here
+		}
+
 		// drawing author credit
 		target.draw(this->author_credit);
 	}
