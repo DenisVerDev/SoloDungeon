@@ -1,13 +1,14 @@
 #pragma once
+#include"../../headers/tools/GameResources.h"
+#include"../../headers/tools/DifferentTools.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
 	GameButton class:
 	- simple button
-	- in this game every button has the same size
 	- button's texture can be divided in two different textures:
 	  1) button standart texture
-	  2) button mouse has entered texture
+	  2) mouse has entered button's position texture
 -------------------------------------------------------------------------------------------*/
 
 class GameButton
@@ -21,12 +22,12 @@ private:
 
 	bool isClicked;				// is button clicked
 	bool isEntered;				// is mouse entered
+	bool isChecked;				// button check mode
 
 	float width;				// button's width
 	float height;				// button's height
 
-	sf::Color text_color;		// text standart color
-	sf::Color mover_text_color; // text button hover color
+	sf::Vector2f position;		// button's position
 
 	//------PRIVATE METHODS------
 
@@ -47,35 +48,32 @@ public:
 	//------CONSTRUCTOR------
 
 	// public constructor
-	GameButton(std::string text = "", sf::Text::Style style = sf::Text::Style::Regular);
+	GameButton(std::string text = "");
 
 	//------METHODS------
 
 	// update button's logic
 	void update(sf::Vector2f mouse_pos);
 
+	// draw button
+	void draw(sf::RenderTarget& target);
+
 	// load button's texture
 	void loadTexture(const sf::Texture& texture);
 
-	// draw button
-	void draw(sf::RenderTarget& target);
+	// set button's checked mode
+	void setCheckMode(bool checked);
 
 	//------SETTERS------
 
 	// set button's position
 	void setPosition(sf::Vector2f position);
 
-	// set text label font
-	void setFont(sf::Font& font);
+	// set button's size
+	void setSize(float width, float height);
 
 	// set button's text
 	void setText(std::string text);
-
-	/*
-		set text label color
-		1) text standart color 2) text button hover color
-	*/
-	void setTextColor(sf::Color text_color, sf::Color mover_text_color);
 
 	//------GETTERS------
 

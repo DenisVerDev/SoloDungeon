@@ -8,6 +8,8 @@
 	- loading resources are realised in the main thread
 -------------------------------------------------------------------------------------------*/
 
+class GameButton;
+
 class MenueScene : public GameScene
 {
 private:
@@ -18,11 +20,11 @@ private:
 
 	sf::Text author_credit;		// author info
 
-	GameButton btn_new_game;	// new game button
+	GameButton* btn_new_game;	// new game button
 
-	GameButton btn_settings;	// settings button
+	GameButton* btn_settings;	// settings button
 
-	GameButton btn_quit;		// quit from the game
+	GameButton* btn_quit;		// quit from the game
 
 	//------PRIVATE METHODS------
 	

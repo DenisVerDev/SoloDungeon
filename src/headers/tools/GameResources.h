@@ -26,6 +26,7 @@ public:
 	//------CONSTANT PATHS------
 
 	static const std::string icons_path;	// path where all icons are
+	static const std::string gui_path;		// path to all gui files
 
 	static const std::string log_path;		// path to file with standart logs
 	static const std::string exc_log_path;	// path to log file with exceptions
@@ -40,9 +41,18 @@ public:
 
 	static sf::Font text_font;				// font for simple texts
 
+	//------COLORS------
+
+	static sf::Color text_color;			// MenueScene text color
+	static sf::Color hover_text_color;	// MenueScene text hover color
+
+	static sf::Color additional_color;		// additional information text color
+
 	//------METHODS------
 
 	// load all game fonts
 	static void loadFonts();
 
+	// change base colors depending on the current game scene
+	static void changeColors();
 };

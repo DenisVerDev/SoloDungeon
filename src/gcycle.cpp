@@ -19,6 +19,7 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 	Settings::loadSettings();
 
 	GameResources::loadFonts();
+	GameResources::changeColors();
 
 	this->mscene = new MenueScene();
 
