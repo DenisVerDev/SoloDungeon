@@ -46,6 +46,7 @@ private:
 	static std::string window_title;			// non changeable
 
 	static bool isChanged;						// if settings were changed
+	static bool isReseted;						// if settings were reseted
 
 public:
 
@@ -88,6 +89,7 @@ public:
 	static std::string getIconFileName();
 	static std::string getWindowTitle();
 	static bool getIsChanged();
+	static bool getIsReseted();
 
 };
 

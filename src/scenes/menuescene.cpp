@@ -7,7 +7,7 @@ MenueScene::MenueScene() : GameScene()
 	// game title initialization
 	this->game_title.setFont(GameResources::head_font);
 	this->game_title.setCharacterSize(100);
-	this->game_title.setFillColor(sf::Color::Yellow);
+	this->game_title.setFillColor(GameResources::hover_text_color);
 	this->game_title.setString(Settings::getWindowTitle());
 	this->game_title.setStyle(sf::Text::Bold);
 	
@@ -17,7 +17,7 @@ MenueScene::MenueScene() : GameScene()
 	float text_width = this->game_title.getLocalBounds().width;
 	float text_height = this->game_title.getLocalBounds().height;
 	
-	float game_title_x = dt::getCenteredPostion(sf::Vector2f(video_width,video_height), sf::Vector2f(text_width, text_height), sf::Vector2f(0,0)).x;
+	float game_title_x = dt::getCenteredPostion(sf::Vector2f(video_width,video_height), sf::Vector2f(text_width, text_height), sf::Vector2f(0.f,0.f)).x;
 	sf::Vector2f game_title_pos(game_title_x, (video_height / 2.f) - text_height * 3);
 
 	this->game_title.setPosition(game_title_pos);
@@ -25,7 +25,7 @@ MenueScene::MenueScene() : GameScene()
 	// new game button
 	this->btn_new_game = new GameButton("Start new game");
 	
-	float btn_x = game_title_pos.x + this->btn_new_game->getWidth() / 1.5f;
+	float btn_x = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->btn_new_game->getSize(), sf::Vector2f(0.f, 0.f)).x;
 	float btn_y = game_title_pos.y + 300;
 	this->btn_new_game->setPosition(sf::Vector2f(btn_x, btn_y));
 
@@ -73,7 +73,7 @@ MenueScene::~MenueScene()
 	delete this->smenue;
 	this->smenue = nullptr;
 
-	this->dispose();
+	this->logic_thread.wait(); // wait thread to stop
 
 	GameLog::log("Menue scene was destroyed!");
 }
@@ -92,15 +92,6 @@ void MenueScene::stop()
 {
 	this->logic_thread.wait();
 	GameLog::log("Menue scene thread has stopped!");
-}
-
-void MenueScene::loadResources()
-{
-	// load resources
-
-	//end
-	this->isLoaded = true;
-	GameLog::log("Menue scene resources are loaded!");
 }
 
 void MenueScene::logic()
@@ -124,19 +115,27 @@ void MenueScene::logic()
 			}
 			catch (std::exception& e)
 			{
-				GameException ge("Menue scene logic exception!", e, GeType::Logic, __FILE__, __LINE__);
+				GameException ge("Main menue scene logic exception!", e, GeType::Logic, __FILE__, __LINE__);
 				GameLog::log(ge);
 			}
 		}
 		else
 		{
-			// settings menue logic here
-			this->smenue->logic();
+			try
+			{
+				// settings menue logic here
+				this->smenue->logic();
+			}
+			catch (std::exception& e)
+			{
+				GameException ge("Settings menue logic exception!", e, GeType::Logic, __FILE__, __LINE__);
+				GameLog::log(ge);
+			}
 		}
 	}
 }
 
-void MenueScene::buttonsClickHandle()
+void MenueScene::buttonsClickHandle()	//[TODO]:1 rework defense system
 {
 	if (this->btn_new_game->getIsClicked() && this->isEventSent == false)	// start new game
 	{
@@ -186,16 +185,17 @@ void MenueScene::draw(sf::RenderTarget& target)
 	}
 }
 
+void MenueScene::loadResources()
+{
+	// load resources
+
+	//end
+	this->isLoaded = true;
+	GameLog::log("Menue scene resources are loaded!");
+}
+
 void MenueScene::resetEventSent()
 {
 	this->isEventSent = false;
 	this->smenue->resetEventSent();
-}
-
-void MenueScene::dispose()
-{
-	// dispose resources
-
-	this->logic_thread.wait(); // wait thread to stop
-	GameLog::log("Menue scene resources were disposed!");
 }

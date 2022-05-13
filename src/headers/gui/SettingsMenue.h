@@ -1,5 +1,6 @@
 #pragma once
 #include"GameButton.h"
+#include"../../headers/scenes/Scene.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -15,7 +16,7 @@ enum class STab		// settings tab type
 	KeyMouse
 };
 
-class SettingsMenue
+class SettingsMenue : public Scene
 {
 
 private:
@@ -32,6 +33,8 @@ private:
 
 	GameButton* btn_back;			// back to the parent menue
 
+	GameButton* btn_standart;		// set standart settings
+
 	GameButton* btn_apply;			// apply settings button
 
 	//------TEXTURES------
@@ -45,8 +48,6 @@ private:
 	//------PRIVATE VARS------	
 
 	STab tab_type;					// what tab is open
-
-	bool isEventSent;				// if event was sent to the game cycle
 
 	sf::Vector2f position;			// settings menue position
 
@@ -70,19 +71,16 @@ public:
 	//------METHODS------
 
 	// settings menue logic
-	void logic();
+	virtual void logic();
 
 	// handle tab buttons click event
 	void tabClickHandle();
 
-	// handle back and apply buttons click event
+	// handle back, standart and apply buttons click event
 	void btnClickHandle();
 
 	// draw whole settings menue
-	void draw(sf::RenderTarget& target);
-
-	// reset event sent process state
-	void resetEventSent();
+	virtual void draw(sf::RenderTarget& target);
 
 	// set settings menue position
 	void setPosition(sf::Vector2f position);

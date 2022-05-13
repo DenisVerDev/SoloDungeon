@@ -41,9 +41,6 @@ private:
 	// load graphical/audio resources
 	virtual void loadResources();
 
-	// delete all resources, free memory
-	virtual void dispose();
-
 public:
 
 	//------CONSTRUCTOR/DESTRUCTOR------	
