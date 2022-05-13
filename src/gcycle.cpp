@@ -114,10 +114,13 @@ void GameCycle::handleGameEvents()
 
 		switch (ev)
 		{
-			/*case GameEvent::SettingsUpdate:
-				this->grender->updateSettings();
+			case GameEvent::SettingsUpdate:
 				GameLog::log("Game event: settings update!");
-				break;*/
+				this->grender->updateSettings(); // update render settings
+				// update audio settings here
+				Settings::saveSettings(); // save settings to file
+				this->resetEventSent();
+				break;
 
 			case GameEvent::StartPause:
 				GameLog::log("Game event: game is paused!");
@@ -143,6 +146,7 @@ void GameCycle::handleGameEvents()
 
 void GameCycle::addGameEvent(GameEvent game_event)	// second defence stage from threads invoking this method > 1 times
 {
+	if(game_event == GameEvent::SettingsUpdate && Settings::getIsChanged() == true) GameCycle::game_events.push_back(game_event);
 
 	if(game_event == GameEvent::StartPause && GameCycle::isPaused == false) GameCycle::game_events.push_back(game_event);
 	if(game_event == GameEvent::EndPause && GameCycle::isPaused == true) GameCycle::game_events.push_back(game_event);

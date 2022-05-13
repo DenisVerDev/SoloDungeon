@@ -61,10 +61,7 @@ public:
 	virtual void draw(sf::RenderTarget& target) = 0;
 
 	// reset event sent process state
-	virtual void resetEventSent()
-	{
-		this->isEventSent = false;
-	}
+	virtual void resetEventSent() = 0;
 
 	bool getIsLoaded()
 	{

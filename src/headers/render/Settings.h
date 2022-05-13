@@ -45,6 +45,8 @@ private:
 	static std::string iconfile_name;			// non changeable
 	static std::string window_title;			// non changeable
 
+	static bool isChanged;						// if settings were changed
+
 public:
 
 	//------CONSTANTS------
@@ -62,8 +64,6 @@ public:
 
 	//------METHODS------
 
-	static void applySettings();
-
 	static void saveSettings(); 
 
 	static void loadSettings(); 
@@ -73,6 +73,7 @@ public:
 	//------SETTERS------
 
 	static void setFrameLimit(unsigned int frame_limit);
+	static void setVerticalSync(bool vertical_sync);
 	static void setMusicVolume(float volume);
 	static void setSoundVolume(float volume);
 	static void setIconFileName(std::string filename);
@@ -86,6 +87,7 @@ public:
 	static float getSoundVolume();
 	static std::string getIconFileName();
 	static std::string getWindowTitle();
+	static bool getIsChanged();
 
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 #include"../../headers/gui/GameButton.h"
+#include"../../headers/gui/SettingsMenue.h"
 #include"GameScene.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -9,12 +10,13 @@
 -------------------------------------------------------------------------------------------*/
 
 class GameButton;
+class SettingsMenue;
 
 class MenueScene : public GameScene
 {
 private:
 
-	//------MENUE COMPONENTS------
+	//------SCENE COMPONENTS------
 
 	sf::Text game_title;		// big game title
 
@@ -25,6 +27,8 @@ private:
 	GameButton* btn_settings;	// settings button
 
 	GameButton* btn_quit;		// quit from the game
+
+	SettingsMenue* smenue;		// settings menue
 
 	//------PRIVATE METHODS------
 	
@@ -60,4 +64,7 @@ public:
 
 	// draw whole 'MainMenue' scene
 	virtual void draw(sf::RenderTarget& target);
+
+	// reset event sent process state
+	virtual void resetEventSent();
 };

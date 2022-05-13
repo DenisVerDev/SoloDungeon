@@ -9,6 +9,7 @@
 	- button's texture can be divided in two different textures:
 	  1) button standart texture
 	  2) mouse has entered button's position texture
+	- button's texture must be single color
 -------------------------------------------------------------------------------------------*/
 
 class GameButton
@@ -59,7 +60,10 @@ public:
 	void draw(sf::RenderTarget& target);
 
 	// load button's texture
-	void loadTexture(const sf::Texture& texture);
+	void loadTexture(sf::Texture& texture);
+
+	// set button's texture scale
+	void setTextureScale(float factor_x, float factor_y);
 
 	// set button's checked mode
 	void setCheckMode(bool checked);
@@ -85,6 +89,9 @@ public:
 
 	// get if mouse has entered the button's area
 	bool getIsEntered();
+
+	// get button's check mode
+	bool getIsChecked();
 
 	float getWidth();
 

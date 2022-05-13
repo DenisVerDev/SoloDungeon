@@ -49,6 +49,12 @@ MenueScene::MenueScene() : GameScene()
 	this->author_credit.setStyle(sf::Text::Style::Bold);
 	this->author_credit.setString("author of this demo: Denis V\nemail: denisverepadev@gmail.com");
 
+	// settings menue
+
+	this->smenue = new SettingsMenue();
+	sf::Vector2f smenue_pos = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->smenue->getSize(), sf::Vector2f(0, 0));
+	this->smenue->setPosition(smenue_pos);
+
 	GameLog::log("Menue scene was initialized!");
 }
 
@@ -63,6 +69,9 @@ MenueScene::~MenueScene()
 
 	delete this->btn_quit;
 	this->btn_quit = nullptr;
+
+	delete this->smenue;
+	this->smenue = nullptr;
 
 	this->dispose();
 
@@ -122,6 +131,7 @@ void MenueScene::logic()
 		else
 		{
 			// settings menue logic here
+			this->smenue->logic();
 		}
 	}
 }
@@ -163,6 +173,7 @@ void MenueScene::draw(sf::RenderTarget& target)
 		else
 		{
 			// draw settings menue here
+			this->smenue->draw(target);
 		}
 
 		// drawing author credit
@@ -173,6 +184,12 @@ void MenueScene::draw(sf::RenderTarget& target)
 		GameException ge("Menue scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
 		GameLog::log(ge);
 	}
+}
+
+void MenueScene::resetEventSent()
+{
+	this->isEventSent = false;
+	this->smenue->resetEventSent();
 }
 
 void MenueScene::dispose()

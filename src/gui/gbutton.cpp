@@ -15,7 +15,7 @@ GameButton::GameButton(std::string text)
 	this->text.setCharacterSize(30);
 	this->text.setFillColor(GameResources::text_color);
 	this->text.setString(text);
-
+	
 	this->centerTextPosition();
 }
 
@@ -26,15 +26,15 @@ void GameButton::update(sf::Vector2f mouse_pos)
 	sf::Vector2f button_pos = this->getPosition();
 
 	// check if cursor has entered
-	if (this->isEntered == false && this->isChecked == false && this->isMouseOver(mouse_pos, button_pos))
+	if (this->isEntered == false && this->isMouseOver(mouse_pos, button_pos))
 	{
 		this->isEntered = true;
-		this->enterHandle();
+		if(this->isChecked == false) this->enterHandle();
 	}
-	else if(this->isEntered == true && this->isChecked == false && !this->isMouseOver(mouse_pos, button_pos))
+	else if(this->isEntered == true && !this->isMouseOver(mouse_pos, button_pos))
 	{
 		this->isEntered = false;
-		this->leaveHandle();
+		if (this->isChecked == false) this->leaveHandle();
 	}
 	
 	// check if button was pressed
@@ -42,11 +42,15 @@ void GameButton::update(sf::Vector2f mouse_pos)
 	else this->isClicked = false;
 }
 
-void GameButton::loadTexture(const sf::Texture& texture)
+void GameButton::loadTexture(sf::Texture& texture)
 {
 	this->body.setTexture(texture);
-	// set texture rect
-	this->body.setTextureRect(sf::IntRect(0, 0, this->width, this->height)); // set button's standart texture
+	this->body.setColor(GameResources::additional_color);
+}
+
+void GameButton::setTextureScale(float factor_x, float factor_y)
+{
+	this->body.setScale(factor_x, factor_y);
 }
 
 void GameButton::setCheckMode(bool checked)
@@ -76,13 +80,13 @@ void GameButton::draw(sf::RenderTarget& target)
 
 void GameButton::enterHandle()
 {
-	this->body.setTextureRect(sf::IntRect(0, this->height, this->width, this->height)); // set button's mouse has entered texture
+	this->body.setColor(GameResources::text_color);
 	this->text.setFillColor(GameResources::hover_text_color); // set text button hover color
 }
 
 void GameButton::leaveHandle()
 {
-	this->body.setTextureRect(sf::IntRect(0, 0, this->width, this->height)); // set button's standart texture
+	this->body.setColor(GameResources::additional_color);
 	this->text.setFillColor(GameResources::text_color); // set text standart color
 }
 
@@ -104,7 +108,6 @@ void GameButton::setSize(float width, float height)
 {
 	this->width = width;
 	this->height = height;
-	this->body.setTextureRect(sf::IntRect(0, 0, this->width, this->height)); // set button's standart texture
 	this->centerTextPosition();
 }
 
@@ -130,6 +133,11 @@ bool GameButton::getIsClicked()
 bool GameButton::getIsEntered()
 {
 	return this->isEntered;
+}
+
+bool GameButton::getIsChecked()
+{
+	return this->isChecked;
 }
 
 float GameButton::getWidth()
