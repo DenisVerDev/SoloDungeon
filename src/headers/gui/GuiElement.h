@@ -1,4 +1,5 @@
 #pragma once
+#include"../../headers/tools/MouseData.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -31,8 +32,10 @@ protected:
 	//------METHODS------
 
 	// update gui element logic
-	virtual void update(sf::Vector2f mouse_pos)
+	virtual void update(MouseData& mouse_data)
 	{
+		sf::Vector2f mouse_pos(mouse_data.getPosition());
+
 		// check if mouse has entered
 		if (this->isEntered == false && this->isMouseOver(mouse_pos))
 		{
@@ -45,9 +48,10 @@ protected:
 			this->leaveHandle();
 		}
 
-		// check if gui element was pressed
-		if (this->isEntered == true && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
-		else this->isClicked = false;
+		this->isClicked = false;
+
+		// check if gui element was clicked(Left button)
+		if (this->isEntered == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 	}
 
 	// mouse enter event handler(in graphical way)

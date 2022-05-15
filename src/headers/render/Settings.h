@@ -45,9 +45,6 @@ private:
 	static std::string iconfile_name;			// non changeable
 	static std::string window_title;			// non changeable
 
-	static bool isChanged;						// if settings were changed
-	static bool isReseted;						// if settings were reseted
-
 public:
 
 	//------CONSTANTS------
@@ -88,8 +85,6 @@ public:
 	static float getSoundVolume();
 	static std::string getIconFileName();
 	static std::string getWindowTitle();
-	static bool getIsChanged();
-	static bool getIsReseted();
 
 };
 

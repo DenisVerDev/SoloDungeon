@@ -45,7 +45,7 @@ public:
 	//------METHODS------
 
 	// update button's logic
-	virtual void update(sf::Vector2f mouse_pos);
+	virtual void update(MouseData& mouse_data);
 
 	// draw button
 	virtual void draw(sf::RenderTarget& target);

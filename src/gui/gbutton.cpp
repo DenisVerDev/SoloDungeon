@@ -19,8 +19,10 @@ GameButton::GameButton(std::string text) : GuiElement()
 
 //------Methods definition------
 
-void GameButton::update(sf::Vector2f mouse_pos)
+void GameButton::update(MouseData& mouse_data)
 {
+	sf::Vector2f mouse_pos(mouse_data.getPosition());
+
 	// check if cursor has entered
 	if (this->isEntered == false && this->isMouseOver(mouse_pos))
 	{
@@ -33,9 +35,10 @@ void GameButton::update(sf::Vector2f mouse_pos)
 		if (this->isChecked == false) this->leaveHandle();
 	}
 	
-	// check if button was pressed
-	if (this->isEntered == true && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
-	else this->isClicked = false;
+	this->isClicked = false;
+
+	// check if button was clicked(Left button)
+	if (this->isEntered == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 }
 
 void GameButton::enterHandle()

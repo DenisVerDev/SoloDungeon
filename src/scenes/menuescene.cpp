@@ -103,12 +103,10 @@ void MenueScene::logic()
 		{
 			try
 			{
-				sf::Vector2f mouse_pos(GameCycle::mouse_data.getPosition());	// get cursor position
-
 				// update button states
-				this->btn_new_game->update(mouse_pos);
-				this->btn_settings->update(mouse_pos);
-				this->btn_quit->update(mouse_pos);
+				this->btn_new_game->update(GameCycle::mouse_data);
+				this->btn_settings->update(GameCycle::mouse_data);
+				this->btn_quit->update(GameCycle::mouse_data);
 
 				// handle buttons click event
 				this->buttonsClickHandle();

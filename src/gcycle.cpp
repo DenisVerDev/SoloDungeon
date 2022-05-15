@@ -144,14 +144,9 @@ void GameCycle::handleGameEvents()
 	}
 }
 
-void GameCycle::addGameEvent(GameEvent game_event)	// second defence stage from threads invoking this method > 1 times
+void GameCycle::addGameEvent(GameEvent game_event)
 {
-	if(game_event == GameEvent::SettingsUpdate && Settings::getIsChanged() == true) GameCycle::game_events.push_back(game_event);
-
-	if(game_event == GameEvent::StartPause && GameCycle::isPaused == false) GameCycle::game_events.push_back(game_event);
-	if(game_event == GameEvent::EndPause && GameCycle::isPaused == true) GameCycle::game_events.push_back(game_event);
-
-	if(game_event == GameEvent::Quit && GameCycle::getCurrentState() != GameState::Kill) GameCycle::game_events.push_back(game_event);
+	GameCycle::game_events.push_back(game_event);
 }
 
 void GameCycle::resetEventSent() // only if we don't change scenes

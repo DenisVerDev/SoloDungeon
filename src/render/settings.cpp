@@ -21,9 +21,6 @@ std::string Settings::iconfile_name = "NONE";
 
 FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
-bool Settings::isChanged = false;
-bool Settings::isReseted = false;
-
 //------Methods definition------
 
 void Settings::saveSettings() //save settings to file
@@ -54,8 +51,6 @@ void Settings::saveSettings() //save settings to file
 	}
 
 	ostream.close();
-
-	Settings::isChanged = false;
 }
 
 void Settings::loadSettings() //load settings from file
@@ -120,8 +115,6 @@ void Settings::loadSettings() //load settings from file
 	}
 
 	istream.close();
-
-	Settings::isChanged = false;
 }
 
 //------Setters definition------
@@ -134,8 +127,6 @@ void Settings::setStandartSettings()
 	Settings::setMusicVolume(100.f);
 	Settings::setSoundVolume(100.f);
 
-	Settings::isReseted = true;
-
 	GameLog::log("Settings have been reset!");
 }
 
@@ -143,34 +134,23 @@ void Settings::setFrameLimit(unsigned int frame_limit)
 {
 	if (frame_limit >= Settings::min_frame_limit && frame_limit <= Settings::max_frame_limit) Settings::frame_limit = frame_limit;
 	else Settings::frame_limit = 60;
-
-	Settings::isChanged = true;
-	Settings::isReseted = false;
 }
 
 void Settings::setVerticalSync(bool vertical_sync)
 {
 	Settings::vertical_sync = vertical_sync;
-	Settings::isChanged = true;
-	Settings::isReseted = false;
 }
 
 void Settings::setMusicVolume(float volume)
 {
 	if (volume >= 0.f && volume <= 100.f) Settings::music_volume = volume;
 	else Settings::music_volume = 100.f;
-
-	Settings::isChanged = true;
-	Settings::isReseted = false;
 }
 
 void Settings::setSoundVolume(float volume)
 {
 	if (volume >= 0.f && volume <= 100.f) Settings::sound_volume = volume;
 	else Settings::sound_volume = 100.f;
-
-	Settings::isChanged = true;
-	Settings::isReseted = false;
 }
 
 void Settings::setIconFileName(std::string filename)
@@ -205,9 +185,6 @@ void Settings::setDependencyMode(unsigned int dependecy_mode)
 {
 	if (dependecy_mode == 0 || dependecy_mode == 1) Settings::dependency_mode = (FrameDependency)dependecy_mode;
 	else Settings::dependency_mode = FrameDependency::Dependent;
-
-	Settings::isChanged = true;
-	Settings::isReseted = false;
 }
 
 //------Getters definition------
@@ -235,16 +212,6 @@ std::string Settings::getIconFileName()
 std::string Settings::getWindowTitle()
 {
 	return Settings::window_title;
-}
-
-bool Settings::getIsChanged()
-{
-	return Settings::isChanged;
-}
-
-bool Settings::getIsReseted()
-{
-	return Settings::isReseted;
 }
 
 //------Overload operators definition------

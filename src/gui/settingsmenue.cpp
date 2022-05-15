@@ -110,17 +110,15 @@ SettingsMenue::~SettingsMenue()
 
 void SettingsMenue::logic()
 {
-	sf::Vector2f mouse_pos(GameCycle::mouse_data.getPosition());
-
 	// update tab button's
-	this->btn_video->update(mouse_pos);
-	this->btn_audio->update(mouse_pos);
-	this->btn_keymouse->update(mouse_pos);
+	this->btn_video->update(GameCycle::mouse_data);
+	this->btn_audio->update(GameCycle::mouse_data);
+	this->btn_keymouse->update(GameCycle::mouse_data);
 
 	// update back, standart and apply buttons
-	this->btn_back->update(mouse_pos);
-	this->btn_standart->update(mouse_pos);
-	this->btn_apply->update(mouse_pos);
+	this->btn_back->update(GameCycle::mouse_data);
+	this->btn_standart->update(GameCycle::mouse_data);
+	this->btn_apply->update(GameCycle::mouse_data);
 
 	// handle generic buttons click event
 	this->btnClickHandle();
@@ -176,14 +174,15 @@ void SettingsMenue::btnClickHandle()
 		GameCycle::addGameEvent(GameEvent::EndPause);
 	}
 
-	if (this->btn_standart->getIsClicked() && this->isEventSent == false && Settings::getIsReseted() == false)
+	if (this->btn_standart->getIsClicked() && this->isEventSent == false)
 	{
 		Settings::setStandartSettings();
+
 		this->isEventSent = true;
 		GameCycle::addGameEvent(GameEvent::SettingsUpdate);
 	}
 
-	if (this->btn_apply->getIsClicked() && this->isEventSent == false && Settings::getIsChanged() == true)
+	if (this->btn_apply->getIsClicked() && this->isEventSent == false)
 	{
 		this->isEventSent = true;
 		GameCycle::addGameEvent(GameEvent::SettingsUpdate);
