@@ -248,7 +248,7 @@ void SettingsMenue::setPosition(sf::Vector2f position)
 	// set back and apply button's position
 	this->btn_back->setPosition(sf::Vector2f(20, 10));
 	this->btn_standart->setPosition(sf::Vector2f(this->position.x,this->position.y + this->size.y - this->btn_standart->getSize().y));
-	this->btn_apply->setPosition(sf::Vector2f(this->position.x + this->size.x - this->btn_standart->getSize().x, this->position.y + this->size.y - this->btn_apply->getSize().y));
+	this->btn_apply->setPosition(sf::Vector2f(this->position.x + this->size.x - this->btn_apply->getSize().x, this->position.y + this->size.y - this->btn_apply->getSize().y));
 
 	// set head line postion
 	this->head_line.setPosition(sf::Vector2f(this->position.x, this->position.y + this->btn_video->getSize().x));

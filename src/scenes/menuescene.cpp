@@ -14,34 +14,37 @@ MenueScene::MenueScene() : GameScene()
 	float video_width = Settings::video_mode.width;
 	float video_height = Settings::video_mode.height;
 
-	float text_width = this->game_title.getLocalBounds().width;
-	float text_height = this->game_title.getLocalBounds().height;
+	float title_width = this->game_title.getLocalBounds().width;
+	float title_height = this->game_title.getLocalBounds().height;
 	
-	float game_title_x = dt::getCenteredPostion(sf::Vector2f(video_width,video_height), sf::Vector2f(text_width, text_height), sf::Vector2f(0.f,0.f)).x;
-	sf::Vector2f game_title_pos(game_title_x, (video_height / 2.f) - text_height * 3);
+	float game_title_x = dt::getCenteredPostion(sf::Vector2f(video_width,video_height), sf::Vector2f(title_width, title_height), sf::Vector2f(0.f,0.f)).x;
+	sf::Vector2f game_title_pos(game_title_x, (video_height / 2.f) - title_height * 3);
 
 	this->game_title.setPosition(game_title_pos);
 
 	// new game button
 	this->btn_new_game = new GameButton("Start new game");
+	this->btn_new_game->setSize(sf::Vector2f(208.f, 40.f));
 	
 	float btn_x = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->btn_new_game->getSize(), sf::Vector2f(0.f, 0.f)).x;
 	float btn_y = game_title_pos.y + 300;
 	this->btn_new_game->setPosition(sf::Vector2f(btn_x, btn_y));
 
 	// settings button
-
 	this->btn_settings = new GameButton("Settings");
+	this->btn_settings->setSize(sf::Vector2f(116.f, 46.f));
+
+	btn_x = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->btn_settings->getSize(), sf::Vector2f(0.f, 0.f)).x;
 	this->btn_settings->setPosition(sf::Vector2f(btn_x, btn_y += 100));
 
 	// quit button
-	sf::Vector2f btn_set_pos = this->btn_settings->getPosition();
-	
 	this->btn_quit = new GameButton("Quit");
+	this->btn_quit->setSize(sf::Vector2f(75.f, 40.f));
+
+	btn_x = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->btn_quit->getSize(), sf::Vector2f(0.f, 0.f)).x;
 	this->btn_quit->setPosition(sf::Vector2f(btn_x, btn_y += 100));
 
 	// author credit
-
 	this->author_credit.setPosition(10, Settings::video_mode.height - 60);
 	this->author_credit.setFont(GameResources::text_font);
 	this->author_credit.setCharacterSize(20);
@@ -50,7 +53,6 @@ MenueScene::MenueScene() : GameScene()
 	this->author_credit.setString("author of this demo: Denis V\nemail: denisverepadev@gmail.com");
 
 	// settings menue
-
 	this->smenue = new SettingsMenue();
 	sf::Vector2f smenue_pos = dt::getCenteredPostion(sf::Vector2f(video_width, video_height), this->smenue->getSize(), sf::Vector2f(0, 0));
 	this->smenue->setPosition(smenue_pos);
@@ -133,7 +135,7 @@ void MenueScene::logic()
 	}
 }
 
-void MenueScene::buttonsClickHandle()	//[TODO]:1 rework defense system
+void MenueScene::buttonsClickHandle()
 {
 	if (this->btn_new_game->getIsClicked() && this->isEventSent == false)	// start new game
 	{
