@@ -73,7 +73,7 @@ void GameButton::centerTextPosition()
 	float text_height = this->text.getLocalBounds().height;
 
 	sf::Vector2f text_pos = dt::getCenteredPostion(this->size, sf::Vector2f(text_width, text_height), this->position);
-	this->text.setPosition(text_pos);
+	this->text.setPosition(sf::Vector2f(text_pos.x, text_pos.y - text_height / 2.f));
 }
 
 //------Setters definition------

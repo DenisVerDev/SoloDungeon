@@ -31,6 +31,25 @@ protected:
 
 	//------METHODS------
 
+	// mouse enter event handler(in graphical way)
+	virtual void enterHandle() = 0;
+
+	// mouse leave event handler(in graphical way)
+	virtual void leaveHandle() = 0;
+
+	// draw gui element
+	virtual void draw(sf::RenderTarget& target) = 0;
+
+	//------SETTERS------
+	
+	// set gui element position
+	virtual void setPosition(sf::Vector2f position) = 0;
+
+	// set gui element size
+	virtual void setSize(sf::Vector2f size) = 0;
+
+public:
+
 	// update gui element logic
 	virtual void update(MouseData& mouse_data)
 	{
@@ -53,25 +72,6 @@ protected:
 		// check if gui element was clicked(Left button)
 		if (this->isEntered == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 	}
-
-	// mouse enter event handler(in graphical way)
-	virtual void enterHandle() = 0;
-
-	// mouse leave event handler(in graphical way)
-	virtual void leaveHandle() = 0;
-
-	// draw gui element
-	virtual void draw(sf::RenderTarget& target) = 0;
-
-	//------SETTERS------
-	
-	// set gui element position
-	virtual void setPosition(sf::Vector2f position) = 0;
-
-	// set gui element size
-	virtual void setSize(sf::Vector2f size) = 0;
-
-public:
 
 	//------GETTERS------
 	

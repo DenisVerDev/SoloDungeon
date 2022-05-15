@@ -225,14 +225,14 @@ void SettingsMenue::draw(sf::RenderTarget& target)
 	// draw different tabs
 	switch (this->tab_type)
 	{
-	case STab::Video:
-		break;
+		case STab::Video:
+			break;
 
-	case STab::Audio:
-		break;
+		case STab::Audio:
+			break;
 
-	case STab::KeyMouse:
-		break;
+		case STab::KeyMouse:
+			break;
 	}
 }
 

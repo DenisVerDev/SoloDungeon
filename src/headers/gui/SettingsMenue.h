@@ -1,5 +1,6 @@
 #pragma once
 #include"GameButton.h"
+#include"GameSwitch.h"
 #include"../../headers/scenes/Scene.h"
 #include"SFML/Graphics.hpp"
 
@@ -8,6 +9,7 @@
 -------------------------------------------------------------------------------------------*/
 
 class GameButton;
+class GameSwitch;
 
 enum class STab		// settings tab type
 {
