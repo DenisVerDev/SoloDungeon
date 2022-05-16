@@ -2,48 +2,55 @@
 
 //------Constructor definition------
 
-GameButton::GameButton(std::string text, sf::Text::Style style)
+GameButton::GameButton(std::string text) : GuiElement()
 {
-	this->isEntered = false;
-	this->isClicked = false;
+	this->size.x = 250.f;
+	this->size.y = 40.f;
 
+	this->isChecked = false;
+
+	this->text.setFont(GameResources::text_font);
 	this->text.setCharacterSize(30);
-	this->text.setStyle(style);
+	this->text.setFillColor(GameResources::text_color);
 	this->text.setString(text);
-
-	// look to the class description in the header
-	this->width = 250.f;
-	this->height = 40.f;
+	
+	this->centerTextPosition(this->text);
 }
 
 //------Methods definition------
 
-void GameButton::update(sf::Vector2f mouse_pos)
+void GameButton::update(MouseData& mouse_data)
 {
-	sf::Vector2f button_pos = this->getPosition();
+	sf::Vector2f mouse_pos(mouse_data.getPosition());
 
 	// check if cursor has entered
-	if (this->isEntered == false && this->isMouseOver(mouse_pos, button_pos))
+	if (this->isEntered == false && this->isEnabled == true && this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = true;
-		this->enterHandle();
+		if(this->isChecked == false) this->enterHandle();
 	}
-	else if(this->isEntered == true && !this->isMouseOver(mouse_pos, button_pos))
+	else if(this->isEntered == true && this->isEnabled == true && !this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = false;
-		this->leaveHandle();
+		if (this->isChecked == false) this->leaveHandle();
 	}
 	
-	// check if button was pressed
-	if (this->isEntered == true && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
-	else this->isClicked = false;
+	this->isClicked = false;
+
+	// check if button was clicked(Left button)
+	if (this->isEntered == true && this->isEnabled == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 }
 
-void GameButton::loadTexture(const sf::Texture& texture)
+void GameButton::enterHandle()
 {
-	this->body.setTexture(texture);
-	// set texture rect
-	this->body.setTextureRect(sf::IntRect(0, 0, this->width, this->height)); // set button's standart texture
+	this->body.setColor(GameResources::text_color);
+	this->text.setFillColor(GameResources::hover_text_color); // set text button hover color
+}
+
+void GameButton::leaveHandle()
+{
+	this->body.setColor(GameResources::additional_color);
+	this->text.setFillColor(GameResources::text_color); // set text standart color
 }
 
 void GameButton::draw(sf::RenderTarget& target)
@@ -54,88 +61,60 @@ void GameButton::draw(sf::RenderTarget& target)
 	if(!this->text.getString().isEmpty()) target.draw(this->text);
 }
 
-void GameButton::enterHandle()
+void GameButton::loadTexture(sf::Texture& texture)
 {
-	this->body.setTextureRect(sf::IntRect(0, this->height, this->width, this->height)); // set button's mouse has entered texture
-	this->text.setFillColor(this->mover_text_color); // set text button hover color
-}
-
-void GameButton::leaveHandle()
-{
-	this->body.setTextureRect(sf::IntRect(0, 0, this->width, this->height)); // set button's standart texture
-	this->text.setFillColor(this->text_color); // set text standart color
-}
-
-bool GameButton::isMouseOver(sf::Vector2f mouse_pos, sf::Vector2f button_pos)
-{
-	return mouse_pos.x >= button_pos.x && mouse_pos.x <= button_pos.x + this->width && mouse_pos.y >= button_pos.y && mouse_pos.y <= button_pos.y + this->height;
+	this->body.setTexture(texture);
+	this->body.setColor(GameResources::additional_color);
 }
 
 //------Setters definition------
 
 void GameButton::setPosition(sf::Vector2f position)
 {
-	this->body.setPosition(position);
-	centerTextPosition();
+	this->position = position;
+	this->body.setPosition(this->position);
+	centerTextPosition(this->text);
 }
 
-void GameButton::setFont(sf::Font& font)
+void GameButton::setSize(sf::Vector2f size)
 {
-	this->text.setFont(font);
+	this->size = size;
+	this->centerTextPosition(this->text);
+}
+
+void GameButton::setEnable(bool enable)
+{
+	this->isEnabled = enable;
+	if (this->isEnabled == true) this->leaveHandle();
+	else
+	{
+		this->body.setColor(GameResources::additional_color);
+		this->text.setFillColor(GameResources::additional_color);
+	}
 }
 
 void GameButton::setText(std::string text)
 {
 	this->text.setString(text);
-	centerTextPosition();
+	centerTextPosition(this->text);
 }
 
-void GameButton::setTextColor(sf::Color text_color, sf::Color mover_text_color)
+void GameButton::setTextureScale(float factor_x, float factor_y)
 {
-	this->text_color = text_color;
-	this->mover_text_color = mover_text_color;
-
-	this->text.setFillColor(this->text_color); // set text standart color
+	this->body.setScale(factor_x, factor_y);
 }
 
-void GameButton::centerTextPosition()
+void GameButton::setCheckMode(bool checked)
 {
-	sf::Vector2f position = this->getPosition();
+	this->isChecked = checked;
 
-	float text_width = this->text.getLocalBounds().width;
-	float text_hight = this->text.getLocalBounds().height;
-
-	float width = (this->width-text_width) / 2.f;
-	float height = (this->height-text_hight) / 2.f;
-
-	sf::Vector2f text_pos(position.x + width, position.y + height);
-	this->text.setPosition(text_pos);
+	if (this->isChecked == true) this->enterHandle();
+	else this->leaveHandle();
 }
-
 
 //------Getters definition------
 
-sf::Vector2f GameButton::getPosition()
+bool GameButton::getIsChecked()
 {
-	return this->body.getPosition();
-}
-
-bool GameButton::getIsClicked()
-{
-	return this->isClicked;
-}
-
-bool GameButton::getIsEntered()
-{
-	return this->isEntered;
-}
-
-float GameButton::getWidth()
-{
-	return this->width;
-}
-
-float GameButton::getHeight()
-{
-	return this->height;
+	return this->isChecked;
 }

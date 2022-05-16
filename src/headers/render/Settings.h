@@ -62,8 +62,6 @@ public:
 
 	//------METHODS------
 
-	static void applySettings();
-
 	static void saveSettings(); 
 
 	static void loadSettings(); 
@@ -73,6 +71,7 @@ public:
 	//------SETTERS------
 
 	static void setFrameLimit(unsigned int frame_limit);
+	static void setVerticalSync(bool vertical_sync);
 	static void setMusicVolume(float volume);
 	static void setSoundVolume(float volume);
 	static void setIconFileName(std::string filename);

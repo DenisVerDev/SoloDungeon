@@ -2,6 +2,7 @@
 #include"../headers/render/GameRender.h"
 #include"../headers/scenes/MenueScene.h"
 #include"../headers/tools/MouseData.h"
+#include"../headers/tools/GameInput.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameCycle class:
@@ -26,7 +27,8 @@ enum class GameEvent
 	SetMainMenue,	// set MainMenue game state
 	SetLoading,		// set Loading game state
 	SetGameplay,	// set Gameplay game state
-	SetPause,		// set Pause game state
+	StartPause,		// start game pause
+	EndPause,		// end game pause
 	Quit			// quit from game
 };
 
@@ -38,7 +40,6 @@ enum class GameState
 	MainMenue,
 	Loading,
 	Gameplay,
-	Pause,
 	Kill	// quit game, stop all threads
 };
 
@@ -67,6 +68,8 @@ public:
 
 	static bool running;				// if game is running
 
+	static bool isPaused;				// if game is paused
+
 	//------CONSTRUCTOR/DESTRUCTOR------	
 
 	// public constructor
@@ -88,6 +91,9 @@ public:
 
 	// add game event to the queue
 	static void addGameEvent(GameEvent game_event);
+
+	// reset event sent of the scene => first defence stage from threads invoking 'addGameEvent' > 1 times
+	void resetEventSent();
 
 	// free memory from game scene
 	void destroyGameScene(GameScene*& scene);

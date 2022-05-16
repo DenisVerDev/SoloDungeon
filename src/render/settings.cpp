@@ -23,12 +23,6 @@ FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
 //------Methods definition------
 
-void Settings::applySettings() // audio settings are not realised yet!
-{
-	GameCycle::addGameEvent(GameEvent::SettingsUpdate);
-	Settings::saveSettings();
-}
-
 void Settings::saveSettings() //save settings to file
 {
 	std::ofstream ostream;
@@ -128,12 +122,10 @@ void Settings::loadSettings() //load settings from file
 void Settings::setStandartSettings()
 {
 	Settings::setFrameLimit(60);
-	Settings::vertical_sync = false;
-	Settings::dependency_mode = FrameDependency::Dependent;
+	Settings::setVerticalSync(false);
+	Settings::setDependencyMode(0);	// dependent mode
 	Settings::setMusicVolume(100.f);
 	Settings::setSoundVolume(100.f);
-	Settings::setWindowTitle("Standart game window");
-	Settings::setIconFileName("NONE");
 
 	GameLog::log("Settings have been reset!");
 }
@@ -142,6 +134,11 @@ void Settings::setFrameLimit(unsigned int frame_limit)
 {
 	if (frame_limit >= Settings::min_frame_limit && frame_limit <= Settings::max_frame_limit) Settings::frame_limit = frame_limit;
 	else Settings::frame_limit = 60;
+}
+
+void Settings::setVerticalSync(bool vertical_sync)
+{
+	Settings::vertical_sync = vertical_sync;
 }
 
 void Settings::setMusicVolume(float volume)

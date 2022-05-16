@@ -1,5 +1,6 @@
 #pragma once
 #include"../../headers/gui/GameButton.h"
+#include"../../headers/gui/SettingsMenue.h"
 #include"GameScene.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -8,21 +9,26 @@
 	- loading resources are realised in the main thread
 -------------------------------------------------------------------------------------------*/
 
+class GameButton;
+class SettingsMenue;
+
 class MenueScene : public GameScene
 {
 private:
 
-	//------MENUE COMPONENTS------
+	//------SCENE COMPONENTS------
 
 	sf::Text game_title;		// big game title
 
 	sf::Text author_credit;		// author info
 
-	GameButton btn_new_game;	// new game button
+	GameButton* btn_new_game;	// new game button
 
-	GameButton btn_settings;	// settings button
+	GameButton* btn_settings;	// settings button
 
-	GameButton btn_quit;		// quit from the game
+	GameButton* btn_quit;		// quit from the game
+
+	SettingsMenue* smenue;		// settings menue
 
 	//------PRIVATE METHODS------
 	
@@ -34,9 +40,6 @@ private:
 
 	// load graphical/audio resources
 	virtual void loadResources();
-
-	// delete all resources, free memory
-	virtual void dispose();
 
 public:
 
@@ -58,4 +61,7 @@ public:
 
 	// draw whole 'MainMenue' scene
 	virtual void draw(sf::RenderTarget& target);
+
+	// reset event sent process state
+	virtual void resetEventSent();
 };

@@ -10,13 +10,17 @@ MouseData GameCycle::mouse_data;
 
 bool GameCycle::running = false;
 
+bool GameCycle::isPaused = false;
+
 //------Constructor/Destructor definition------
 
 GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
 	Settings::loadSettings();
+	GameInput::loadInput();
 
 	GameResources::loadFonts();
+	GameResources::changeColors();
 
 	this->mscene = new MenueScene();
 
@@ -112,14 +116,29 @@ void GameCycle::handleGameEvents()
 		switch (ev)
 		{
 			case GameEvent::SettingsUpdate:
-				this->grender->updateSettings();
 				GameLog::log("Game event: settings update!");
+				this->grender->updateSettings(); // update render settings
+				// update audio settings here
+				Settings::saveSettings(); // save settings to file
+				this->resetEventSent();
+				break;
+
+			case GameEvent::StartPause:
+				GameLog::log("Game event: game is paused!");
+				this->isPaused = true;
+				this->resetEventSent();
+				break;
+
+			case GameEvent::EndPause:
+				GameLog::log("Game event: game is resumed!");
+				this->isPaused = false;
+				this->resetEventSent();
 				break;
 
 			case GameEvent::Quit:
 				GameLog::log("Game event: quit from the game!");
-				if(this->gstate == GameState::MainMenue) this->mscene->resetEventSent();
 				this->kill();
+				this->resetEventSent();
 				break;
 
 		}
@@ -129,6 +148,11 @@ void GameCycle::handleGameEvents()
 void GameCycle::addGameEvent(GameEvent game_event)
 {
 	GameCycle::game_events.push_back(game_event);
+}
+
+void GameCycle::resetEventSent() // only if we don't change scenes
+{
+	if (this->gstate == GameState::MainMenue) this->mscene->resetEventSent();
 }
 
 void GameCycle::destroyGameScene(GameScene*& scene)
