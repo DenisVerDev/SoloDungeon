@@ -14,7 +14,7 @@ GameButton::GameButton(std::string text) : GuiElement()
 	this->text.setFillColor(GameResources::text_color);
 	this->text.setString(text);
 	
-	this->centerTextPosition();
+	this->centerTextPosition(this->text);
 }
 
 //------Methods definition------
@@ -67,34 +67,25 @@ void GameButton::loadTexture(sf::Texture& texture)
 	this->body.setColor(GameResources::additional_color);
 }
 
-void GameButton::centerTextPosition()
-{
-	float text_width = this->text.getLocalBounds().width;
-	float text_height = this->text.getLocalBounds().height;
-
-	sf::Vector2f text_pos = dt::getCenteredPostion(this->size, sf::Vector2f(text_width, text_height), this->position);
-	this->text.setPosition(sf::Vector2f(text_pos.x, text_pos.y - text_height / 2.f));
-}
-
 //------Setters definition------
 
 void GameButton::setPosition(sf::Vector2f position)
 {
 	this->position = position;
 	this->body.setPosition(this->position);
-	centerTextPosition();
+	centerTextPosition(this->text);
 }
 
 void GameButton::setSize(sf::Vector2f size)
 {
 	this->size = size;
-	this->centerTextPosition();
+	this->centerTextPosition(this->text);
 }
 
 void GameButton::setText(std::string text)
 {
 	this->text.setString(text);
-	centerTextPosition();
+	centerTextPosition(this->text);
 }
 
 void GameButton::setTextureScale(float factor_x, float factor_y)

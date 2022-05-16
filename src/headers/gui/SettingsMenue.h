@@ -2,6 +2,7 @@
 #include"GameButton.h"
 #include"GameSwitch.h"
 #include"GameSlider.h"
+#include"GamePlate.h"
 #include"../../headers/scenes/Scene.h"
 #include"SFML/Graphics.hpp"
 
@@ -12,6 +13,7 @@
 class GameButton;
 class GameSwitch;
 class GameSlider;
+class GamePlate;
 
 enum class STab		// settings tab type
 {

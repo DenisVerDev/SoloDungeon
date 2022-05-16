@@ -48,28 +48,20 @@ void GameSwitch::draw(sf::RenderTarget& target)
 	target.draw(this->text);
 }
 
-void GameSwitch::centerTextPosition()
-{
-	float text_width = this->text.getLocalBounds().width;
-	float text_height = this->text.getLocalBounds().height;
-
-	sf::Vector2f text_pos = dt::getCenteredPostion(this->size, sf::Vector2f(text_width, text_height), this->position);
-	this->text.setPosition(sf::Vector2f(text_pos.x,text_pos.y - text_height/2.f));
-}
-
 //------Setters definition------
 
 void GameSwitch::setPosition(sf::Vector2f position)
 {
 	this->position = position;
 	this->body.setPosition(this->position);
-	this->centerTextPosition();
+	this->centerTextPosition(this->text);
 }
 
 void GameSwitch::setSize(sf::Vector2f size)
 {
 	this->size = size;
-	this->centerTextPosition();
+	this->body.setSize(this->size);
+	this->centerTextPosition(this->text);
 }
 
 void GameSwitch::setState(SwitchState state)
@@ -91,7 +83,7 @@ void GameSwitch::setText()
 		break;
 	}
 
-	this->centerTextPosition();
+	this->centerTextPosition(this->text);
 }
 
 //------Getters definition------

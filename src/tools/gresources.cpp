@@ -9,6 +9,7 @@ const std::string GameResources::log_path = "logs/logs.log";
 const std::string GameResources::exc_log_path = "logs/exceptions.log";
 
 const std::string GameResources::settings_path = "configs/settings.conf";
+const std::string GameResources::gameinput_path = "configs/input.conf";
 
 const std::string GameResources::fonts_path = "res/fonts/";
 

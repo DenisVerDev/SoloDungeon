@@ -2,6 +2,7 @@
 #include"../headers/render/GameRender.h"
 #include"../headers/scenes/MenueScene.h"
 #include"../headers/tools/MouseData.h"
+#include"../headers/tools/GameInput.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameCycle class:

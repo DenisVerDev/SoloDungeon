@@ -33,9 +33,6 @@ private:
 	// mouse leave event handler(in graphical way)
 	virtual void leaveHandle();
 
-	// center text position relative to switch
-	void centerTextPosition();
-
 	// set text depending on switch state
 	void setText();
 

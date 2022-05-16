@@ -17,6 +17,7 @@ bool GameCycle::isPaused = false;
 GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
 	Settings::loadSettings();
+	GameInput::loadInput();
 
 	GameResources::loadFonts();
 	GameResources::changeColors();

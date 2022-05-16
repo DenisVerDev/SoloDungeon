@@ -1,5 +1,6 @@
 #pragma once
 #include"../../headers/tools/MouseData.h"
+#include"../../headers/tools/DifferentTools.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -32,13 +33,23 @@ protected:
 	//------METHODS------
 
 	// mouse enter event handler(in graphical way)
-	virtual void enterHandle() = 0;
+	virtual void enterHandle(){}
 
 	// mouse leave event handler(in graphical way)
-	virtual void leaveHandle() = 0;
+	virtual void leaveHandle(){}
 
 	// draw gui element
 	virtual void draw(sf::RenderTarget& target) = 0;
+
+	// center text position relative to plate
+	void centerTextPosition(sf::Text& text)
+	{
+		float text_width = text.getLocalBounds().width;
+		float text_height = text.getLocalBounds().height;
+
+		sf::Vector2f text_pos = dt::getCenteredPostion(this->size, sf::Vector2f(text_width, text_height), this->position);
+		text.setPosition(sf::Vector2f(text_pos.x, text_pos.y - text_height / 2.f));
+	}
 
 	//------SETTERS------
 	

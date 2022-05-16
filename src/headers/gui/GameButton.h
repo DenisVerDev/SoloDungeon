@@ -32,9 +32,6 @@ private:
 	// mouse leave event handler(in graphical way)
 	virtual void leaveHandle();
 
-	// center text position relative to button
-	void centerTextPosition();
-
 public:
 
 	//------CONSTRUCTOR------
