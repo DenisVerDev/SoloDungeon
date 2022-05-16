@@ -4,7 +4,10 @@
 
 GameRender::GameRender()
 {
-	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen);
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 6;
+
+	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen,settings);
 	
 	this->setRefreshRate();
 	this->setIcon();

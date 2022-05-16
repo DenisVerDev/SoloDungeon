@@ -2,7 +2,7 @@
 
 //------Constructor definition------
 
-GameSwitch::GameSwitch()
+GameSwitch::GameSwitch() : GuiElement()
 {
 	this->size.x = 80.f;
 	this->size.y = 35.f;
