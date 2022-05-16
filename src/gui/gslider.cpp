@@ -29,12 +29,12 @@ void GameSlider::update(MouseData& mouse_data)
 	sf::Vector2f mouse_pos(mouse_data.getPosition());
 
 	// check if mouse has entered
-	if (this->isEntered == false && this->isMouseOver(mouse_pos))
+	if (this->isEntered == false && this->isEnabled == true && this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = true;
 		this->enterHandle();
 	}
-	else if (this->isEntered == true && !this->isMouseOver(mouse_pos))
+	else if (this->isEntered == true && this->isEnabled == true && !this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = false;
 		this->leaveHandle();
@@ -43,7 +43,7 @@ void GameSlider::update(MouseData& mouse_data)
 	this->isClicked = false;
 
 	// check if the mouse button was pressed
-	if (this->isEntered == true && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+	if (this->isEntered == true && this->isEnabled == true && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 	{
 		this->isClicked = true;
 		this->calculateValue(mouse_pos);
@@ -101,6 +101,21 @@ void GameSlider::setSize(sf::Vector2f size)
 	this->size.x = size.x;
 	this->line.setSize(sf::Vector2f(this->size.x, 1.f));
 	this->setPosition(this->position);	// reset elements positions due to size change
+}
+
+void GameSlider::setEnable(bool enable)
+{
+	this->isEnabled = enable;
+	if (this->isEnabled == true)
+	{
+		this->line.setFillColor(GameResources::text_color);
+		this->circle.setFillColor(GameResources::text_color);
+	}
+	else
+	{
+		this->line.setFillColor(GameResources::additional_color);
+		this->circle.setFillColor(GameResources::additional_color);
+	}
 }
 
 void GameSlider::setValue(float current_value)

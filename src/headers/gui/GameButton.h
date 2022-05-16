@@ -58,6 +58,9 @@ public:
 	// set button's size
 	virtual void setSize(sf::Vector2f size);
 
+	// set button enable state
+	virtual void setEnable(bool enable);
+
 	// set button's text
 	void setText(std::string text);
 

@@ -144,6 +144,8 @@ void MenueScene::buttonsClickHandle()
 
 	if (this->btn_settings->getIsClicked() && this->isEventSent == false)	// open settings menue
 	{
+		this->smenue->setSettings();
+
 		this->isEventSent = true;
 		GameCycle::addGameEvent(GameEvent::StartPause);
 	}

@@ -56,6 +56,9 @@ public:
 	// set slider size(this method will only change slider's width)
 	virtual void setSize(sf::Vector2f size);
 
+	// set slider enable state
+	virtual void setEnable(bool enable);
+
 	// set current value(move slider's circle)
 	void setValue(float current_value);
 

@@ -24,12 +24,12 @@ void GameButton::update(MouseData& mouse_data)
 	sf::Vector2f mouse_pos(mouse_data.getPosition());
 
 	// check if cursor has entered
-	if (this->isEntered == false && this->isMouseOver(mouse_pos))
+	if (this->isEntered == false && this->isEnabled == true && this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = true;
 		if(this->isChecked == false) this->enterHandle();
 	}
-	else if(this->isEntered == true && !this->isMouseOver(mouse_pos))
+	else if(this->isEntered == true && this->isEnabled == true && !this->isMouseOver(mouse_pos))
 	{
 		this->isEntered = false;
 		if (this->isChecked == false) this->leaveHandle();
@@ -38,7 +38,7 @@ void GameButton::update(MouseData& mouse_data)
 	this->isClicked = false;
 
 	// check if button was clicked(Left button)
-	if (this->isEntered == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
+	if (this->isEntered == true && this->isEnabled == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 }
 
 void GameButton::enterHandle()
@@ -80,6 +80,17 @@ void GameButton::setSize(sf::Vector2f size)
 {
 	this->size = size;
 	this->centerTextPosition(this->text);
+}
+
+void GameButton::setEnable(bool enable)
+{
+	this->isEnabled = enable;
+	if (this->isEnabled == true) this->leaveHandle();
+	else
+	{
+		this->body.setColor(GameResources::additional_color);
+		this->text.setFillColor(GameResources::additional_color);
+	}
 }
 
 void GameButton::setText(std::string text)

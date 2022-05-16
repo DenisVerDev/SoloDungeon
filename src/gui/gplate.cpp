@@ -41,6 +41,21 @@ void GamePlate::setSize(sf::Vector2f size)
 	this->centerTextPosition(this->text);
 }
 
+void GamePlate::setEnable(bool enable)
+{
+	this->isEnabled = enable;
+	if (this->isEnabled == true)
+	{
+		this->body.setOutlineColor(GameResources::text_color);
+		this->text.setFillColor(GameResources::text_color);
+	}
+	else
+	{
+		this->body.setOutlineColor(GameResources::additional_color);
+		this->text.setFillColor(GameResources::additional_color);
+	}
+}
+
 void GamePlate::setText(std::string text)
 {
 	this->text.setString(text);

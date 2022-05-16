@@ -59,6 +59,9 @@ public:
 	// set switch size
 	virtual void setSize(sf::Vector2f size);
 
+	// set switch enable state
+	virtual void setEnable(bool enable);
+
 	// set switch state
 	void setState(SwitchState state);
 

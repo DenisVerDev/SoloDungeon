@@ -64,6 +64,17 @@ void GameSwitch::setSize(sf::Vector2f size)
 	this->centerTextPosition(this->text);
 }
 
+void GameSwitch::setEnable(bool enable)
+{
+	this->isEnabled = enable;
+	if (this->isEnabled == true) this->leaveHandle();
+	else
+	{
+		this->body.setOutlineColor(GameResources::additional_color);
+		this->text.setFillColor(GameResources::additional_color);
+	}
+}
+
 void GameSwitch::setState(SwitchState state)
 {
 	this->state = state;

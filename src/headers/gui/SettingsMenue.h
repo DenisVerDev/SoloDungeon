@@ -4,6 +4,7 @@
 #include"GameSlider.h"
 #include"GamePlate.h"
 #include"../../headers/scenes/Scene.h"
+#include"../../headers/tools/GameInput.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -43,6 +44,38 @@ private:
 
 	GameButton* btn_apply;			// apply settings button
 
+	//------VIDEO SETTINGS COMPONENTS------
+
+	sf::Text vert_sync_text;		// vertical sync text
+
+	GameSwitch* vert_sync_switch;	// vertical sync switch
+
+	sf::Text fr_dp_text;			// frame dependecy text
+
+	GameSwitch* fr_dp_switch;		// frame dependency switch
+
+	sf::Text fr_lim_text;			// frame limit text
+
+	GameSlider* fr_lim_slider;		// frame limit slider
+
+	//------AUDIO SETTINGS COMPONENTS------
+
+	sf::Text sound_text;			// sound volume text
+
+	GameSlider* sound_slider;		// sound volume slider
+
+	sf::Text music_text;			// music volume text
+
+	GameSlider* music_slider;		// music volume slider
+
+	//------KEY/MOUSE SETTINGS COMPONENTS------
+
+	sf::Text* actions_text;			// actions text
+
+	GamePlate* action_plates;		// plates with key/mouse buttons
+
+	sf::Text warning_text;			// warning text
+
 	//------TEXTURES------
 
 	sf::Texture video_texture;		// btn_video texture
@@ -63,6 +96,9 @@ private:
 
 	// set check mode false to previous tab button
 	void uncheckTabButton();
+
+	// handle video settings tab
+	void videoStateHandle();
 
 public:
 
@@ -88,8 +124,14 @@ public:
 	// draw whole settings menue
 	virtual void draw(sf::RenderTarget& target);
 
+	// get settigs from gui and apply it
+	void applySettings();
+
 	// set settings menue position
 	void setPosition(sf::Vector2f position);
+
+	// set everything according to settings
+	void setSettings();
 
 	//------GETTERS------
 

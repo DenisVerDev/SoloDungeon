@@ -17,6 +17,7 @@ protected:
 
 	bool isClicked;				// is gui element clicked
 	bool isEntered;				// is mouse entered
+	bool isEnabled;				// is gui element enabled
 
 	sf::Vector2f size;			// gui element size
 
@@ -28,6 +29,7 @@ protected:
 	{
 		this->isEntered = false;
 		this->isClicked = false;
+		this->isEnabled = true;
 	}
 
 	//------METHODS------
@@ -59,6 +61,9 @@ protected:
 	// set gui element size
 	virtual void setSize(sf::Vector2f size) = 0;
 
+	// set gui element enable state
+	virtual void setEnable(bool enable) = 0;
+
 public:
 
 	// update gui element logic
@@ -67,12 +72,12 @@ public:
 		sf::Vector2f mouse_pos(mouse_data.getPosition());
 
 		// check if mouse has entered
-		if (this->isEntered == false && this->isMouseOver(mouse_pos))
+		if (this->isEntered == false && this->isEnabled == true && this->isMouseOver(mouse_pos))
 		{
 			this->isEntered = true;
 			this->enterHandle();
 		}
-		else if (this->isEntered == true && !this->isMouseOver(mouse_pos))
+		else if (this->isEntered == true && this->isEnabled == true && !this->isMouseOver(mouse_pos))
 		{
 			this->isEntered = false;
 			this->leaveHandle();
@@ -81,7 +86,7 @@ public:
 		this->isClicked = false;
 
 		// check if gui element was clicked(Left button)
-		if (this->isEntered == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
+		if (this->isEntered == true && this->isEnabled == true && mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left)) this->isClicked = true;
 	}
 
 	//------GETTERS------
@@ -108,6 +113,11 @@ public:
 	bool getIsEntered()
 	{
 		return this->isEntered;
+	}
+
+	bool getIsEnabled()
+	{
+		return this->isEnabled;
 	}
 
 	// checks if mouse is over gui element

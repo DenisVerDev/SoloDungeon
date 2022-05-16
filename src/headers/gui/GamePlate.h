@@ -37,6 +37,9 @@ public:
 	// set plate size
 	virtual void setSize(sf::Vector2f size);
 
+	// set slider enable state
+	virtual void setEnable(bool enable);
+
 	// set text
 	void setText(std::string text);
 };

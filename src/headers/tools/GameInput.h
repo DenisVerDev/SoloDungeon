@@ -31,9 +31,6 @@ private:
 	// private constructor
 	GameInput();
 
-	static const int key_actions_count;			// count of player key actions
-	static const int mouse_actions_count;		// count of player mouse actions
-
 	//------PRIVATE VARS------	
 
 	static std::vector<std::pair<PlayerAction,sf::Keyboard::Key>> key_actions;			// actions that activate by key pressing
@@ -45,6 +42,11 @@ private:
 	static void saveInput();
 
 public:
+
+	//------CONSTANTS------	
+
+	static const int key_actions_count;			// count of player key actions
+	static const int mouse_actions_count;		// count of player mouse actions
 
 	//------METHODS------	
 
