@@ -29,6 +29,8 @@ private:
 
 public:
 
+	static sf::View rview;		// render view
+
 	// public constructor
 	GameRender();
 
