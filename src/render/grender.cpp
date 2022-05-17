@@ -1,5 +1,7 @@
 #include"../../src/headers/render/GameRender.h"
 
+sf::View GameRender::rview;
+
 //------Constructor/Destructor definition------
 
 GameRender::GameRender()
@@ -7,8 +9,10 @@ GameRender::GameRender()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 6;
 
+	this->rview.reset(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(Settings::video_mode.width, Settings::video_mode.height)));
 	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen,settings);
-	
+	this->rwindow->setView(this->rview);
+
 	this->setRefreshRate();
 	this->setIcon();
 }

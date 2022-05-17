@@ -31,6 +31,7 @@ GameCycle::~GameCycle()
 {
 	// free memory
 	this->destroyGameScene((GameScene*&)this->mscene);
+	this->destroyGameScene((GameScene*&)this->lscene);
 
 	delete this->grender;
 	this->grender = nullptr;
@@ -73,6 +74,10 @@ void GameCycle::start()
 			{
 				case GameState::MainMenue:
 					this->grender->render(*this->mscene);
+					break;
+
+				case GameState::Gameplay:
+					this->grender->render(*this->lscene);
 					break;
 			}
 
@@ -139,6 +144,14 @@ void GameCycle::handleGameEvents()
 				GameLog::log("Game event: quit from the game!");
 				this->kill();
 				this->resetEventSent();
+				break;
+
+			case GameEvent::SetGameplay:	// level scene logic without loading scene
+				GameLog::log("Game event: start gameplay!");
+				this->lscene = new LevelScene();
+				this->gstate = GameState::Gameplay;
+				this->destroyGameScene((GameScene*&)this->mscene);
+				this->lscene->start();
 				break;
 
 		}

@@ -1,6 +1,7 @@
 #pragma once
 #include"../headers/render/GameRender.h"
 #include"../headers/scenes/MenueScene.h"
+#include"../headers/scenes/LevelScene.h"
 #include"../headers/tools/MouseData.h"
 #include"../headers/tools/GameInput.h"
 
@@ -17,6 +18,7 @@
 class GameRender;
 class GameScene;
 class MenueScene;
+class LevelScene;
 
 /* game events are handling in the main thread, so they can access every component of the game cycle
    * list is not finished
@@ -59,6 +61,8 @@ private:
 	GameRender* grender;				// renders everything on screen
 
 	MenueScene* mscene;					// Main menue scene
+
+	LevelScene* lscene;					// Level scene, core of the gameplay
 
 	sf::Thread gamelog_thread;			// gamelog thread
 

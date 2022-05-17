@@ -1,6 +1,4 @@
 #pragma once
-#include"../../headers/tools/GameLog.h"
-#include"../../headers/GameCycle.h"
 #include"Scene.h"
 #include"SFML/Graphics.hpp"
 

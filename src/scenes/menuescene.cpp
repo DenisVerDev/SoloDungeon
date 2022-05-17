@@ -139,7 +139,8 @@ void MenueScene::buttonsClickHandle()
 {
 	if (this->btn_new_game->getIsClicked() && this->isEventSent == false)	// start new game
 	{
-
+		this->isEventSent = true;
+		GameCycle::addGameEvent(GameEvent::SetGameplay);
 	}
 
 	if (this->btn_settings->getIsClicked() && this->isEventSent == false)	// open settings menue

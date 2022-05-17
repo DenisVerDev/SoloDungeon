@@ -1,7 +1,7 @@
 #pragma once
+#include"GameScene.h"
 #include"../../headers/gui/GameButton.h"
 #include"../../headers/gui/SettingsMenue.h"
-#include"GameScene.h"
 
 /*-------------------------------------------------------------------------------------------
 	MenueScene class:
