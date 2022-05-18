@@ -9,11 +9,18 @@ LevelScene::LevelScene() : GameScene()
 	example_text.setFillColor(sf::Color::Red);
 	example_text.setString("GAMEPLAY IS IN PROGRESS");
 
+	this->player = new Player();
+	this->player->setPosition(sf::Vector2f(300, 300));
+
 	GameLog::log("Level scene was initialized!");
 }
 
 LevelScene::~LevelScene()
 {
+	// deleting player
+	delete this->player;
+	this->player = nullptr;
+
 	this->logic_thread.wait();	 // wait thread to stop
 
 	GameLog::log("Level scene was destroyed!");
@@ -42,7 +49,7 @@ void LevelScene::logic()
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
-
+		this->player->behave();
 	}
 }
 
@@ -53,6 +60,7 @@ void LevelScene::draw(sf::RenderTarget& target)
 		if (this->isLoaded == true)
 		{
 			target.draw(this->example_text);
+			this->player->draw(target);
 		}
 	}
 	catch (std::exception& e)
@@ -65,6 +73,7 @@ void LevelScene::draw(sf::RenderTarget& target)
 void LevelScene::loadResources()
 {
 	// load resources
+	this->player->loadTexture();
 
 	//end
 	this->isLoaded = true;

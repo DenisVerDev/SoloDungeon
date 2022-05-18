@@ -1,16 +1,21 @@
 #pragma once
 #include"GameScene.h"
+#include"../../headers/entities/Player.h"
 #include"../../headers/tools/GameLog.h"
 
 /*-------------------------------------------------------------------------------------------
 	LevelScene class:
 -------------------------------------------------------------------------------------------*/
 
+class Player;
+
 class LevelScene : public GameScene
 {
 private:
 
 	sf::Text example_text;
+
+	Player* player;
 
 	//------PRIVATE METHODS------
 
