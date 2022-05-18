@@ -48,7 +48,18 @@ void LevelScene::logic()
 
 void LevelScene::draw(sf::RenderTarget& target)
 {
-	target.draw(this->example_text);
+	try
+	{
+		if (this->isLoaded == true)
+		{
+			target.draw(this->example_text);
+		}
+	}
+	catch (std::exception& e)
+	{
+		GameException ge("Levele scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
+		GameLog::log(ge);
+	}
 }
 
 void LevelScene::loadResources()
