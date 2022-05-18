@@ -27,6 +27,7 @@ public:
 
 	static const std::string icons_path;	// path where all icons are
 	static const std::string gui_path;		// path to all gui files
+	static const std::string ltexture_path; // path to all level objects
 
 	static const std::string log_path;		// path to file with standart logs
 	static const std::string exc_log_path;	// path to log file with exceptions
