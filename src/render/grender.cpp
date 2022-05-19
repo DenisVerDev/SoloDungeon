@@ -51,6 +51,11 @@ void GameRender::stopRender()
 	GameLog::log("Render process was stopped!");
 }
 
+void GameRender::updateView()
+{
+	this->rwindow->setView(this->rview);
+}
+
 void GameRender::updateSettings()
 {
 	this->setRefreshRate();

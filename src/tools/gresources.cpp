@@ -5,6 +5,7 @@
 const std::string GameResources::icons_path = "res/icons/";
 const std::string GameResources::gui_path = "res/gui/";
 const std::string GameResources::ltexture_path = "res/level/";
+const std::string GameResources::enities_texture = "res/entities/";
 
 const std::string GameResources::log_path = "logs/logs.log";
 const std::string GameResources::exc_log_path = "logs/exceptions.log";

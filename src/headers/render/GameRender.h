@@ -45,6 +45,9 @@ public:
 	// stop render process by closing the main window
 	void stopRender();
 
+	// update window view
+	void updateView();
+
 	// get current settings and apply them to the window
 	void updateSettings();
 
