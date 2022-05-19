@@ -1,15 +1,21 @@
 #pragma once
-#include"../../headers/tools/GameResources.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
 	Entity class:
+	- parent class of all entities
 -------------------------------------------------------------------------------------------*/
 
-enum class TurnType
+enum class TurnType	// direction in which entity is turned
 {
 	Left,
 	Right
+};
+
+enum class EntityState	// entity action state
+{
+	Stand,
+	Move
 };
 
 class Entity
@@ -19,62 +25,60 @@ protected:
 
 	//------PRIVATE VARS------
 
+	// graphical stuff
 	sf::Sprite body;			// entity body
 	sf::IntRect texture_rect;	// body texture rect
-	
-	bool hasCollision;			// if entity has collision
-
-	int max_health;				// entity max health
-	int current_health;			// entity current health
-
-	int damage;					// entity damage to other entity
-	int damage_radius;			// entity damage radius
-
-	float speed;				// entity speed
-
-	TurnType turn_type;			// where the entity is directed
 
 	sf::Vector2f position;		// entity position
+
+	// flags
+	bool move_up;				// moving up flag
+	bool move_down;				// moving down flag
+	bool move_right;			// moving right flag
+	bool move_left;				// moving left flag
+
+	bool hasTurned;				// if entity has turned
+	bool hasCollision;			// if entity has collision
+
+	TurnType turn_type;			// where the entity is directed
+	EntityState entity_state;	// enity action state
+
+	// entity individual settings
+	float speed;				// entity speed
+
+	//------PRIVATE METHODS------
+
+	// sprite's turn handle
+	virtual void turnHandle();
+
+	// entity movement logic
+	virtual void move();
+
+	// reset entity movement logic
+	virtual void resetMove();
 
 public:
 
 	// default constructor
-	Entity()
-	{
-		this->hasCollision = true;
-		this->turn_type = TurnType::Right;
-	}
+	Entity();
 
 	//------METHODS------
-	
-	// entity behaviour logic
-	virtual void behave(){}
+
+	// update entity state
+	virtual void update();
 
 	// draw entity
-	virtual void draw(sf::RenderTarget& target)
-	{
-		target.draw(this->body);
-	}
+	virtual void draw(sf::RenderTarget& target);
 
 	// set entity position
-	virtual void setPosition(sf::Vector2f position)
-	{
-		this->position = position;
-		this->body.setPosition(this->position);
-	}
+	virtual void setPosition(sf::Vector2f position);
 
 	//------GETTERS------
 
 	// get entity position
-	sf::Vector2f getPosition()
-	{
-		return this->position;
-	}
+	sf::Vector2f getPosition();
 
 	// get entity collision size
-	sf::Vector2f getSize()
-	{
-		return sf::Vector2f(this->texture_rect.width, this->texture_rect.height);
-	}
+	sf::Vector2f getSize();
 
 };

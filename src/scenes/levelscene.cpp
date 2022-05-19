@@ -10,7 +10,7 @@ LevelScene::LevelScene() : GameScene()
 	example_text.setString("GAMEPLAY IS IN PROGRESS");
 
 	this->player = new Player();
-	this->player->setPosition(sf::Vector2f(300, 300));
+	this->player->setPosition(sf::Vector2f(300, 300),true);
 
 	GameLog::log("Level scene was initialized!");
 }
@@ -49,7 +49,7 @@ void LevelScene::logic()
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
-		this->player->behave();
+		this->player->update();
 	}
 }
 

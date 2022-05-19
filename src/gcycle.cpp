@@ -81,6 +81,8 @@ void GameCycle::start()
 					break;
 			}
 
+			this->grender->updateView();
+
 		}
 	}
 	catch (std::exception& e)
