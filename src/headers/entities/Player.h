@@ -1,5 +1,6 @@
 #pragma once
 #include"Entity.h"
+#include"../../headers/render/Animation.h"
 #include"../../headers/tools/GameResources.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -24,10 +25,21 @@ private:
 
 	bool isOutOfRadius;			// if player is out of cameras effective radius
 
+	//------ANIMATIONS------
+
+	Animation stand_anim;		// player stand animation
+	Animation move_anim;		// player move animation
+
 	//------PRIVATE METHODS------
 
 	// camera movement logic
 	void cameraMove();
+
+	// update animation logic
+	virtual void updateAnim(EntityState previous_state);
+
+	// init all animation
+	virtual void initAnim();
 
 public:
 

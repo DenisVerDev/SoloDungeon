@@ -23,14 +23,36 @@ Player::Player() : Entity()
 	this->camera_radius = 85.f;
 
 	this->isOutOfRadius = false;
+
+	// animation initialization
+	this->initAnim();
 }
 
 //------Methods definition------
+
+void Player::initAnim()
+{
+	std::vector<unsigned int> time;
+	for (int i = 0; i < 4; i++)
+	{
+		time.push_back(Animation::ATime * 4);
+	}
+	stand_anim.init(4, time, sf::Vector2i(this->texture_rect.left, this->texture_rect.top), true);
+
+	time.clear();
+	for (int i = 0; i < 6; i++)
+	{
+		time.push_back(Animation::ATime * 4);
+	}
+	move_anim.init(6, time, sf::Vector2i(this->texture_rect.width, this->texture_rect.height), true);
+}
 
 void Player::update()
 {
 
 	// player's movement
+
+	EntityState previous_state = this->entity_state;
 	this->resetMove();
 
 	if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveUp)))
@@ -62,6 +84,27 @@ void Player::update()
 	// player and camera movement
 	this->move();
 	this->cameraMove();
+
+	// animation update
+	this->updateAnim(previous_state);
+}
+
+void Player::updateAnim(EntityState previous_state)
+{
+	switch (this->entity_state)
+	{
+		case EntityState::Stand:
+			if (previous_state != this->entity_state) this->stand_anim.reset();
+			this->stand_anim.update(this->body, this->texture_rect);
+			break;
+
+		case EntityState::Move:
+			if (previous_state != this->entity_state) this->move_anim.reset();
+			this->move_anim.update(this->body, this->texture_rect);
+			break;
+
+		default:break;
+	}
 }
 
 void Player::cameraMove()
