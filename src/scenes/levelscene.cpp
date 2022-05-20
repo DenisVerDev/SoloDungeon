@@ -17,11 +17,11 @@ LevelScene::LevelScene() : GameScene()
 
 LevelScene::~LevelScene()
 {
+	this->logic_thread.wait();	 // wait thread to stop
+
 	// deleting player
 	delete this->player;
 	this->player = nullptr;
-
-	this->logic_thread.wait();	 // wait thread to stop
 
 	GameLog::log("Level scene was destroyed!");
 }
