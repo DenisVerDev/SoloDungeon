@@ -91,6 +91,14 @@ void Entity::turnHandle()
 	}
 }
 
+void Entity::updateAnim(EntityState previous_state)
+{
+}
+
+void Entity::initAnim()
+{
+}
+
 void Entity::draw(sf::RenderTarget& target)
 {
 	target.draw(this->body);

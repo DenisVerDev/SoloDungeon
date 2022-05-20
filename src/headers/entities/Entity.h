@@ -57,6 +57,12 @@ protected:
 	// reset entity movement logic
 	virtual void resetMove();
 
+	// update animation logic
+	virtual void updateAnim(EntityState previous_state);
+
+	// init all animation
+	virtual void initAnim();
+
 public:
 
 	// default constructor
