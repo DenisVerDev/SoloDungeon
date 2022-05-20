@@ -62,6 +62,8 @@ MenueScene::MenueScene() : GameScene()
 
 MenueScene::~MenueScene()
 {
+	this->logic_thread.wait(); // wait thread to stop
+
 	// delete objects
 	delete this->btn_new_game;
 	this->btn_new_game = nullptr;
@@ -74,8 +76,6 @@ MenueScene::~MenueScene()
 
 	delete this->smenue;
 	this->smenue = nullptr;
-
-	this->logic_thread.wait(); // wait thread to stop
 
 	GameLog::log("Menue scene was destroyed!");
 }
