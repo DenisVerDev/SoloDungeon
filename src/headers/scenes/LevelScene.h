@@ -17,6 +17,10 @@ private:
 
 	Player* player;
 
+	//------RESOURCES------
+
+	sf::Texture levelmain_texture;	// all main static level objects
+
 	//------PRIVATE METHODS------
 
 	// Level scene logic

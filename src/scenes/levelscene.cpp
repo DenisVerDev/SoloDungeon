@@ -73,6 +73,8 @@ void LevelScene::draw(sf::RenderTarget& target)
 void LevelScene::loadResources()
 {
 	// load resources
+	this->levelmain_texture.loadFromFile(GameResources::ltexture_path + "mainlevbuild.png");
+
 	this->player->loadTexture();
 
 	//end
