@@ -16,14 +16,14 @@ void Floor::setTexture(sf::Texture& texture)
 	sf::Image texture_img = texture.copyToImage();
 
 	sf::Image img;
-	img.create(32, 32); // constant values
+	img.create(16, 16); // constant values
 
-	int x = 736;
-	int y = 272;
+	int x = 16;
+	int y = 64;
 
-	for (int i = 0; i < 32; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		for (int j = 0; j < 32; j++)
+		for (int j = 0; j < 16; j++)
 		{
 			img.setPixel(j, i, texture_img.getPixel(x + j, y + i));
 		}

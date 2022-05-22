@@ -1,5 +1,4 @@
 #pragma once
-#include<fstream>
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -28,9 +27,6 @@ public:
 
 	// draw game object
 	virtual void draw(sf::RenderTarget& target);
-
-	// save game object binary
-	virtual void saveObject(std::ofstream&  stream);
 
 	//------SETTERS------
 

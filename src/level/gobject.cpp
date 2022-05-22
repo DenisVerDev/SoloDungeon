@@ -7,11 +7,6 @@ void GameObject::draw(sf::RenderTarget& target)
 	target.draw(this->body);
 }
 
-void GameObject::saveObject(std::ofstream& stream)
-{
-	stream.write((const char*)&this->position, sizeof(this->position));
-}
-
 //------Setters definition------
 
 void GameObject::setPosition(sf::Vector2f position)

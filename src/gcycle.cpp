@@ -153,6 +153,7 @@ void GameCycle::handleGameEvents()
 				this->lscene = new LevelScene();
 				this->gstate = GameState::Gameplay;
 				this->destroyGameScene((GameScene*&)this->mscene);
+				GameRender::rview.zoom(0.5f);
 				this->lscene->start();
 				break;
 

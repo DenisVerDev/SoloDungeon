@@ -5,14 +5,11 @@
 Player::Player() : Entity()
 {
 	// texture_rect settings
-	this->texture_rect.left = 0;
-	this->texture_rect.top = 0;
-	this->texture_rect.width = 50;
-	this->texture_rect.height = 37;
+	this->texture_rect.left = 128;
+	this->texture_rect.top = 69;
+	this->texture_rect.width = 16;
+	this->texture_rect.height = 28;
 
-	// sprite settings
-	this->body.setTexture(Player::texture);
-	this->body.setTextureRect(this->texture_rect);
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
 
 	// individual player's settings
@@ -40,11 +37,11 @@ void Player::initAnim()
 	stand_anim.init(4, time, sf::Vector2i(this->texture_rect.left, this->texture_rect.top), true);
 
 	time.clear();
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		time.push_back(Animation::ATime * 4);
 	}
-	move_anim.init(6, time, sf::Vector2i(this->texture_rect.width, this->texture_rect.height), true);
+	move_anim.init(4, time, sf::Vector2i(192, 69), true);
 }
 
 void Player::update()
@@ -173,15 +170,9 @@ void Player::cameraMove()
 	}
 }
 
-void Player::loadTexture()
-{
-	this->texture.loadFromFile(GameResources::enities_texture + "adventurer-v1.5-Sheet.png");
-}
-
 void Player::setPosition(sf::Vector2f position, bool update_camera)
 {
 	this->position = position;
 	this->body.setPosition(this->position);
-
 	if(update_camera) GameRender::rview.setCenter(this->position); // setting camera position relative to the player
 }

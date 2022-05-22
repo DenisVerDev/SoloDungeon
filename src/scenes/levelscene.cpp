@@ -9,6 +9,56 @@ LevelScene::LevelScene() : GameScene()
 	example_text.setFillColor(sf::Color::Red);
 	example_text.setString("GAMEPLAY IS IN PROGRESS");
 
+	this->floor = new Floor(sf::Vector2i(160, 160));
+	this->floor->setPosition(sf::Vector2f(300, 300));
+
+	Wall w(WallType::WallFront);
+	Wall w2(WallType::WallBottom);
+	Wall w3(WallType::WallLeft);
+	Wall w4(WallType::WallRight);
+
+	for (int i = 0; i < 10; i++)
+	{
+		w.setPosition(sf::Vector2f(300 + i*16, 300 - w.getSize().y));
+
+		w2.setPosition(sf::Vector2f(300 + i*16, 300 + this->floor->getSize().y - w2.getSize().y));
+
+		w3.setPosition(sf::Vector2f(300 - w3.getSize().x, 300 - w.getSize().y + i * 16));
+
+		w4.setPosition(sf::Vector2f(300+this->floor->getSize().x, 300 - w.getSize().y + i * 16));
+
+		this->walls.push_back(w);
+		this->walls.push_back(w2);
+		this->walls.push_back(w3);
+		this->walls.push_back(w4);
+	}
+
+	Wall w5(WallType::WallLeft_b);
+	w5.setPosition(sf::Vector2f(300 - w3.getSize().x, 300 + this->floor->getSize().y - w.getSize().y));
+	
+	Wall w6(WallType::WallRight_b);
+	w6.setPosition(sf::Vector2f(300 + this->floor->getSize().x, 300 - w.getSize().y + this->floor->getSize().y));
+
+	Wall c1(WallType::Column);
+	c1.setPosition(sf::Vector2f(340, 340));
+
+	Wall b1(WallType::WallFlagYell);
+	b1.setPosition(sf::Vector2f(316, 284));
+
+	Wall l1(WallType::WallLava);
+	l1.setPosition(sf::Vector2f(316, 284));
+
+	Wall l2(WallType::WallWater);
+	l2.setPosition(sf::Vector2f(340, 284));
+
+	
+	this->walls.push_back(w5);
+	this->walls.push_back(w6);
+	this->walls.push_back(c1);
+	this->walls.push_back(b1);
+	this->walls.push_back(l1);
+	this->walls.push_back(l2);
+
 	this->player = new Player();
 	this->player->setPosition(sf::Vector2f(300, 300),true);
 
@@ -18,6 +68,9 @@ LevelScene::LevelScene() : GameScene()
 LevelScene::~LevelScene()
 {
 	this->logic_thread.wait();	 // wait thread to stop
+	
+	delete this->floor;
+	this->floor = nullptr;
 
 	// deleting player
 	delete this->player;
@@ -45,7 +98,7 @@ void LevelScene::stop()
 void LevelScene::logic()
 {
 	if (this->isLoaded == false) this->loadResources();	// loading resources in different thread
-
+	int size = this->walls.size();
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
@@ -59,6 +112,12 @@ void LevelScene::draw(sf::RenderTarget& target)
 	{
 		if (this->isLoaded == true)
 		{
+			this->floor->draw(target);
+			for (int i = 0; i < this->walls.size(); i++)
+			{
+				//if (this->walls[i].getWallType() == WallType::WallLava || this->walls[i].getWallType() == WallType::WallWater) this->walls[i].updateAnim();
+				this->walls[i].draw(target);
+			}
 			target.draw(this->example_text);
 			this->player->draw(target);
 		}
@@ -73,9 +132,13 @@ void LevelScene::draw(sf::RenderTarget& target)
 void LevelScene::loadResources()
 {
 	// load resources
-	this->levelmain_texture.loadFromFile(GameResources::ltexture_path + "mainlevbuild.png");
-
-	this->player->loadTexture();
+	this->levelmain_texture.loadFromFile(GameResources::level_path + "mainlevbuild.png");
+	this->floor->setTexture(this->levelmain_texture);
+	for (int i = 0; i < this->walls.size(); i++)
+	{
+		this->walls[i].setTexture(this->levelmain_texture);
+	}
+	this->player->setTexture(this->levelmain_texture);
 
 	//end
 	this->isLoaded = true;

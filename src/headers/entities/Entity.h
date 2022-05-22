@@ -76,6 +76,9 @@ public:
 	// draw entity
 	virtual void draw(sf::RenderTarget& target);
 
+	// set entity texture
+	virtual void setTexture(sf::Texture& texture);
+
 	// set entity position
 	virtual void setPosition(sf::Vector2f position);
 
