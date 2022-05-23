@@ -29,7 +29,7 @@ private:
 
 public:
 
-	static const unsigned int ATime;	// mere of animation time(10000)
+	static const unsigned int ATime;	// mere of animation time(1000 milliseconds => 1 second)
 
 	//------METHODS------
 

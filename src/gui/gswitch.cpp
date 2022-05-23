@@ -9,7 +9,7 @@ GameSwitch::GameSwitch() : GuiElement()
 
 	this->body.setSize(this->size);
 	this->body.setFillColor(sf::Color::Transparent);
-	this->body.setOutlineThickness(0.8f);
+	this->body.setOutlineThickness(1.f);
 	this->body.setOutlineColor(GameResources::text_color);
 
 	this->text.setFont(GameResources::text_font);

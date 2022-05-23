@@ -104,6 +104,12 @@ void Entity::draw(sf::RenderTarget& target)
 	target.draw(this->body);
 }
 
+void Entity::setTexture(sf::Texture& texture)
+{
+	this->body.setTexture(texture);
+	this->body.setTextureRect(this->texture_rect);
+}
+
 void Entity::setPosition(sf::Vector2f position)
 {
 	this->position = position;

@@ -14,8 +14,7 @@ GameSlider::GameSlider(float min_value, float max_value, float current_value) : 
 	this->line.setSize(sf::Vector2f(this->size.x, 1.f));
 	this->line.setFillColor(GameResources::text_color);
 
-	this->circle.setRadius(10.f);
-	this->circle.setFillColor(GameResources::text_color);
+	this->circle.setColor(GameResources::text_color);
 
 	this->text_value.setFont(GameResources::text_font);
 	this->text_value.setCharacterSize(22);
@@ -52,17 +51,17 @@ void GameSlider::update(MouseData& mouse_data)
 
 void GameSlider::enterHandle()
 {
-	this->circle.setFillColor(GameResources::hover_text_color);
+	this->circle.setColor(GameResources::hover_text_color);
 }
 
 void GameSlider::leaveHandle()
 {
-	this->circle.setFillColor(GameResources::text_color);
+	this->circle.setColor(GameResources::text_color);
 }
 
 void GameSlider::calculateValue(sf::Vector2f mouse_pos)
 {
-	this->circle.setPosition(sf::Vector2f(mouse_pos.x - this->circle.getRadius(), this->circle.getPosition().y));
+	this->circle.setPosition(sf::Vector2f(mouse_pos.x - this->circle.getLocalBounds().width/2.f, this->circle.getPosition().y));
 
 	float relative_pos = mouse_pos.x - this->position.x;
 	float percent_pos = (relative_pos * 100.f) / this->size.x;
@@ -84,16 +83,21 @@ void GameSlider::draw(sf::RenderTarget& target)
 
 //------Setters definition------
 
+void GameSlider::setTexture(sf::Texture& texture)
+{
+	this->circle.setTexture(texture);
+}
+
 void GameSlider::setPosition(sf::Vector2f position)
 {
 	this->position = position;
 
-	this->line.setPosition(sf::Vector2f(this->position.x, this->position.y + this->circle.getRadius()));
+	this->line.setPosition(sf::Vector2f(this->position.x, this->position.y + this->circle.getLocalBounds().width / 2.f));
 	this->circle.setPosition(sf::Vector2f(this->position.x, this->position.y));
 	this->setValue(this->current_value);
 
 	float text_height = this->text_value.getLocalBounds().height;
-	this->text_value.setPosition(sf::Vector2f(this->position.x + this->line.getLocalBounds().width + 30.f,this->position.y + this->circle.getRadius() - text_height));
+	this->text_value.setPosition(sf::Vector2f(this->position.x + this->line.getLocalBounds().width + 30.f,this->position.y + this->circle.getLocalBounds().width / 2.f - text_height));
 }
 
 void GameSlider::setSize(sf::Vector2f size)
@@ -109,12 +113,12 @@ void GameSlider::setEnable(bool enable)
 	if (this->isEnabled == true)
 	{
 		this->line.setFillColor(GameResources::text_color);
-		this->circle.setFillColor(GameResources::text_color);
+		this->circle.setColor(GameResources::text_color);
 	}
 	else
 	{
 		this->line.setFillColor(GameResources::additional_color);
-		this->circle.setFillColor(GameResources::additional_color);
+		this->circle.setColor(GameResources::additional_color);
 	}
 }
 
@@ -130,7 +134,7 @@ void GameSlider::setValue(float current_value)
 
 	float circle_x = (this->size.x * value_percent) / 100.f;
 
-	this->circle.setPosition(sf::Vector2f(this->position.x + circle_x - this->circle.getRadius(), this->circle.getPosition().y));
+	this->circle.setPosition(sf::Vector2f(this->position.x + circle_x - this->circle.getLocalBounds().width / 2.f, this->circle.getPosition().y));
 
 	this->text_value.setString(std::to_string((int)this->current_value));
 }

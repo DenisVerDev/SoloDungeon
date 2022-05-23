@@ -12,6 +12,7 @@ SettingsMenue::SettingsMenue() : Scene()
 	bool video_status = this->video_texture.loadFromFile(GameResources::gui_path + "video_settings.png");
 	bool audio_status = this->audio_texture.loadFromFile(GameResources::gui_path + "audio_settings.png");
 	bool keymouse_status = this->keymouse_texture.loadFromFile(GameResources::gui_path + "keymouse_settings.png");
+	this->slider_texture.loadFromFile(GameResources::gui_path + "slider_circle.png");
 
 	this->video_texture.setSmooth(true);
 	this->audio_texture.setSmooth(true);
@@ -101,6 +102,7 @@ SettingsMenue::SettingsMenue() : Scene()
 	this->fr_lim_text.setString("Frame limit");
 
 	this->fr_lim_slider = new GameSlider(Settings::min_frame_limit, Settings::max_frame_limit, Settings::getFrameLimit());
+	this->fr_lim_slider->setTexture(this->slider_texture);
 
 	// initializing audio settings components
 	this->sound_text.setFont(GameResources::text_font);
@@ -109,6 +111,7 @@ SettingsMenue::SettingsMenue() : Scene()
 	this->sound_text.setString("Sound volume");
 
 	this->sound_slider = new GameSlider(0.f, 100.f, Settings::getSoundVolume());
+	this->sound_slider->setTexture(this->slider_texture);
 
 	this->music_text.setFont(GameResources::text_font);
 	this->music_text.setCharacterSize(30);
@@ -116,6 +119,7 @@ SettingsMenue::SettingsMenue() : Scene()
 	this->music_text.setString("Music volume");
 
 	this->music_slider = new GameSlider(0.f, 100.f, Settings::getMusicVolume());
+	this->music_slider->setTexture(this->slider_texture);
 
 	// initializing key/mouse settings components
 	int actions_count = GameInput::key_actions_count + GameInput::mouse_actions_count;

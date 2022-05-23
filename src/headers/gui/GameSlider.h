@@ -14,7 +14,7 @@ private:
 	//------PRIVATE VARS------	
 
 	sf::RectangleShape line;		// slider's line
-	sf::CircleShape circle;			// slider's circle
+	sf::Sprite circle;				// slider's circle
 
 	sf::Text text_value;			// current value text
 
@@ -49,6 +49,8 @@ public:
 	virtual void draw(sf::RenderTarget& target);
 
 	//------SETTERS------	
+
+	void setTexture(sf::Texture& texture);
 
 	// set slider position
 	virtual void setPosition(sf::Vector2f position);
