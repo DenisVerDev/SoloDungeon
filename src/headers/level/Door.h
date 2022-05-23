@@ -20,4 +20,7 @@ public:
 
 	// set door's state
 	void setState(DoorState state);
+
+	// get door's state
+	DoorState getState();
 };

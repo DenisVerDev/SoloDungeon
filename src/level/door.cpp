@@ -8,7 +8,8 @@ Door::Door()
 
 void Door::setState(DoorState state)
 {
-	switch (state)
+	this->state = state;
+	switch (this->state)
 	{
 		case DoorState::Closed:
 			this->texture_rect.left = 16;
@@ -24,4 +25,9 @@ void Door::setState(DoorState state)
 			this->texture_rect.height = 35;
 			break;
 	}
+}
+
+DoorState Door::getState()
+{
+	return this->state;
 }
