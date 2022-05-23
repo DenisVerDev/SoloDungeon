@@ -115,7 +115,7 @@ void Wall::initAnim()
 	std::vector<unsigned int> time;
 	for (int i = 0; i < 3; i++)
 	{
-		time.push_back(Animation::ATime* 0.07);
+		time.push_back(Animation::ATime* 0.075);
 	}
 	anim.init(3, time, sf::Vector2i(this->texture_rect.left, this->texture_rect.top), true);
 }

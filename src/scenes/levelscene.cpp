@@ -59,6 +59,9 @@ LevelScene::LevelScene() : GameScene()
 	this->walls.push_back(l1);
 	this->walls.push_back(l2);
 
+	this->door.setPosition(sf::Vector2f(370, 300 - this->door.getSize().y));
+	this->door.setState(DoorState::Closed);
+
 	this->player = new Player();
 	this->player->setPosition(sf::Vector2f(300, 300),true);
 
@@ -124,6 +127,7 @@ void LevelScene::draw(sf::RenderTarget& target)
 			{
 				this->walls[i].draw(target);
 			}
+			this->door.draw(target);
 			target.draw(this->example_text);
 			this->player->draw(target);
 		}
@@ -147,6 +151,7 @@ void LevelScene::loadResources()
 	{
 		this->walls[i].setTexture(this->levelmain_texture);
 	}
+	this->door.setTexture(this->levelmain_texture);
 	this->player->setTexture(this->levelmain_texture);
 
 	//end

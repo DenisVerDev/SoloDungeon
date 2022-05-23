@@ -2,6 +2,7 @@
 #include"GameScene.h"
 #include"../../headers/level/Floor.h"
 #include"../../headers/level/Wall.h"
+#include"../../headers/level/Door.h"
 #include"../../headers/entities/Player.h"
 #include"../../headers/tools/GameLog.h"
 
@@ -20,6 +21,8 @@ private:
 	Player* player;
 
 	Floor* floor;
+
+	Door door;
 
 	std::vector<Wall> walls;
 
