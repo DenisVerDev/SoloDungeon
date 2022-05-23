@@ -7,7 +7,7 @@ sf::View GameRender::rview;
 GameRender::GameRender()
 {
 	sf::ContextSettings settings;
-	settings.antialiasingLevel = 6;
+	settings.antialiasingLevel = 0;
 
 	this->rview.reset(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(Settings::video_mode.width, Settings::video_mode.height)));
 	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen,settings);

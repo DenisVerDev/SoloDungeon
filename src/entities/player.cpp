@@ -13,7 +13,7 @@ Player::Player() : Entity()
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
 
 	// individual player's settings
-	this->speed = 0.0004f;
+	this->speed = 0.3f;
 
 	// camera settings
 	this->camera_speed = this->speed * 1.5f;
@@ -32,14 +32,14 @@ void Player::initAnim()
 	std::vector<unsigned int> time;
 	for (int i = 0; i < 4; i++)
 	{
-		time.push_back(Animation::ATime * 4);
+		time.push_back(Animation::ATime * 0.048);
 	}
 	stand_anim.init(4, time, sf::Vector2i(this->texture_rect.left, this->texture_rect.top), true);
 
 	time.clear();
 	for (int i = 0; i < 4; i++)
 	{
-		time.push_back(Animation::ATime * 4);
+		time.push_back(Animation::ATime * 0.048);
 	}
 	move_anim.init(4, time, sf::Vector2i(192, 69), true);
 }

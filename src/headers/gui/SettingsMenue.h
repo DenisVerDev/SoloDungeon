@@ -84,6 +84,8 @@ private:
 
 	sf::Texture keymouse_texture;	// btn_keymouse texture
 
+	sf::Texture slider_texture;		// slider circle texture(anti alising alternative)
+
 	//------PRIVATE VARS------	
 
 	STab tab_type;					// what tab is open

@@ -2,7 +2,7 @@
 
 //------Constants definition------
 
-const unsigned int Animation::ATime = 10000;
+const unsigned int Animation::ATime = 1000;
 
 //------Methods definition------
 

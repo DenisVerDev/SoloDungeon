@@ -46,10 +46,10 @@ LevelScene::LevelScene() : GameScene()
 	b1.setPosition(sf::Vector2f(316, 284));
 
 	Wall l1(WallType::WallLava);
-	l1.setPosition(sf::Vector2f(316, 284));
+	l1.setPosition(sf::Vector2f(316, 300 - l1.getSize().y + l1.wall_top));
 
 	Wall l2(WallType::WallWater);
-	l2.setPosition(sf::Vector2f(340, 284));
+	l2.setPosition(sf::Vector2f(340, 300 - l2.getSize().y + l2.wall_top));
 
 	
 	this->walls.push_back(w5);
@@ -99,10 +99,17 @@ void LevelScene::logic()
 {
 	if (this->isLoaded == false) this->loadResources();	// loading resources in different thread
 	int size = this->walls.size();
+	
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
+		for (int i = 0; i < this->walls.size(); i++)
+		{
+			if (this->walls[i].getWallType() == WallType::WallLava || this->walls[i].getWallType() == WallType::WallWater) this->walls[i].updateAnim();
+		}
 		this->player->update();
+
+		sf::sleep(sf::milliseconds(1)); // 1000 logic call per second possible
 	}
 }
 
@@ -115,7 +122,6 @@ void LevelScene::draw(sf::RenderTarget& target)
 			this->floor->draw(target);
 			for (int i = 0; i < this->walls.size(); i++)
 			{
-				//if (this->walls[i].getWallType() == WallType::WallLava || this->walls[i].getWallType() == WallType::WallWater) this->walls[i].updateAnim();
 				this->walls[i].draw(target);
 			}
 			target.draw(this->example_text);
@@ -127,12 +133,15 @@ void LevelScene::draw(sf::RenderTarget& target)
 		GameException ge("Levele scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
 		GameLog::log(ge);
 	}
+
+	sf::sleep(sf::milliseconds(1));
 }
 
 void LevelScene::loadResources()
 {
 	// load resources
 	this->levelmain_texture.loadFromFile(GameResources::level_path + "mainlevbuild.png");
+
 	this->floor->setTexture(this->levelmain_texture);
 	for (int i = 0; i < this->walls.size(); i++)
 	{
