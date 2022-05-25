@@ -36,8 +36,6 @@ private:
 
 public:
 
-	const int wall_top = 4;		// wall top
-
 	// contructor with type and rotation initialization
 	Wall(WallType type);
 
@@ -45,6 +43,9 @@ public:
 
 	// update wall animation
 	void updateAnim();
+
+	// set wall type
+	void setType(WallType type);
 
 	// get wall's type
 	WallType getWallType();

@@ -1,5 +1,11 @@
 #include "../../src/headers/level/Floor.h"
 
+Floor::Floor()
+{
+	this->hasCollision = false;
+	this->texture.setRepeated(true);
+}
+
 Floor::Floor(sf::Vector2i size)
 {
 	this->hasCollision = false;
@@ -31,6 +37,13 @@ void Floor::setTexture(sf::Texture& texture)
 
 	this->texture.loadFromImage(img);
 	this->body.setTexture(this->texture);
+}
+
+void Floor::setSize(sf::Vector2i size)
+{
+	this->texture_rect.width = size.x;
+	this->texture_rect.height = size.y;
+	this->body.setTextureRect(this->texture_rect);
 }
 
 

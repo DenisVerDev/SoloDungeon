@@ -7,9 +7,15 @@ class Floor : public GameObject
 
 public:
 
+	// default constructor
+	Floor();
+
 	//constructor with floor size
 	Floor(sf::Vector2i size);
 
 	// set floor's texture 
 	virtual void setTexture(sf::Texture& texture);
+
+	// set floor's size
+	void setSize(sf::Vector2i size);
 };

@@ -1,8 +1,6 @@
 #pragma once
 #include"GameScene.h"
-#include"../../headers/level/Floor.h"
-#include"../../headers/level/Wall.h"
-#include"../../headers/level/Door.h"
+#include"../../headers/level/Room.h"
 #include"../../headers/entities/Player.h"
 #include"../../headers/tools/GameLog.h"
 
@@ -10,21 +8,18 @@
 	LevelScene class:
 -------------------------------------------------------------------------------------------*/
 
+class Room;
 class Player;
 
 class LevelScene : public GameScene
 {
 private:
 
-	sf::Text example_text;
-
 	Player* player;
 
-	Floor* floor;
+	std::vector<Room*> rooms;		// level rooms with enemies
 
-	Door door;
-
-	std::vector<Wall> walls;
+	int current_room;				// in which room is player at the moment
 
 	//------RESOURCES------
 
@@ -37,6 +32,9 @@ private:
 
 	// load graphical/audio resources
 	virtual void loadResources();
+
+	// init all level rooms and bridges
+	void initLevelObjects();
 
 public:
 
