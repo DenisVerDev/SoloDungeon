@@ -130,6 +130,12 @@ void Wall::updateAnim()
 	this->anim.update(this->body, this->texture_rect);
 }
 
+void Wall::setType(WallType type)
+{
+	this->type = type;
+	this->initType();
+}
+
 WallType Wall::getWallType()
 {
 	return this->type;
