@@ -1,4 +1,5 @@
 #pragma once
+#include"../../headers/tools/ICollision.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -18,7 +19,7 @@ enum class EntityState	// entity action state
 	Move
 };
 
-class Entity
+class Entity : public ICollision
 {
 
 protected:
@@ -38,7 +39,6 @@ protected:
 	bool move_left;				// moving left flag
 
 	bool hasTurned;				// if entity has turned
-	bool hasCollision;			// if entity has collision
 
 	TurnType turn_type;			// where the entity is directed
 	EntityState entity_state;	// enity action state
@@ -76,6 +76,9 @@ public:
 	// draw entity
 	virtual void draw(sf::RenderTarget& target);
 
+	// entity response to collision event
+	virtual void collisionResponse(bool left, bool right, bool top, bool bottom);
+
 	// set entity texture
 	virtual void setTexture(sf::Texture& texture);
 
@@ -89,5 +92,8 @@ public:
 
 	// get entity collision size
 	sf::Vector2f getSize();
+
+	// get entity collision
+	virtual sf::IntRect getCollision();
 
 };

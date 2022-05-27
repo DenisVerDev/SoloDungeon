@@ -58,8 +58,8 @@ void LevelScene::logic()
 		// player logic
 		this->player->update();
 
-		// update rooms(animation)
-		this->rooms[this->current_room]->animWalls();
+		// update rooms
+		this->rooms[this->current_room]->update(*this->player);
 
 		sf::sleep(sf::milliseconds(1)); // 1000 logic call per second possible
 	}

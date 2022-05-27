@@ -3,7 +3,6 @@
 Wall::Wall(WallType type)
 {
 	this->type = type;
-	this->hasCollision = true;
 	
 	this->initType();
 }

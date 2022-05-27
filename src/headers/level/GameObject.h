@@ -1,4 +1,5 @@
 #pragma once
+#include"../../headers/tools/ICollision.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -8,7 +9,7 @@
 	- save to the file binary
 -------------------------------------------------------------------------------------------*/
 
-class GameObject
+class GameObject : public ICollision
 {
 protected:
 
@@ -18,8 +19,6 @@ protected:
 	sf::IntRect texture_rect;	// game object's texture rect
 
 	sf::Vector2f position;		// game object's position
-
-	bool hasCollision;		// has game object collision
 
 public:
 
@@ -44,6 +43,6 @@ public:
 	// get game object's size
 	sf::Vector2f getSize();
 
-	// get if game object has collision
-	bool getCollision();
+	// get object collision
+	virtual sf::IntRect getCollision();
 };

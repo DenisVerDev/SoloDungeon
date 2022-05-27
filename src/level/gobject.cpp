@@ -33,7 +33,9 @@ sf::Vector2f GameObject::getSize()
 	return sf::Vector2f(this->texture_rect.width,this->texture_rect.height);
 }
 
-bool GameObject::getCollision()
+sf::IntRect GameObject::getCollision()
 {
-	return this->hasCollision;
+	sf::IntRect collision(sf::Vector2i(this->position),sf::Vector2i(this->getSize()));
+
+	return collision;
 }

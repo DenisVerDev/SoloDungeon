@@ -4,7 +4,6 @@
 
 Entity::Entity()
 {
-	this->hasCollision = true;
 	this->turn_type = TurnType::Right;
 
 	this->turnHandle();
@@ -104,6 +103,14 @@ void Entity::draw(sf::RenderTarget& target)
 	target.draw(this->body);
 }
 
+void Entity::collisionResponse(bool left, bool right, bool top, bool bottom)
+{
+	if (left == true) this->setPosition(sf::Vector2f(this->position.x + this->speed, this->position.y));
+	if (right == true) this->setPosition(sf::Vector2f(this->position.x - this->speed, this->position.y));
+	if (top == true) this->setPosition(sf::Vector2f(this->position.x, this->position.y + this->speed));
+	if (bottom == true) this->setPosition(sf::Vector2f(this->position.x, this->position.y - this->speed));
+}
+
 void Entity::setTexture(sf::Texture& texture)
 {
 	this->body.setTexture(texture);
@@ -126,4 +133,18 @@ sf::Vector2f Entity::getPosition()
 sf::Vector2f Entity::getSize()
 {
 	return sf::Vector2f(this->texture_rect.width, this->texture_rect.height);
+}
+
+sf::IntRect Entity::getCollision()
+{
+	sf::IntRect collision;
+	sf::Vector2f size = this->getSize();
+
+	// every entity has it's origin set to texture center
+	collision.left = this->position.x;
+	collision.top = this->position.y + size.y/2.5;
+	collision.width = size.x / 2;
+	collision.height = size.y / 2 - size.y / 2.5;
+
+	return collision;
 }
