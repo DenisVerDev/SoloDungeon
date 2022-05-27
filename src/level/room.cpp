@@ -167,6 +167,21 @@ void Room::initObjects()
 	}
 }
 
+void Room::update(Player& player)
+{
+	// collision between room area and player,entities
+	ICollision::collision(player, this->getCollision());
+
+	// checking collision between player, entities and columns
+	for (auto wall : this->front_walls)
+	{
+		if (wall.getWallType() == WallType::Column) ICollision::collision(player, wall);
+	}
+
+	// animation update - walls
+	this->animWalls();
+}
+
 void Room::drawFloor(sf::RenderTarget& target)
 {
 	this->floor.draw(target);
@@ -216,6 +231,8 @@ void Room::animWalls()
 	}
 }
 
+//------Setters definition------
+
 void Room::setTexture(sf::Texture& texture)
 {
 	// floor
@@ -259,4 +276,15 @@ sf::Vector2f Room::getPosition()
 sf::Vector2i Room::getSize()
 {
 	return this->floor_size;
+}
+
+sf::IntRect Room::getCollision()
+{
+	sf::Vector2i pos(this->getPosition());
+	pos.y += 8;
+
+	sf::Vector2i size(this->getSize());
+	size.y -= 10;
+
+	return sf::IntRect(pos, size);;
 }

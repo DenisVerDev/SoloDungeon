@@ -20,7 +20,7 @@ enum class RoomType
 	BossRoom
 };
 
-class Room
+class Room : public ICollision
 {
 
 private:
@@ -46,12 +46,18 @@ private:
 	// init room objects
 	void initObjects();
 
+	// anim front walls
+	void animWalls();
+
 public:
 
 	// constructor with position and type
 	Room(sf::Vector2f pos, RoomType type);
 
 	//------METHODS------
+
+	// update room's logic based on player's actions
+	void update(Player& player);
 
 	// draw room's floor
 	void drawFloor(sf::RenderTarget& target);
@@ -68,8 +74,7 @@ public:
 	// draw room's back door
 	void drawBackDoor(sf::RenderTarget& target);
 
-	// anim front walls[MUST BE PRIVATE]
-	void animWalls();
+	//------SETTERS------
 
 	// set texture for all room's objects
 	void setTexture(sf::Texture& texture);
@@ -83,4 +88,6 @@ public:
 
 	sf::Vector2i getSize();
 
+	// get room's collision
+	virtual sf::IntRect getCollision();
 };

@@ -2,14 +2,11 @@
 
 Floor::Floor()
 {
-	this->hasCollision = false;
 	this->texture.setRepeated(true);
 }
 
 Floor::Floor(sf::Vector2i size)
 {
-	this->hasCollision = false;
-
 	this->texture_rect.width = size.x;
 	this->texture_rect.height = size.y;
 	this->body.setTextureRect(this->texture_rect);

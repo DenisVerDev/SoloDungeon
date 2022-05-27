@@ -2,7 +2,6 @@
 
 Door::Door()
 {
-	this->hasCollision = true;
 	this->setState(DoorState::Closed);
 }
 
