@@ -263,7 +263,8 @@ void Room::setEntryPoint(Player& player)
 {
 	float x = this->getPosition().x + this->getSize().x / 2.f;
 	float y = this->getPosition().y + this->getSize().y /1.5f;
-	player.setPosition(sf::Vector2f(x,y), true);
+	player.setPosition(sf::Vector2f(x,y));
+	player.initCamera();
 }
 
 //------Getters definition------
