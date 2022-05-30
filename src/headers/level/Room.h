@@ -2,28 +2,18 @@
 #include"Floor.h"
 #include"Wall.h"
 #include"Door.h"
-#include"../../headers/entities/Player.h"
+#include"../../headers/entities/Entity.h"
 
 /*-------------------------------------------------------------------------------------------
 	Room class:
 	- room where player and enemies are playing together
+	- abstract class
 -------------------------------------------------------------------------------------------*/
-
-class Player;
-
-enum class RoomType
-{
-	UndeadRoom,
-	OrcRoom,
-	SlimeRoom,
-	DemonRoom,
-	BossRoom
-};
 
 class Room : public ICollision
 {
 
-private:
+protected:
 
 	//------ROOM COMPONENTS------
 
@@ -35,29 +25,38 @@ private:
 	
 	std::vector<Door> doors;
 
-	//------PRIVATE VARS------
+	std::vector<Entity*> enemies;
 
-	RoomType type;
+	//------PRIVATE VARS------
 
 	sf::Vector2i floor_size;
 
 	//------PRIVATE METHODS------
 
+	// build default room with walls, doors and floor
+	void buildDefRoom();
+
 	// init room objects
-	void initObjects();
+	virtual void initObjects() = 0;
+
+	// init room enemies
+	virtual void initEnemies() = 0;
 
 	// anim front walls
 	void animWalls();
 
 public:
 
-	// constructor with position and type
-	Room(sf::Vector2f pos, RoomType type);
+	// constructor with position
+	Room(sf::Vector2f pos);
+
+	// destructor
+	~Room();
 
 	//------METHODS------
 
 	// update room's logic based on player's actions
-	void update(Player& player);
+	virtual void update(Entity& player);
 
 	// draw room's floor
 	void drawFloor(sf::RenderTarget& target);
@@ -74,13 +73,16 @@ public:
 	// draw room's back door
 	void drawBackDoor(sf::RenderTarget& target);
 
+	// draw room's enemies
+	void drawEnemies(sf::RenderTarget& target);
+
 	//------SETTERS------
 
 	// set texture for all room's objects
 	void setTexture(sf::Texture& texture);
 
 	// set entry point for the player
-	void setEntryPoint(Player& player);
+	void setEntryPoint(Entity& player);
 
 	//------GETTERS------
 

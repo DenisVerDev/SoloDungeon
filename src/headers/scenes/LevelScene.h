@@ -1,6 +1,10 @@
 #pragma once
 #include"GameScene.h"
-#include"../../headers/level/Room.h"
+#include"../../headers/level/RoomUndead.h"
+#include"../../headers/level/RoomOrc.h"
+#include"../../headers/level/RoomSlime.h"
+#include"../../headers/level/RoomDemon.h"
+#include"../../headers/level/RoomBoss.h"
 #include"../../headers/entities/Player.h"
 #include"../../headers/tools/GameLog.h"
 

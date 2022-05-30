@@ -1,36 +1,37 @@
 #include"../../src/headers/level/Room.h"
 
-Room::Room(sf::Vector2f pos, RoomType type)
+//------Constructor/Destructor definition------
+
+Room::Room(sf::Vector2f pos)
 {
-	this->type = type;
+	// init floor
+	this->floor_size.y = 256;
+	this->floor_size.x = 256;
 
+	this->floor.setSize(this->floor_size);
 	this->floor.setPosition(pos);
+}
 
-	// init all room objects
-	this->initObjects();
+Room::~Room()
+{
+	// deleting enemies
+	for (auto e : this->enemies)
+	{
+		delete e;
+		e = nullptr;
+	}
 }
 
 //------Methods definition------
 
-void Room::initObjects()
+void Room::buildDefRoom()
 {
-	// init floor
-	this->floor_size.y = 256;
-	if (this->type != RoomType::BossRoom) this->floor_size.x = 256;
-	else this->floor_size.x = 512;
-	this->floor.setSize(this->floor_size);
-
-
 	Wall w_front(WallType::WallFront);
 	Wall w_back(WallType::WallBottom);
 	Wall w_left(WallType::WallLeft);
 	Wall w_right(WallType::WallRight);
 	Wall w_leftb(WallType::WallLeft_b);
 	Wall w_rightb(WallType::WallRight_b);
-	Wall flag(WallType::WallFlagYell);
-	Wall column(WallType::Column);
-	Wall water_wall(WallType::WallWater);
-	Wall lava_wall(WallType::WallLava);
 
 	sf::Vector2f pos = this->getPosition();
 
@@ -75,107 +76,29 @@ void Room::initObjects()
 	door.setPosition(sf::Vector2f(door_pos.x, pos.y + this->floor_size.y - door.getSize().y));
 	this->doors.push_back(door);
 
-	//begin = this->back_walls.begin() + door_index;
-	//end = begin + 4;
-	//this->back_walls.erase(begin, end);
-
 	// wall bottom borders
 	w_leftb.setPosition(sf::Vector2f(pos.x - w_left.getSize().x, pos.y + this->floor_size.y - w_front.getSize().y));
 	w_rightb.setPosition(sf::Vector2f(pos.x + this->floor_size.x, pos.y - w_front.getSize().y + this->floor_size.y));
 
 	this->back_walls.push_back(w_leftb);
 	this->back_walls.push_back(w_rightb);
-
-	// flag initialization
-	sf::Vector2f flag_pos = this->front_walls[3].getPosition();
-	flag.setPosition(sf::Vector2f(flag_pos.x, flag_pos.y + 4));	// 4 is wall top height
-
-	// water and lava walls position
-	sf::Vector2f liquid_pos = this->front_walls[6].getPosition();
-
-	switch (this->type)
-	{
-		case RoomType::UndeadRoom:
-			this->front_walls.push_back(flag);
-			break;
-
-		case RoomType::OrcRoom:
-			flag.setType(WallType::WallFlagGreen);
-			this->front_walls.push_back(flag);
-			
-			for (int i = 1; i < 5; i++)
-			{
-				column.setPosition(sf::Vector2f(pos.x + 16 * i*3, pos.y + 16 * 3));
-				this->front_walls.push_back(column);
-
-				column.setPosition(sf::Vector2f(pos.x + 16 * i * 3, pos.y + 16 * 8));
-				this->front_walls.push_back(column);
-			}
-			break;
-
-		case RoomType::SlimeRoom:
-			flag.setType(WallType::WallFlagBlue);
-			this->front_walls.push_back(flag);
-
-			for (int i = 0; i < 3; i++)
-			{
-				water_wall.setPosition(sf::Vector2f(liquid_pos.x, liquid_pos.y + 4));
-				liquid_pos.x += 16*2;
-				this->front_walls.push_back(water_wall);
-			}
-			break;
-
-		case RoomType::DemonRoom:
-			flag.setType(WallType::WallFlagRed);
-			this->front_walls.push_back(flag);
-
-			for (int i = 0; i < 3; i++)
-			{
-				lava_wall.setPosition(sf::Vector2f(liquid_pos.x, liquid_pos.y - 3));
-				liquid_pos.x += 16 * 2;
-				this->front_walls.push_back(lava_wall);
-			}
-			break;
-
-		case RoomType::BossRoom:
-			sf::Vector2f liquid_lava = this->front_walls[1].getPosition();
-			sf::Vector2f liquid_water = this->front_walls[16].getPosition();
-
-			// water and lava walls
-			for (int i = 0; i < 6; i++)
-			{
-				lava_wall.setPosition(sf::Vector2f(liquid_lava.x, liquid_lava.y - 3));
-				liquid_lava.x += 16 * 2;
-				this->front_walls.push_back(lava_wall);
-
-				water_wall.setPosition(sf::Vector2f(liquid_water.x, liquid_water.y + 4));
-				liquid_water.x += 16 * 2;
-				this->front_walls.push_back(water_wall);
-			}
-
-			// columns
-			column.setPosition(sf::Vector2f(pos.x + 16 * 5, pos.y + 16 * 2));
-			this->front_walls.push_back(column);
-			column.setPosition(sf::Vector2f(pos.x + 16 * 5, pos.y + 16 * 8));
-			this->front_walls.push_back(column);
-
-			column.setPosition(sf::Vector2f(pos.x + 16 * (count_x-6), pos.y + 16 * 2));
-			this->front_walls.push_back(column);
-			column.setPosition(sf::Vector2f(pos.x + 16 * (count_x - 6), pos.y + 16 * 8));
-			this->front_walls.push_back(column);
-			break;
-	}
 }
 
-void Room::update(Player& player)
+void Room::update(Entity& player)
 {
 	// collision between room area and player,entities
 	ICollision::collision(player, this->getCollision());
 
 	// checking collision between player, entities and columns
-	for (auto wall : this->front_walls)
+	for (Wall& wall : this->front_walls)
 	{
 		if (wall.getWallType() == WallType::Column) ICollision::collision(player, wall);
+	}
+
+	// update enemies behaviour[WORK IN PROGRESS]
+	for (auto e : this->enemies)
+	{
+		e->update();
 	}
 
 	// animation update - walls
@@ -189,25 +112,22 @@ void Room::drawFloor(sf::RenderTarget& target)
 
 void Room::drawFrontWalls(sf::RenderTarget& target)
 {
-	int vec_size = this->front_walls.size();
-	for (int i = 0; i < vec_size; i++)
+	for (Wall& w : this->front_walls)
 	{
-		this->front_walls[i].draw(target);
+		w.draw(target);
 	}
 
-	vec_size = this->leftright_walls.size();
-	for (int i = 0; i < vec_size; i++)
+	for (Wall& w : this->leftright_walls)
 	{
-		this->leftright_walls[i].draw(target);
+		w.draw(target);
 	}
 }
 
 void Room::drawBackWalls(sf::RenderTarget& target)
 {
-	int vec_size = this->back_walls.size();
-	for (int i = 0; i < vec_size; i++)
+	for (Wall& w : this->back_walls)
 	{
-		this->back_walls[i].draw(target);
+		w.draw(target);
 	}
 }
 
@@ -221,13 +141,20 @@ void Room::drawBackDoor(sf::RenderTarget& target)
 	this->doors[1].draw(target);
 }
 
+void Room::drawEnemies(sf::RenderTarget& target)
+{
+	for (auto e : this->enemies)
+	{
+		e->draw(target);
+	}
+}
+
 void Room::animWalls()
 {
-	int vec_size = this->front_walls.size();
-	for (int i = 0; i < vec_size; i++)
+	for (Wall& w : this->front_walls)
 	{
-		WallType type = this->front_walls[i].getWallType();
-		if (type == WallType::WallLava || type == WallType::WallWater) this->front_walls[i].updateAnim();
+		WallType type = w.getWallType();
+		if (type == WallType::WallLava || type == WallType::WallWater) w.updateAnim();
 	}
 }
 
@@ -239,32 +166,41 @@ void Room::setTexture(sf::Texture& texture)
 	this->floor.setTexture(texture);
 
 	// front walls
-	int vec_size = this->front_walls.size();
-	for (int i = 0; i < vec_size; i++)
-		this->front_walls[i].setTexture(texture);
+	for (Wall& w : this->front_walls)
+	{
+		w.setTexture(texture);
+	}
 
 	// left-right walls
-	vec_size = this->leftright_walls.size();
-	for (int i = 0; i < vec_size; i++)
-		this->leftright_walls[i].setTexture(texture);
+	for (Wall& w : this->leftright_walls)
+	{
+		w.setTexture(texture);
+	}
 
 	// back walls
-	vec_size = this->back_walls.size();
-	for (int i = 0; i < vec_size; i++)
-		this->back_walls[i].setTexture(texture);
+	for (Wall& w : this->back_walls)
+	{
+		w.setTexture(texture);
+	}
 
 	// doors
-	vec_size = this->doors.size();
-	for (int i = 0; i < vec_size; i++)
-		this->doors[i].setTexture(texture);
+	for (Door& d : this->doors)
+	{
+		d.setTexture(texture);
+	}
+
+	// enemies
+	for (auto e : this->enemies)
+	{
+		e->setTexture(texture);
+	}
 }
 
-void Room::setEntryPoint(Player& player)
+void Room::setEntryPoint(Entity& player)
 {
 	float x = this->getPosition().x + this->getSize().x / 2.f;
 	float y = this->getPosition().y + this->getSize().y /1.5f;
 	player.setPosition(sf::Vector2f(x,y));
-	player.initCamera();
 }
 
 //------Getters definition------

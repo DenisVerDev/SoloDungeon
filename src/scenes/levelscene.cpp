@@ -79,6 +79,7 @@ void LevelScene::draw(sf::RenderTarget& target)
 			this->rooms[this->current_room]->drawFrontDoor(target);
 
 			// draw entities
+			this->rooms[this->current_room]->drawEnemies(target);
 			this->player->draw(target);
 
 			// draw back walls and door
@@ -118,14 +119,15 @@ void LevelScene::initLevelObjects()
 	sf::Vector2f begin_pos(Settings::video_mode.width / 2.f, Settings::video_mode.height / 2.f);
 
 	// init rooms
-	this->rooms.push_back(new Room(begin_pos, RoomType::UndeadRoom));
-	this->rooms.push_back(new Room(begin_pos, RoomType::OrcRoom));
-	this->rooms.push_back(new Room(begin_pos, RoomType::SlimeRoom));
-	this->rooms.push_back(new Room(begin_pos, RoomType::DemonRoom));
-	this->rooms.push_back(new Room(begin_pos, RoomType::BossRoom));
+	this->rooms.push_back(new RoomUndead(begin_pos));
+	this->rooms.push_back(new RoomOrc(begin_pos));
+	this->rooms.push_back(new RoomSlime(begin_pos));
+	this->rooms.push_back(new RoomDemon(begin_pos));
+	this->rooms.push_back(new RoomBoss(begin_pos));
 
 	// init player pos
 	this->rooms[this->current_room]->setEntryPoint(*this->player);
+	this->player->initCamera();
 }
 
 

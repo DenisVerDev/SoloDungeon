@@ -27,18 +27,12 @@ private:
 
 	bool isOutOfRadius;			// if player is out of cameras effective radius
 
-	//------ANIMATIONS------
-
-	Animation stand_anim;		// player stand animation
-	Animation move_anim;		// player move animation
+	int max_health;				// player's max health
 
 	//------PRIVATE METHODS------
 
 	// camera movement logic
 	void cameraMove();
-
-	// update animation logic
-	virtual void updateAnim(EntityState previous_state);
 
 	// init all animation
 	virtual void initAnim();
@@ -56,7 +50,7 @@ public:
 	// update player's state
 	virtual void update();
 
-	// init camera start position
+	// init player's camera
 	void initCamera();
 
 	// draw player with the sword
@@ -65,6 +59,9 @@ public:
 	// set player's and sword's textures
 	virtual void setTexture(sf::Texture& texture);
 
-	// set player's and cameras position
-	void setPosition(sf::Vector2f position);
+	// set player's and sword's position
+	virtual void setPosition(sf::Vector2f position);
+
+	// get player's max health
+	int getMaxHealth();
 };

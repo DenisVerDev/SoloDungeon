@@ -1,5 +1,6 @@
 #pragma once
 #include"../../headers/tools/ICollision.h"
+#include"../../headers/render/Animation.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -32,6 +33,11 @@ protected:
 
 	sf::Vector2f position;		// entity position
 
+	// animations
+
+	Animation stand_anim;		// entity stand animation
+	Animation move_anim;		// entity move animation
+
 	// flags
 	bool move_up;				// moving up flag
 	bool move_down;				// moving down flag
@@ -45,6 +51,11 @@ protected:
 
 	// entity individual settings
 	float speed;				// entity speed
+	float damage_range;			// entity damage range
+
+	int health;					// entity health
+	int damage;					// entity damage to other entity
+
 
 	//------PRIVATE METHODS------
 
@@ -58,7 +69,7 @@ protected:
 	virtual void resetMove();
 
 	// update animation logic
-	virtual void updateAnim(EntityState previous_state);
+	void updateAnim(EntityState previous_state);
 
 	// init all animation
 	virtual void initAnim();
@@ -99,4 +110,12 @@ public:
 	// get entity collision
 	virtual sf::IntRect getCollision();
 
+	// get entity attack range
+	float getAttackRange();
+
+	// get entity attack damage
+	int getAttackDamage();
+
+	// get entity current health
+	int getHealth();
 };

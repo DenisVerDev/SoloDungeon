@@ -92,10 +92,25 @@ void Entity::turnHandle()
 
 void Entity::updateAnim(EntityState previous_state)
 {
+	switch (this->entity_state)
+	{
+		case EntityState::Stand:
+			if (previous_state != this->entity_state) this->stand_anim.reset();
+			this->stand_anim.update(this->body, this->texture_rect);
+			break;
+
+		case EntityState::Move:
+			if (previous_state != this->entity_state) this->move_anim.reset();
+			this->move_anim.update(this->body, this->texture_rect);
+			break;
+
+		default:break;
+	}
 }
 
 void Entity::initAnim()
 {
+
 }
 
 void Entity::draw(sf::RenderTarget& target)
@@ -152,4 +167,19 @@ sf::IntRect Entity::getCollision()
 	collision.height = size.y / 2 - size.y / 2.5;
 
 	return collision;
+}
+
+float Entity::getAttackRange()
+{
+	return this->damage_range;
+}
+
+int Entity::getAttackDamage()
+{
+	return this->damage;
+}
+
+int Entity::getHealth()
+{
+	return this->health;
 }

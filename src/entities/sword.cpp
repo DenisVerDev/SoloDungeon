@@ -18,7 +18,7 @@ Sword::Sword()
 	this->base_damage = 1;
 	this->base_range = 10.f;
 
-	this->attack_speed = 1.5f;
+	this->attack_speed = 2.4f;
 
 	// graphical components initialization
 	this->texure_rect.left = 293;
@@ -98,11 +98,12 @@ void Sword::attackAnim(TurnType type)
 	{
 		this->rise_up = false;
 		this->rise_down = false;
+
+		this->attack_finished = true;
 	}
 	else if (this->cur_angle == this->base_angle && this->rise_up == false && this->rise_down == false)
 	{
 		this->attack = false;
-		this->attack_finished = true;
 	}
 
 
@@ -110,17 +111,27 @@ void Sword::attackAnim(TurnType type)
 	{
 		case TurnType::Right:
 
-			if (this->rise_up == true && this->cur_angle > this->up_angle) this->cur_angle -= this->attack_speed;
-			else if (this->rise_down == true && this->cur_angle < this->down_angle) this->cur_angle += this->attack_speed;
-			else if(this->rise_up == false && this->rise_down == false) this->cur_angle -= this->attack_speed;
+			if (this->rise_up == true && this->cur_angle > this->up_angle + this->attack_speed) this->cur_angle -= this->attack_speed;
+			else if(this->rise_up == true && this->cur_angle > this->up_angle) this->cur_angle = this->up_angle;
+
+			if (this->rise_down == true && this->cur_angle < this->down_angle - this->attack_speed) this->cur_angle += this->attack_speed;
+			else if(this->rise_down == true && this->cur_angle < this->down_angle)  this->cur_angle = this->down_angle;
+			
+			if(this->rise_up == false && this->rise_down == false && this->cur_angle > this->base_angle + this->attack_speed) this->cur_angle -= this->attack_speed;
+			else if(this->rise_up == false && this->rise_down == false && this->cur_angle > this->base_angle) this->cur_angle = this->base_angle;
 
 			break;
 
 		case TurnType::Left:
 
-			if (this->rise_up == true && this->cur_angle < this->up_angle) this->cur_angle += this->attack_speed;
-			else if (this->rise_down == true && this->cur_angle > this->down_angle) this->cur_angle -= this->attack_speed;
-			else if (this->rise_up == false && this->rise_down == false) this->cur_angle += this->attack_speed;
+			if (this->rise_up == true && this->cur_angle < this->up_angle - this->attack_speed) this->cur_angle += this->attack_speed;
+			else if(this->rise_up == true && this->cur_angle < this->up_angle) this->cur_angle = this->up_angle;
+
+			if (this->rise_down == true && this->cur_angle > this->down_angle + this->attack_speed) this->cur_angle -= this->attack_speed;
+			else if(this->rise_down == true && this->cur_angle > this->down_angle) this->cur_angle = this->down_angle;
+			
+			if (this->rise_up == false && this->rise_down == false && this->cur_angle < this->base_angle  -this->attack_speed) this->cur_angle += this->attack_speed;
+			else if(this->rise_up == false && this->rise_down == false && this->cur_angle < this->base_angle) this->cur_angle = this->base_angle;
 
 			break;
 	}

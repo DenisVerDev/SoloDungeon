@@ -17,6 +17,11 @@ Player::Player() : Entity()
 
 	// individual player's settings
 	this->speed = 0.3f;
+	this->damage_range = this->sword->getRange();
+
+	this->max_health = 6;
+	this->health = this->max_health;
+	this->damage = this->sword->getDamage();
 
 	// camera settings
 	this->camera_speed = this->speed * 1.5f;
@@ -104,24 +109,6 @@ void Player::update()
 	this->updateAnim(previous_state);
 }
 
-void Player::updateAnim(EntityState previous_state)
-{
-	switch (this->entity_state)
-	{
-		case EntityState::Stand:
-			if (previous_state != this->entity_state) this->stand_anim.reset();
-			this->stand_anim.update(this->body, this->texture_rect);
-			break;
-
-		case EntityState::Move:
-			if (previous_state != this->entity_state) this->move_anim.reset();
-			this->move_anim.update(this->body, this->texture_rect);
-			break;
-
-		default:break;
-	}
-}
-
 void Player::cameraMove()
 {
 	sf::Vector2f camera = GameRender::rview.getCenter();
@@ -188,11 +175,6 @@ void Player::cameraMove()
 	}
 }
 
-void Player::initCamera()
-{
-	GameRender::rview.setCenter(this->position); // setting camera position relative to the player
-}
-
 void Player::draw(sf::RenderTarget& target)
 {
 	target.draw(this->body);
@@ -211,4 +193,14 @@ void Player::setPosition(sf::Vector2f position)
 	this->position = position;
 	this->body.setPosition(this->position);
 	this->sword->bind(*this);
+}
+
+void Player::initCamera()
+{
+	GameRender::rview.setCenter(this->position); // setting camera position relative to the player
+}
+
+int Player::getMaxHealth()
+{
+	return this->max_health;
 }
