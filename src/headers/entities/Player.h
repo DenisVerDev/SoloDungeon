@@ -1,5 +1,6 @@
 #pragma once
 #include"Entity.h"
+#include"Sword.h"
 #include"../../headers/render/Animation.h"
 #include"../../headers/tools/GameResources.h"
 
@@ -10,11 +11,14 @@
 	- camera manipulation
 -------------------------------------------------------------------------------------------*/
 
+class Sword;
 
 class Player : public Entity
 {
 
 private:
+
+	Sword* sword;				// player's main weapon
 
 	//------PRIVATE VARS------
 
@@ -44,11 +48,23 @@ public:
 	// default constructor
 	Player();
 
+	// destructor => delete sword
+	~Player();
+
 	//------METHODS------
 
 	// update player's state
 	virtual void update();
 
+	// init camera start position
+	void initCamera();
+
+	// draw player with the sword
+	virtual void draw(sf::RenderTarget& target);
+
+	// set player's and sword's textures
+	virtual void setTexture(sf::Texture& texture);
+
 	// set player's and cameras position
-	void setPosition(sf::Vector2f position, bool update_camera = false);
+	void setPosition(sf::Vector2f position);
 };

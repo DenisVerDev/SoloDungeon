@@ -93,6 +93,9 @@ public:
 	// get entity collision size
 	sf::Vector2f getSize();
 
+	// get entity turn type
+	TurnType getTurnType();
+
 	// get entity collision
 	virtual sf::IntRect getCollision();
 

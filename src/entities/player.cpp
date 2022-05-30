@@ -1,6 +1,6 @@
 #include"../../src/headers/entities/Player.h"
 
-//------Constructor definition------
+//------Constructor/Destructor definition------
 
 Player::Player() : Entity()
 {
@@ -11,6 +11,9 @@ Player::Player() : Entity()
 	this->texture_rect.height = 28;
 
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
+
+	// sword initialization
+	this->sword = new Sword();
 
 	// individual player's settings
 	this->speed = 0.3f;
@@ -23,6 +26,12 @@ Player::Player() : Entity()
 
 	// animation initialization
 	this->initAnim();
+}
+
+Player::~Player()
+{
+	delete this->sword;
+	this->sword = nullptr;
 }
 
 //------Methods definition------
@@ -76,11 +85,20 @@ void Player::update()
 		this->entity_state = EntityState::Move;
 	}
 
+	// player attack check
+	if (GameCycle::mouse_data.getIsMouseButtonPressed(GameInput::getButtonByAction(PlayerAction::Attack)))
+	{
+		this->sword->startBaseAttack();
+	}
+
 	this->turnHandle();
 
 	// player and camera movement
 	this->move();
 	this->cameraMove();
+
+	// update sword state
+	this->sword->update(this->getTurnType());
 
 	// animation update
 	this->updateAnim(previous_state);
@@ -170,9 +188,27 @@ void Player::cameraMove()
 	}
 }
 
-void Player::setPosition(sf::Vector2f position, bool update_camera)
+void Player::initCamera()
+{
+	GameRender::rview.setCenter(this->position); // setting camera position relative to the player
+}
+
+void Player::draw(sf::RenderTarget& target)
+{
+	target.draw(this->body);
+	this->sword->draw(target);
+}
+
+void Player::setTexture(sf::Texture& texture)
+{
+	this->body.setTexture(texture);
+	this->body.setTextureRect(this->texture_rect);
+	this->sword->setTexture(texture);
+}
+
+void Player::setPosition(sf::Vector2f position)
 {
 	this->position = position;
 	this->body.setPosition(this->position);
-	if(update_camera) GameRender::rview.setCenter(this->position); // setting camera position relative to the player
+	this->sword->bind(*this);
 }

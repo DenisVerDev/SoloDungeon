@@ -135,6 +135,11 @@ sf::Vector2f Entity::getSize()
 	return sf::Vector2f(this->texture_rect.width, this->texture_rect.height);
 }
 
+TurnType Entity::getTurnType()
+{
+	return this->turn_type;
+}
+
 sf::IntRect Entity::getCollision()
 {
 	sf::IntRect collision;
