@@ -86,7 +86,7 @@ void Player::update()
 	}
 
 	// player attack check
-	if (GameCycle::mouse_data.getIsMouseButtonPressed(sf::Mouse::Button::Left))
+	if (GameCycle::mouse_data.getIsMouseButtonPressed(GameInput::getButtonByAction(PlayerAction::Attack)))
 	{
 		this->sword->startBaseAttack();
 	}

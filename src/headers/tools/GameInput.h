@@ -62,7 +62,7 @@ public:
 	static sf::Keyboard::Key getKeyByAction(PlayerAction action);
 
 	// get mouse button from action
-	static sf::Mouse::Button getMouseButton(PlayerAction action);
+	static sf::Mouse::Button getButtonByAction(PlayerAction action);
 
 	// get player's action from key_actions
 	static PlayerAction getActionByKey(sf::Keyboard::Key key);

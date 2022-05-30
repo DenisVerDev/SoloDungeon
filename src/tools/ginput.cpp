@@ -133,7 +133,7 @@ sf::Keyboard::Key GameInput::getKeyByAction(PlayerAction action)
 	return sf::Keyboard::Key::KeyCount;
 }
 
-sf::Mouse::Button GameInput::getMouseButton(PlayerAction action)
+sf::Mouse::Button GameInput::getButtonByAction(PlayerAction action)
 {
 	for (int i = 0; i < GameInput::mouse_actions_count; i++)
 	{

@@ -75,16 +75,16 @@ void Sword::bind(Player& player)
 	{
 		case TurnType::Right:
 			this->body.setScale(0.9f, 0.9f);
-			if (this->attack == false) this->body.setRotation(this->base_angle);
 			this->body.setPosition(sf::Vector2f(pos.x + size.x - 4, pos.y + size.y / 4.f));
 			break;
 
 		case TurnType::Left:
 			this->body.setScale(-0.9f, 0.9f);
-			if (this->attack == false) this->body.setRotation(this->base_angle);
 			this->body.setPosition(sf::Vector2f(pos.x - size.x + 4, pos.y + size.y / 4.f));
 			break;
 	}
+
+	if (this->attack == false) this->body.setRotation(this->base_angle);
 }
 
 void Sword::attackAnim(TurnType type)
