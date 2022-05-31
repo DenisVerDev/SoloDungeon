@@ -86,18 +86,45 @@ void Room::buildDefRoom()
 
 void Room::update(Entity& player)
 {
-	// collision between room area and player,entities
-	ICollision::collision(player, this->getCollision());
+	// collision between room area and player,enemies
+	sf::IntRect room_collision = this->getCollision();
+	ICollision::collision(player, room_collision);
+	for (auto e : this->enemies)
+	{
+		ICollision::collision(*e, room_collision);
+	}
+
+	// collision between enemies only
+	int vec_size = this->enemies.size();
+	for (int i = 0; i < vec_size; i++)
+	{
+		for (int j = 0; j < vec_size; j++)
+		{
+			if (i != j)
+			{
+				ICollision::collision(*this->enemies[i], *this->enemies[j]);
+			}
+		}
+	}
 
 	// checking collision between player, entities and columns
 	for (Wall& wall : this->front_walls)
 	{
-		if (wall.getWallType() == WallType::Column) ICollision::collision(player, wall);
+		if (wall.getWallType() == WallType::Column)
+		{
+			ICollision::collision(player, wall);
+			for (auto e : this->enemies)
+			{
+				ICollision::collision(*e, wall);
+			}
+		}
 	}
 
 	// update enemies behaviour[WORK IN PROGRESS]
+	sf::Vector2f player_pos = player.getPosition();
 	for (auto e : this->enemies)
 	{
+		e->track(player_pos);
 		e->update();
 	}
 
@@ -221,7 +248,7 @@ sf::IntRect Room::getCollision()
 	pos.y += 8;
 
 	sf::Vector2i size(this->getSize());
-	size.y -= 10;
+	size.y -= 30;
 
 	return sf::IntRect(pos, size);;
 }

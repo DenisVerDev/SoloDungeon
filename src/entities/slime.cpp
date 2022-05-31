@@ -1,6 +1,6 @@
 #include"../../src/headers/entities/Slime.h"
 
-Slime::Slime() : Entity()
+Slime::Slime() : Enemy()
 {
 	// texture_rect settings
 	this->texture_rect.left = 433;
@@ -42,6 +42,8 @@ void Slime::update()
 {
 	EntityState previous_state = this->entity_state;
 	this->resetMove();
+
+	this->followPlayer();
 
 	this->turnHandle();
 	this->move();

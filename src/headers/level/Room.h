@@ -2,7 +2,7 @@
 #include"Floor.h"
 #include"Wall.h"
 #include"Door.h"
-#include"../../headers/entities/Entity.h"
+#include"../../headers/entities/Enemy.h"
 
 /*-------------------------------------------------------------------------------------------
 	Room class:
@@ -25,7 +25,7 @@ protected:
 	
 	std::vector<Door> doors;
 
-	std::vector<Entity*> enemies;
+	std::vector<Enemy*> enemies;
 
 	//------PRIVATE VARS------
 

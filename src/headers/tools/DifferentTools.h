@@ -21,4 +21,7 @@ namespace dt
 
 	// get centered position for graphical object 
 	sf::Vector2f getCenteredPostion(sf::Vector2f parent_size, sf::Vector2f child_size, sf::Vector2f child_pos);
+
+	// randomize number between min and max
+	int rand(int min, int max);
 }

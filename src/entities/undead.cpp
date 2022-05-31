@@ -1,6 +1,6 @@
 #include"../../src/headers/entities/Undead.h"
 
-Undead::Undead() : Entity()
+Undead::Undead() : Enemy()
 {
 	// texture_rect settings
 	this->texture_rect.left = 368;
@@ -11,7 +11,7 @@ Undead::Undead() : Entity()
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
 
 	// individual undead settings
-	this->speed = 0.2f;
+	this->speed = 0.1f;
 	this->damage_range = 10.f;
 
 	this->health = 1;
@@ -42,6 +42,8 @@ void Undead::update()
 {
 	EntityState previous_state = this->entity_state;
 	this->resetMove();
+
+	this->followPlayer();
 
 	this->turnHandle();
 	this->move();

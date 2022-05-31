@@ -1,7 +1,7 @@
 #pragma once
-#include"Entity.h"
+#include"Enemy.h"
 
-class Demon : public Entity
+class Demon : public Enemy
 {
 
 private:
