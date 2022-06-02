@@ -22,17 +22,23 @@ private:
 	bool move_x;				// behaviour logic X axis
 	bool move_y;				// behaviour logic Y axis
 
-	sf::Vector2f player_pos;	// tracked player's position
-
 public:
+
+	Entity* player;				// tracked player
 
 	// default constructor
 	Enemy();
 
+	// destructor
+	~Enemy();
+
 	//------METHODS------
 
-	// update player position
-	void track(sf::Vector2f pos);
+	// start tracking player
+	void track(Entity& player);
+
+	// update enemy state
+	virtual void update();
 
 	// following the player
 	void followPlayer();

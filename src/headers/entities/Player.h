@@ -50,6 +50,9 @@ public:
 	// update player's state
 	virtual void update();
 
+	// attack enemy
+	virtual void attack(Entity& entity);
+
 	// init player's camera
 	void initCamera();
 
@@ -64,4 +67,7 @@ public:
 
 	// get player's max health
 	int getMaxHealth();
+
+	// get if player was attacking entity
+	virtual bool getAttack();
 };

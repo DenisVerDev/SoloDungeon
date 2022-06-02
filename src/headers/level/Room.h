@@ -31,6 +31,8 @@ protected:
 
 	sf::Vector2i floor_size;
 
+	bool isTracked;					// if player is tracked by enemies
+
 	//------PRIVATE METHODS------
 
 	// build default room with walls, doors and floor
@@ -75,6 +77,9 @@ public:
 
 	// draw room's enemies
 	void drawEnemies(sf::RenderTarget& target);
+
+	// all room's enemies will track player's actions
+	void trackPlayer(Entity& player);
 
 	//------SETTERS------
 

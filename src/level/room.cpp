@@ -4,6 +4,8 @@
 
 Room::Room(sf::Vector2f pos)
 {
+	this->isTracked = false;
+
 	// init floor
 	this->floor_size.y = 256;
 	this->floor_size.x = 256;
@@ -120,11 +122,21 @@ void Room::update(Entity& player)
 		}
 	}
 
-	// update enemies behaviour[WORK IN PROGRESS]
-	sf::Vector2f player_pos = player.getPosition();
+	// track the player
+	if (this->isTracked == false) this->trackPlayer(player);
+
+	// player attack check
+	if (player.getAttack() == true)
+	{
+		for (auto e : this->enemies)
+		{
+			player.attack(*e);
+		}
+	}
+
+	// enemies behaviour
 	for (auto e : this->enemies)
 	{
-		e->track(player_pos);
 		e->update();
 	}
 
@@ -174,6 +186,16 @@ void Room::drawEnemies(sf::RenderTarget& target)
 	{
 		e->draw(target);
 	}
+}
+
+void Room::trackPlayer(Entity& player)
+{
+	for (auto e : this->enemies)
+	{
+		e->track(player);
+	}
+
+	this->isTracked = true;
 }
 
 void Room::animWalls()

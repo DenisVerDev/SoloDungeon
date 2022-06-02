@@ -4,6 +4,11 @@
 
 Entity::Entity()
 {
+	this->isAlive = true;
+
+	this->effect_duration = 100;
+	this->effect_count = 0;
+
 	this->turn_type = TurnType::Right;
 
 	this->turnHandle();
@@ -14,6 +19,131 @@ Entity::Entity()
 
 void Entity::update()
 {
+}
+
+void Entity::attack(Entity& entity)
+{
+	// check if entity is in our attack range distance
+
+	sf::Vector2f entity_pos = entity.getPosition();
+
+	// X axis check
+	if (this->position.x >= entity_pos.x - this->damage_range && this->position.x <= entity_pos.x + this->damage_range)
+	{
+		// Y axis check
+		if (this->position.y >= entity_pos.y - this->damage_range && this->position.y <= entity_pos.y + this->damage_range)
+		{
+			// flee after the attack to let the player some space
+			
+			// X axis
+			if (this->turn_type == TurnType::Right)
+			{
+				this->move_left = true;
+				this->move_right = false;
+			}
+			else
+			{
+				this->move_right = true;
+				this->move_left = false;
+			}
+
+			// Y axis
+			if (this->position.y >= entity_pos.y - this->damage_range && entity_pos.y < this->position.y)
+			{
+				this->move_up = true;
+				this->move_down = false;
+			}
+			else if (entity_pos.y <= this->position.y + this->damage_range && entity_pos.y > this->position.y)
+			{
+				this->move_down = true;
+				this->move_up = false;
+			}
+
+			// change state
+			this->entity_state = EntityState::Flee;
+
+			// hit entity
+			entity.getHit(*this);
+		}
+	}
+}
+
+void Entity::getHit(Entity& attacker)
+{
+	if (this->isAlive == true)
+	{
+		// check in which side entity should repulse
+		TurnType attack_turn = attacker.getTurnType();
+
+		sf::Vector2f attack_pos = attacker.getPosition();
+		float attack_range = attacker.getAttackRange();
+
+		// X axis
+		if (attack_turn == TurnType::Right)
+		{
+			this->move_right = true;
+			this->move_left = false;
+		}
+		else
+		{
+			this->move_left = true;
+			this->move_right = false;
+		}
+
+		// Y axis
+		if (attack_pos.y >= this->position.y - attack_range && attack_pos.y < this->position.y)
+		{
+			this->move_down = true;
+			this->move_up = false;
+		}
+		else if (attack_pos.y <= this->position.y + attack_range && attack_pos.y > this->position.y)
+		{
+			this->move_up = true;
+			this->move_down = false;
+		}
+
+		// updating stats and state
+		if (this->health > 0)
+		{
+			this->health--;
+			this->entity_state = EntityState::Hitted;
+		}
+
+		if (this->health == 0)
+		{
+			if (this->turn_type == TurnType::Right) this->body.rotate(90.f);
+			else this->body.rotate(-90.f);
+
+			this->entity_state = EntityState::Death;
+			this->body.setColor(sf::Color(105, 105, 105));
+		}
+	}
+}
+
+void Entity::effectProcessing()
+{
+	if (this->isAlive == true)
+	{
+		if (this->entity_state != EntityState::Hitted && this->entity_state != EntityState::Death && this->entity_state != EntityState::Flee)
+		{
+			if (this->effect_count == 0)	this->resetMove();
+		}
+		else if (this->entity_state == EntityState::Hitted || this->entity_state == EntityState::Death || this->entity_state == EntityState::Flee)
+		{
+			this->speed = this->effect_speed;
+
+			if (this->effect_count < this->effect_duration) this->effect_count++;
+			else
+			{
+				if (this->entity_state != EntityState::Death)
+				{
+					this->effect_count = 0;
+					this->resetMove();
+				}
+				else this->isAlive = false;
+			}
+		}
+	}
 }
 
 void Entity::move()
@@ -49,6 +179,7 @@ void Entity::move()
 
 void Entity::resetMove()
 {
+	this->speed = this->base_speed;
 	this->move_up = false;
 	this->move_down = false;
 	this->move_right = false;
@@ -155,6 +286,11 @@ TurnType Entity::getTurnType()
 	return this->turn_type;
 }
 
+EntityState Entity::getState()
+{
+	return this->entity_state;
+}
+
 sf::IntRect Entity::getCollision()
 {
 	sf::IntRect collision;
@@ -182,4 +318,9 @@ int Entity::getAttackDamage()
 int Entity::getHealth()
 {
 	return this->health;
+}
+
+bool Entity::getAttack()
+{
+	return false;
 }

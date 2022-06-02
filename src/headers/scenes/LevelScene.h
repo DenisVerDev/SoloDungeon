@@ -22,7 +22,7 @@ class LevelScene : public GameScene
 private:
 
 	Player* player;
-
+	
 	std::vector<Room*> rooms;		// level rooms with enemies
 
 	int current_room;				// in which room is player at the moment

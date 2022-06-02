@@ -16,7 +16,7 @@ Sword::Sword()
 
 	// characteristics initialization
 	this->base_damage = 1;
-	this->base_range = 10.f;
+	this->base_range = 20.f;
 
 	this->attack_speed = 2.4f;
 
