@@ -6,6 +6,7 @@
 #include"../../headers/level/RoomDemon.h"
 #include"../../headers/level/RoomBoss.h"
 #include"../../headers/entities/Player.h"
+#include"../../headers/gui/Hud.h"
 #include"../../headers/tools/GameLog.h"
 
 /*-------------------------------------------------------------------------------------------
@@ -14,6 +15,7 @@
 
 class Room;
 class Player;
+class Hud;
 
 class LevelScene : public GameScene
 {
@@ -24,6 +26,8 @@ private:
 	std::vector<Room*> rooms;		// level rooms with enemies
 
 	int current_room;				// in which room is player at the moment
+
+	Hud* hud;						// player's HUD
 
 	//------RESOURCES------
 

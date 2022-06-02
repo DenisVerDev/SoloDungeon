@@ -8,6 +8,9 @@ LevelScene::LevelScene() : GameScene()
 	this->player = new Player();
 	this->current_room = 0;
 
+	// init HUD
+	this->hud = new Hud(this->player->getMaxHealth());
+
 	// init other objects
 	this->initLevelObjects();
 	GameLog::log("Level scene was initialized!");
@@ -20,6 +23,10 @@ LevelScene::~LevelScene()
 	// deleting player
 	delete this->player;
 	this->player = nullptr;
+
+	// deleting HUD
+	delete this->hud;
+	this->hud = nullptr;
 
 	// delete rooms
 	for (auto r : this->rooms)
@@ -51,10 +58,14 @@ void LevelScene::stop()
 void LevelScene::logic()
 {
 	if (this->isLoaded == false) this->loadResources();	// loading resources in different thread
-	
+
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
+		// update HUD
+		this->hud->update(this->player->getHealth());
+		this->hud->updatePos(GameRender::rview.getCenter(),this->player->getPosition());
+
 		// player logic
 		this->player->update();
 
@@ -85,6 +96,9 @@ void LevelScene::draw(sf::RenderTarget& target)
 			// draw back walls and door
 			this->rooms[this->current_room]->drawBackWalls(target);
 			this->rooms[this->current_room]->drawBackDoor(target);
+
+			// draw HUD
+			this->hud->draw(target);
 		}
 	}
 	catch (std::exception& e)
@@ -103,6 +117,9 @@ void LevelScene::loadResources()
 
 	// player texture
 	this->player->setTexture(this->levelmain_texture);
+
+	// HUD textures
+	this->hud->setTexture(this->levelmain_texture);
 	
 	// rooms texture set
 	int vec_size = this->rooms.size();
