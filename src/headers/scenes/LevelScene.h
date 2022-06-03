@@ -29,6 +29,12 @@ private:
 
 	Hud* hud;						// player's HUD
 
+	sf::Text result_text;			// game result text(win or lose)
+	sf::Text tip_text;				// tip text(press esc to leave)
+
+	bool result;					// if game has a result
+	bool show_result;				// if game can show player's result
+
 	//------RESOURCES------
 
 	sf::Texture levelmain_texture;	// all main static level objects
@@ -43,6 +49,9 @@ private:
 
 	// init all level rooms and bridges
 	void initLevelObjects();
+
+	// check for the result and show it
+	void checkResult();
 
 public:
 

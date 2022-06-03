@@ -4,6 +4,9 @@
 
 LevelScene::LevelScene() : GameScene()
 {
+	this->result = false;
+	this->show_result = false;
+
 	// init player
 	this->player = new Player();
 	this->current_room = 0;
@@ -11,8 +14,21 @@ LevelScene::LevelScene() : GameScene()
 	// init HUD
 	this->hud = new Hud(this->player->getMaxHealth());
 
+	// init result and tip texts
+	this->result_text.setFont(GameResources::head_font);
+	this->result_text.setCharacterSize(128);
+	this->result_text.scale(0.5f, 0.5f);
+	
+	this->tip_text.setFont(GameResources::text_font);
+	this->tip_text.setCharacterSize(64);
+	this->tip_text.setFillColor(GameResources::text_color);
+	this->tip_text.setString("Press Esc to go to the menue");
+	this->tip_text.scale(0.5f, 0.5f);
+
 	// init other objects
 	this->initLevelObjects();
+
+	this->loadResources();
 	GameLog::log("Level scene was initialized!");
 }
 
@@ -57,37 +73,41 @@ void LevelScene::stop()
 
 void LevelScene::logic()
 {
-	if (this->isLoaded == false) this->loadResources();	// loading resources in different thread
-
 	// logic here
-	while (GameCycle::getCurrentState() == GameState::Gameplay)
+	while (GameCycle::getCurrentState() == GameState::Gameplay && this->isEventSent == false)
 	{
 		try
 		{
-			// update HUD
-			this->hud->update(this->player->getHealth());
-			this->hud->updatePos(GameRender::rview.getCenter(), this->player->getPosition());
-
-			if (this->rooms[this->current_room]->getIsFinished() == false)
+			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
 			{
-				// player logic
-				this->player->update();
+				// update HUD
+				this->hud->update(this->player->getHealth());
+				this->hud->updatePos(GameRender::rview.getCenter(), this->player->getPosition());
 
-				// update rooms
-				this->rooms[this->current_room]->update(*this->player);
-			}
-			else if (this->current_room < 4)
-			{
-				GameLog::log("Player has passed " + this->rooms[this->current_room]->getRoomName());
-				this->current_room++;
+				if (this->rooms[this->current_room]->getIsFinished() == false)
+				{
+					// player logic
+					this->player->update();
 
-				// init player pos
-				this->rooms[this->current_room]->setEntryPoint(*this->player);
-				this->player->initCamera();
+					// update rooms
+					this->rooms[this->current_room]->update(*this->player);
+				}
+				else if (this->current_room < 4)
+				{
+					GameLog::log("Player has passed " + this->rooms[this->current_room]->getRoomName());
+					this->current_room++;
+
+					// init player pos
+					this->rooms[this->current_room]->setEntryPoint(*this->player);
+					this->player->initCamera();
+				}
+				
+				if(this->result == false) this->checkResult();
 			}
 			else
 			{
-				// if player completes the last room
+				this->isEventSent = true;
+				GameCycle::addGameEvent(GameEvent::SetMainMenue);
 			}
 		}
 		catch (std::exception& e)
@@ -123,6 +143,13 @@ void LevelScene::draw(sf::RenderTarget& target)
 
 			// draw HUD
 			this->hud->draw(target);
+
+			// draw result and tip text
+			if (this->show_result == true)
+			{
+				target.draw(this->result_text);
+				target.draw(this->tip_text);
+			}
 		}
 	}
 	catch (std::exception& e)
@@ -171,6 +198,40 @@ void LevelScene::initLevelObjects()
 	this->player->initCamera();
 }
 
+void LevelScene::checkResult()
+{
+	if (this->player->getIsAlive() == false)
+	{
+		GameLog::log("Player has died!");
+		this->result_text.setFillColor(sf::Color(191, 10, 48));
+		this->result_text.setString("YOU ARE DEAD!");
+		this->result = true;
+	}
+	else if (this->current_room == 4 && this->rooms[this->current_room]->getIsFinished() == true)
+	{
+		GameLog::log("Player has won!");
+		this->result_text.setFillColor(GameResources::hover_text_color);
+		this->result_text.setString("YOU HAVE WON!");
+		this->result = true;
+	}
+
+	if (this->result == true)
+	{
+		sf::Vector2f camera = GameRender::rview.getCenter();
+		sf::FloatRect res_rect, tip_rect;
+
+		res_rect = this->result_text.getLocalBounds();
+		tip_rect = this->tip_text.getLocalBounds();
+
+		float scale = 0.5f;
+
+		this->result_text.setPosition(sf::Vector2f(camera.x - res_rect.width / 2.f * scale, camera.y - 100));
+		this->tip_text.setPosition(sf::Vector2f(camera.x - tip_rect.width / 2.f * scale, camera.y - 50 + res_rect.height*scale));
+
+		this->show_result = true;
+	}
+
+}
 
 void LevelScene::resetEventSent()
 {

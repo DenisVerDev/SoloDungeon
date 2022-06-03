@@ -9,7 +9,7 @@ GameRender::GameRender()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 0;
 
-	this->rview.reset(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(Settings::video_mode.width, Settings::video_mode.height)));
+	this->resetView();
 	this->rwindow = new sf::RenderWindow(Settings::video_mode,Settings::getWindowTitle(),sf::Style::Fullscreen,settings);
 	this->rwindow->setView(this->rview);
 
@@ -49,6 +49,11 @@ void GameRender::stopRender()
 	this->rwindow->close();
 	
 	GameLog::log("Render process was stopped!");
+}
+
+void GameRender::resetView()
+{
+	this->rview.reset(sf::FloatRect(sf::Vector2f(0, 0), sf::Vector2f(Settings::video_mode.width, Settings::video_mode.height)));
 }
 
 void GameRender::updateView()
