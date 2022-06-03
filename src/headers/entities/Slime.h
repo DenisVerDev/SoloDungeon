@@ -13,7 +13,4 @@ public:
 
 	// default constructor
 	Slime();
-
-	// update undead state
-	virtual void update();
 };

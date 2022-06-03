@@ -141,6 +141,9 @@ public:
 	// get entity current health
 	int getHealth();
 
+	// get entity live state
+	bool getIsAlive();
+
 	// if entity attacked someone(works only for the player)
 	virtual bool getAttack();
 };

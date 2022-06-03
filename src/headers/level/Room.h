@@ -27,11 +27,17 @@ protected:
 
 	std::vector<Enemy*> enemies;
 
+	std::string room_name;
+
 	//------PRIVATE VARS------
 
 	sf::Vector2i floor_size;
 
 	bool isTracked;					// if player is tracked by enemies
+
+	bool isCleared;					// if player killed everyone in the room
+
+	bool isFinished;				// if player is going out of the room through the front door
 
 	//------PRIVATE METHODS------
 
@@ -46,6 +52,12 @@ protected:
 
 	// anim front walls
 	void animWalls();
+
+	// check if room is cleared
+	void clearCheck();
+
+	// check if player leaves the room
+	void finishCheck(Entity& player);
 
 public:
 
@@ -97,4 +109,10 @@ public:
 
 	// get room's collision
 	virtual sf::IntRect getCollision();
+
+	// get if player complete and exit the room
+	bool getIsFinished();
+
+	// get room's name
+	std::string getRoomName();
 };

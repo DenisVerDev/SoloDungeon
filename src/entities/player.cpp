@@ -130,7 +130,7 @@ void Player::attack(Entity& entity)
 		if (this->position.x >= entity_pos.x - this->damage_range && this->position.x <= entity_pos.x)
 		{
 			// Y axis check
-			if (this->position.y >= entity_pos.y - this->damage_range*2 && this->position.y <= entity_pos.y + this->damage_range)
+			if (this->position.y >= entity_pos.y - this->damage_range && this->position.y <= entity_pos.y + this->damage_range)
 			{
 				// hit entity
 				entity.getHit(*this);
@@ -143,7 +143,7 @@ void Player::attack(Entity& entity)
 		if (this->position.x <= entity_pos.x + this->damage_range && this->position.x >= entity_pos.x)
 		{
 			// Y axis check
-			if (this->position.y >= entity_pos.y - this->damage_range*2 && this->position.y <= entity_pos.y + this->damage_range)
+			if (this->position.y >= entity_pos.y - this->damage_range && this->position.y <= entity_pos.y + this->damage_range)
 			{
 				// hit entity
 				entity.getHit(*this);

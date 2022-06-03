@@ -2,6 +2,8 @@
 
 RoomSlime::RoomSlime(sf::Vector2f pos) : Room(pos)
 {
+	this->room_name = "THE SLIME ROOM";
+
 	// init all room objects and enemies
 	this->initObjects();
 	this->initEnemies();

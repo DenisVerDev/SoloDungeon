@@ -105,11 +105,12 @@ void Entity::getHit(Entity& attacker)
 		// updating stats and state
 		if (this->health > 0)
 		{
-			this->health--;
+			this->health -= attacker.getAttackDamage();
 			this->entity_state = EntityState::Hitted;
+			this->body.setColor(sf::Color::Red);		 // to see what entity was hitted
 		}
 
-		if (this->health == 0)
+		if (this->health <= 0)
 		{
 			if (this->turn_type == TurnType::Right) this->body.rotate(90.f);
 			else this->body.rotate(-90.f);
@@ -179,6 +180,7 @@ void Entity::move()
 
 void Entity::resetMove()
 {
+	this->body.setColor(sf::Color(255, 255, 255)); // reset color
 	this->speed = this->base_speed;
 	this->move_up = false;
 	this->move_down = false;
@@ -189,7 +191,7 @@ void Entity::resetMove()
 
 void Entity::turnHandle()
 {
-	if (this->move_right != this->move_left)
+	if (this->move_right != this->move_left && this->entity_state != EntityState::Hitted)
 	{
 		if (this->turn_type == TurnType::Left && this->move_right)
 		{
@@ -318,6 +320,11 @@ int Entity::getAttackDamage()
 int Entity::getHealth()
 {
 	return this->health;
+}
+
+bool Entity::getIsAlive()
+{
+	return this->isAlive;
 }
 
 bool Entity::getAttack()

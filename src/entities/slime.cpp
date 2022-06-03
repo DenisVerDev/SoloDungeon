@@ -11,11 +11,14 @@ Slime::Slime() : Enemy()
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
 
 	// individual undead settings
-	this->speed = 0.1f;
-	this->damage_range = 80.f;
+	this->base_speed = 0.06f;
+	this->effect_speed = 0.2f;
+	this->speed = this->base_speed;
 
-	this->health = 1;
-	this->damage = 2;
+	this->damage_range = 10.f;
+
+	this->health = 3;
+	this->damage = 1;
 
 	// animation initialization
 	this->initAnim();
@@ -36,18 +39,4 @@ void Slime::initAnim()
 		time.push_back(Animation::ATime * 0.06);
 	}
 	move_anim.init(4, time, sf::Vector2i(this->texture_rect.left, this->texture_rect.top), true);
-}
-
-void Slime::update()
-{
-	EntityState previous_state = this->entity_state;
-	this->resetMove();
-
-	this->followPlayer();
-
-	this->turnHandle();
-	this->move();
-
-	// animation update
-	this->updateAnim(previous_state);
 }

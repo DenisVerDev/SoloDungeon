@@ -13,7 +13,4 @@ public:
 
 	// default constructor
 	Undead();
-
-	// update undead state
-	virtual void update();
 };

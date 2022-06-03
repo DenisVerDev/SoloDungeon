@@ -13,7 +13,4 @@ public:
 
 	// default constructor
 	Orc();
-
-	// update undead state
-	virtual void update();
 };

@@ -62,15 +62,39 @@ void LevelScene::logic()
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::Gameplay)
 	{
-		// update HUD
-		this->hud->update(this->player->getHealth());
-		this->hud->updatePos(GameRender::rview.getCenter(),this->player->getPosition());
+		try
+		{
+			// update HUD
+			this->hud->update(this->player->getHealth());
+			this->hud->updatePos(GameRender::rview.getCenter(), this->player->getPosition());
 
-		// player logic
-		this->player->update();
+			if (this->rooms[this->current_room]->getIsFinished() == false)
+			{
+				// player logic
+				this->player->update();
 
-		// update rooms
-		this->rooms[this->current_room]->update(*this->player);
+				// update rooms
+				this->rooms[this->current_room]->update(*this->player);
+			}
+			else if (this->current_room < 4)
+			{
+				GameLog::log("Player has passed " + this->rooms[this->current_room]->getRoomName());
+				this->current_room++;
+
+				// init player pos
+				this->rooms[this->current_room]->setEntryPoint(*this->player);
+				this->player->initCamera();
+			}
+			else
+			{
+				// if player completes the last room
+			}
+		}
+		catch (std::exception& e)
+		{
+			GameException ge("Level scene logic exception!", e, GeType::Logic, __FILE__, __LINE__);
+			GameLog::log(ge);
+		}
 
 		sf::sleep(sf::milliseconds(1)); // 1000 logic call per second possible
 	}
@@ -103,7 +127,7 @@ void LevelScene::draw(sf::RenderTarget& target)
 	}
 	catch (std::exception& e)
 	{
-		GameException ge("Levele scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
+		GameException ge("Level scene drawing exception", e, GeType::Rendering, __FILE__, __LINE__);
 		GameLog::log(ge);
 	}
 

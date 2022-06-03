@@ -24,6 +24,8 @@ void Door::setState(DoorState state)
 			this->texture_rect.height = 35;
 			break;
 	}
+
+	this->body.setTextureRect(this->texture_rect);
 }
 
 DoorState Door::getState()

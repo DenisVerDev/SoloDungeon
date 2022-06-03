@@ -14,6 +14,4 @@ public:
 	// default constructor
 	Demon();
 
-	// update undead state
-	virtual void update();
 };

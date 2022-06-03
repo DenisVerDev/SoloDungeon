@@ -3,6 +3,8 @@
 
 RoomOrc::RoomOrc(sf::Vector2f pos) : Room(pos)
 {
+	this->room_name = "THE ORC ROOM";
+
 	// init all room objects and enemies
 	this->initObjects();
 	this->initEnemies();
@@ -45,9 +47,6 @@ void RoomOrc::initEnemies()
 
 	this->enemies.push_back(new Orc());
 	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 14, pos.y + 16 * 2));
-
-	this->enemies.push_back(new Orc());
-	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 6, pos.y + 16 * 5));
 
 	this->enemies.push_back(new Orc());
 	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 15, pos.y + 16 * 7));

@@ -5,6 +5,8 @@
 Room::Room(sf::Vector2f pos)
 {
 	this->isTracked = false;
+	this->isCleared = false;
+	this->isFinished = false;
 
 	// init floor
 	this->floor_size.y = 256;
@@ -96,19 +98,6 @@ void Room::update(Entity& player)
 		ICollision::collision(*e, room_collision);
 	}
 
-	// collision between enemies only
-	int vec_size = this->enemies.size();
-	for (int i = 0; i < vec_size; i++)
-	{
-		for (int j = 0; j < vec_size; j++)
-		{
-			if (i != j)
-			{
-				ICollision::collision(*this->enemies[i], *this->enemies[j]);
-			}
-		}
-	}
-
 	// checking collision between player, entities and columns
 	for (Wall& wall : this->front_walls)
 	{
@@ -122,22 +111,51 @@ void Room::update(Entity& player)
 		}
 	}
 
-	// track the player
-	if (this->isTracked == false) this->trackPlayer(player);
-
-	// player attack check
-	if (player.getAttack() == true)
+	// player and enemies behaviours
+	if (this->isCleared == false)
 	{
+
+		// collision between enemies only
+		int vec_size = this->enemies.size();
+		for (int i = 0; i < vec_size; i++)
+		{
+			for (int j = 0; j < vec_size; j++)
+			{
+				if (i != j && this->enemies[i]->getIsAlive() == true && this->enemies[j]->getIsAlive() == true)
+				{
+					ICollision::collision(*this->enemies[i], *this->enemies[j]);
+				}
+			}
+		}
+
+		// track the player
+		if (this->isTracked == false) this->trackPlayer(player);
+
+		// player attack check
+		if (player.getAttack() == true)
+		{
+			for (auto e : this->enemies)
+			{
+				player.attack(*e);
+			}
+		}
+
+		// enemies behaviour
 		for (auto e : this->enemies)
 		{
-			player.attack(*e);
+			e->update();
 		}
-	}
 
-	// enemies behaviour
-	for (auto e : this->enemies)
+		// check if room is cleared or not
+		this->clearCheck();
+	}
+	else if(this->doors[0].getState() == DoorState::Closed)
 	{
-		e->update();
+		this->doors[0].setState(DoorState::Opened); // open the door to the next room
+	}
+	else if (this->isFinished == false) // check if player is near exit
+	{
+		this->finishCheck(player);
 	}
 
 	// animation update - walls
@@ -182,9 +200,16 @@ void Room::drawBackDoor(sf::RenderTarget& target)
 
 void Room::drawEnemies(sf::RenderTarget& target)
 {
+	// draw dead bodies
 	for (auto e : this->enemies)
 	{
-		e->draw(target);
+		if(e->getIsAlive() == false) e->draw(target);
+	}
+
+	// draw alive enemies
+	for (auto e : this->enemies)
+	{
+		if(e->getIsAlive() == true) e->draw(target);
 	}
 }
 
@@ -204,6 +229,28 @@ void Room::animWalls()
 	{
 		WallType type = w.getWallType();
 		if (type == WallType::WallLava || type == WallType::WallWater) w.updateAnim();
+	}
+}
+
+void Room::clearCheck()
+{
+	int dead_count = std::count_if(this->enemies.begin(), this->enemies.end(), [](Enemy* e) {return e->getIsAlive() == false; });
+	int enemy_count = this->enemies.size();
+
+	if (dead_count == enemy_count) this->isCleared = true;
+}
+
+void Room::finishCheck(Entity& player)
+{
+	sf::Vector2f player_pos = player.getPosition();
+	sf::Vector2f door_pos = this->doors[0].getPosition();
+	sf::Vector2f door_size = this->doors[0].getSize();
+
+	// X axis check
+	if (player_pos.x >= door_pos.x && player_pos.x <= door_pos.x + door_size.x)
+	{
+		// Y axis check
+		if (player_pos.y <= door_pos.y + door_size.y) this->isFinished = true;
 	}
 }
 
@@ -273,4 +320,14 @@ sf::IntRect Room::getCollision()
 	size.y -= 30;
 
 	return sf::IntRect(pos, size);;
+}
+
+bool Room::getIsFinished()
+{
+	return this->isFinished;
+}
+
+std::string Room::getRoomName()
+{
+	return this->room_name;
 }

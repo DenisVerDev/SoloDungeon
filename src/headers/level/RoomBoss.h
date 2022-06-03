@@ -1,5 +1,9 @@
 #pragma once
 #include"Room.h"
+#include"../../headers/entities/Undead.h"
+#include"../../headers/entities/Orc.h"
+#include"../../headers/entities/Slime.h"
+#include"../../headers/entities/Demon.h"
 
 class RoomBoss : public Room
 {

@@ -2,6 +2,8 @@
 
 RoomUndead::RoomUndead(sf::Vector2f pos) : Room(pos)
 {
+	this->room_name = "THE UNDEAD ROOM";
+
 	// init all room objects and enemies
 	this->initObjects();
 	this->initEnemies();

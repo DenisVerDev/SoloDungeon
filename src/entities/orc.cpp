@@ -11,7 +11,10 @@ Orc::Orc() : Enemy()
 	this->body.setOrigin(sf::Vector2f(this->texture_rect.width / 2.f, this->texture_rect.height / 2.f));
 
 	// individual undead settings
-	this->speed = 0.15f;
+	this->base_speed = 0.15f;
+	this->effect_speed = 0.25f;
+	this->speed = this->base_speed;
+
 	this->damage_range = 10.f;
 
 	this->health = 2;
@@ -36,18 +39,4 @@ void Orc::initAnim()
 		time.push_back(Animation::ATime * 0.048);
 	}
 	move_anim.init(4, time, sf::Vector2i(434, 174), true);
-}
-
-void Orc::update()
-{
-	EntityState previous_state = this->entity_state;
-	this->resetMove();
-
-	this->followPlayer();
-
-	this->turnHandle();
-	this->move();
-
-	// animation update
-	this->updateAnim(previous_state);
 }

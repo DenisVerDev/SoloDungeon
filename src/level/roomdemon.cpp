@@ -2,6 +2,8 @@
 
 RoomDemon::RoomDemon(sf::Vector2f pos) : Room(pos)
 {
+	this->room_name = "THE DEMON ROOM";
+
 	// init all room objects and enemies
 	this->initObjects();
 	this->initEnemies();
@@ -38,9 +40,6 @@ void RoomDemon::initEnemies()
 
 	this->enemies.push_back(new Demon());
 	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 5, pos.y + 16 * 3));
-
-	this->enemies.push_back(new Demon());
-	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 12, pos.y + 16 * 2));
 
 	this->enemies.push_back(new Demon());
 	this->enemies.at(this->enemies.size() - 1)->setPosition(sf::Vector2f(pos.x + 16 * 14, pos.y + 16 * 10));
