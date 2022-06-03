@@ -26,4 +26,11 @@ namespace dt
 		return centered_pos;
 	}
 
+	int rand(int min, int max)
+	{
+		double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+		int res = static_cast<int>(std::rand() * fraction * (max - min + max) + min);
+		return res;
+	}
+
 }

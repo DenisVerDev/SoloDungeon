@@ -1,4 +1,5 @@
 #pragma once
+#include<time.h>
 #include"../headers/render/GameRender.h"
 #include"../headers/scenes/MenueScene.h"
 #include"../headers/scenes/LevelScene.h"

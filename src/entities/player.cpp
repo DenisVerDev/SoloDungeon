@@ -16,7 +16,15 @@ Player::Player() : Entity()
 	this->sword = new Sword();
 
 	// individual player's settings
-	this->speed = 0.3f;
+	this->base_speed = 0.3f;
+	this->effect_speed = this->base_speed;
+	this->speed = this->base_speed;
+
+	this->damage_range = this->sword->getRange();
+
+	this->max_health = 6;
+	this->health = this->max_health;
+	this->damage = this->sword->getDamage();
 
 	// camera settings
 	this->camera_speed = this->speed * 1.5f;
@@ -55,70 +63,92 @@ void Player::initAnim()
 
 void Player::update()
 {
-
-	// player's movement
-
 	EntityState previous_state = this->entity_state;
-	this->resetMove();
 
-	if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveUp)))
+	this->effectProcessing();
+
+	if (this->isAlive == true)
 	{
-		this->move_up = true;
-		this->entity_state = EntityState::Move;
+
+		if (this->entity_state != EntityState::Hitted && this->entity_state != EntityState::Death)
+		{
+
+			if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveUp)))
+			{
+				this->move_up = true;
+				this->entity_state = EntityState::Move;
+			}
+
+			if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveDown)))
+			{
+				this->move_down = true;
+				this->entity_state = EntityState::Move;
+			}
+
+			if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveRight)))
+			{
+				this->move_right = true;
+				this->entity_state = EntityState::Move;
+			}
+
+			if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveLeft)))
+			{
+				this->move_left = true;
+				this->entity_state = EntityState::Move;
+			}
+
+			// player attack check
+			if (GameCycle::mouse_data.getIsMouseButtonPressed(GameInput::getButtonByAction(PlayerAction::Attack)))
+			{
+				this->sword->startBaseAttack();
+			}
+		}
+
+		this->turnHandle();
+
+		// player and camera movement
+		this->move();
+		this->cameraMove();
+
+		// update sword state
+		this->sword->update(this->getTurnType());
+
+		// animation update
+		this->updateAnim(previous_state);
 	}
-	
-	if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveDown)))
-	{
-		this->move_down = true;
-		this->entity_state = EntityState::Move;
-	}
-
-	if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveRight)))
-	{
-		this->move_right = true;
-		this->entity_state = EntityState::Move;
-	}
-	
-	if (sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::MoveLeft)))
-	{
-		this->move_left = true;
-		this->entity_state = EntityState::Move;
-	}
-
-	// player attack check
-	if (GameCycle::mouse_data.getIsMouseButtonPressed(GameInput::getButtonByAction(PlayerAction::Attack)))
-	{
-		this->sword->startBaseAttack();
-	}
-
-	this->turnHandle();
-
-	// player and camera movement
-	this->move();
-	this->cameraMove();
-
-	// update sword state
-	this->sword->update(this->getTurnType());
-
-	// animation update
-	this->updateAnim(previous_state);
 }
 
-void Player::updateAnim(EntityState previous_state)
+void Player::attack(Entity& entity)
 {
-	switch (this->entity_state)
+	// check if entity is in our attack range distance
+
+	sf::Vector2f entity_pos = entity.getPosition();
+
+	if (this->turn_type == TurnType::Right)
 	{
-		case EntityState::Stand:
-			if (previous_state != this->entity_state) this->stand_anim.reset();
-			this->stand_anim.update(this->body, this->texture_rect);
-			break;
-
-		case EntityState::Move:
-			if (previous_state != this->entity_state) this->move_anim.reset();
-			this->move_anim.update(this->body, this->texture_rect);
-			break;
-
-		default:break;
+		// X axis check
+		if (this->position.x >= entity_pos.x - this->damage_range && this->position.x <= entity_pos.x)
+		{
+			// Y axis check
+			if (this->position.y >= entity_pos.y - this->damage_range && this->position.y <= entity_pos.y + this->damage_range)
+			{
+				// hit entity
+				entity.getHit(*this);
+			}
+		}
+	}
+	else
+	{
+		//  X check
+		if (this->position.x <= entity_pos.x + this->damage_range && this->position.x >= entity_pos.x)
+		{
+			// Y axis check
+			if (this->position.y >= entity_pos.y - this->damage_range && this->position.y <= entity_pos.y + this->damage_range)
+			{
+				// hit entity
+				entity.getHit(*this);
+			}
+		}
 	}
 }
 
@@ -126,7 +156,7 @@ void Player::cameraMove()
 {
 	sf::Vector2f camera = GameRender::rview.getCenter();
 
-	if (this->entity_state == EntityState::Move)
+	if (this->entity_state == EntityState::Move || this->entity_state == EntityState::Hitted || this->entity_state == EntityState::Death)
 	{
 		// X axis
 		if (this->position.x < camera.x - this->camera_radius)
@@ -152,7 +182,7 @@ void Player::cameraMove()
 			this->isOutOfRadius = true;
 		}
 	}
-	else if (this->entity_state == EntityState::Stand)
+	else if (this->entity_state == EntityState::Stand || this->entity_state == EntityState::Hitted || this->entity_state == EntityState::Death)
 	{
 		// X axis
 		if (this->position.x < camera.x && this->isOutOfRadius == true)
@@ -188,15 +218,10 @@ void Player::cameraMove()
 	}
 }
 
-void Player::initCamera()
-{
-	GameRender::rview.setCenter(this->position); // setting camera position relative to the player
-}
-
 void Player::draw(sf::RenderTarget& target)
 {
 	target.draw(this->body);
-	this->sword->draw(target);
+	if(this->entity_state != EntityState::Death) this->sword->draw(target);
 }
 
 void Player::setTexture(sf::Texture& texture)
@@ -211,4 +236,19 @@ void Player::setPosition(sf::Vector2f position)
 	this->position = position;
 	this->body.setPosition(this->position);
 	this->sword->bind(*this);
+}
+
+void Player::initCamera()
+{
+	GameRender::rview.setCenter(this->position); // setting camera position relative to the player
+}
+
+int Player::getMaxHealth()
+{
+	return this->max_health;
+}
+
+bool Player::getAttack()
+{
+	return this->sword->getAttackFinish();
 }

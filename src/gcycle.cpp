@@ -16,6 +16,7 @@ bool GameCycle::isPaused = false;
 
 GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 {
+	srand(time(NULL));
 	Settings::loadSettings();
 	GameInput::loadInput();
 
