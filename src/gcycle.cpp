@@ -149,7 +149,16 @@ void GameCycle::handleGameEvents()
 				this->resetEventSent();
 				break;
 
-			case GameEvent::SetGameplay:	// level scene logic without loading scene
+			case GameEvent::SetMainMenue:
+				GameLog::log("Game event: start main menue!");
+				this->mscene = new MenueScene();
+				this->gstate = GameState::MainMenue;
+				this->destroyGameScene((GameScene*&)this->lscene);
+				this->grender->resetView();
+				this->mscene->start();
+				break;
+
+			case GameEvent::SetGameplay:
 				GameLog::log("Game event: start gameplay!");
 				this->lscene = new LevelScene();
 				this->gstate = GameState::Gameplay;

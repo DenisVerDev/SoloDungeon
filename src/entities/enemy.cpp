@@ -34,7 +34,7 @@ void Enemy::update()
 	{
 		if (this->entity_state != EntityState::Flee && this->entity_state != EntityState::Hitted && this->entity_state != EntityState::Death)
 		{
-			if (this->player->getState() != EntityState::Hitted && this->player->getState() != EntityState::Death)
+			if (this->player->getState() != EntityState::Death)
 			{
 				this->followPlayer();
 				this->attack(*this->player);
