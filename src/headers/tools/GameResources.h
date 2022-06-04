@@ -37,6 +37,8 @@ public:
 
 	static const std::string fonts_path;	// path to all game fonts
 
+	static const std::string audio_path;	// path to all game fonts
+
 	//------FONTS------
 
 	static sf::Font head_font;				// font for headers
@@ -54,6 +56,9 @@ public:
 
 	// load all game fonts
 	static void loadFonts();
+
+	// load all game audio
+	static void loadAudio();
 
 	// change base colors depending on the current game scene
 	static void changeColors();

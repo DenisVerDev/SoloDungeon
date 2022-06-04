@@ -14,6 +14,8 @@ const std::string GameResources::gameinput_path = "configs/input.conf";
 
 const std::string GameResources::fonts_path = "res/fonts/";
 
+const std::string GameResources::audio_path = "res/audio/";
+
 //------Initializing fonts------
 
 sf::Font GameResources::head_font;
@@ -49,6 +51,21 @@ void GameResources::loadFonts()
 	{
 		GameLog::log(e);
 	}
+}
+
+void GameResources::loadAudio()
+{
+	if (AudioManager::loadAudio(GameResources::audio_path))
+	{
+		GameLog::log("Audio was loaded!");
+	}
+	else
+	{
+		GameException ge("Audio was not loaded!", GeType::Logic, __FILE__, __LINE__);
+		GameLog::log(ge);
+	}
+
+	AudioManager::updateSettings(Settings::getMusicVolume(), Settings::getSoundVolume());
 }
 
 void GameResources::changeColors()

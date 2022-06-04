@@ -8,6 +8,7 @@
 #include"../../headers/entities/Player.h"
 #include"../../headers/gui/Hud.h"
 #include"../../headers/tools/GameLog.h"
+#include"SFML/Audio.hpp"
 
 /*-------------------------------------------------------------------------------------------
 	LevelScene class:
@@ -38,6 +39,9 @@ private:
 	//------RESOURCES------
 
 	sf::Texture levelmain_texture;	// all main static level objects
+
+	sf::Sound lose_sound;			// sound when player is dead
+	sf::Sound win_sound;			// sound when player has won
 
 	//------PRIVATE METHODS------
 

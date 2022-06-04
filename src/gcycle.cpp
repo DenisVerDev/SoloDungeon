@@ -21,15 +21,24 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 	GameInput::loadInput();
 
 	GameResources::loadFonts();
+	GameResources::loadAudio();
 	GameResources::changeColors();
 
 	this->mscene = new MenueScene();
 
 	this->grender = new GameRender();
+
+	AudioManager::playMusic(); // start playing background music
 }
 
 GameCycle::~GameCycle()
 {
+	// stop background music
+	AudioManager::stopMusic();
+
+	// free music and sounds
+	AudioManager::free();
+
 	// free memory
 	this->destroyGameScene((GameScene*&)this->mscene);
 	this->destroyGameScene((GameScene*&)this->lscene);
@@ -126,7 +135,7 @@ void GameCycle::handleGameEvents()
 			case GameEvent::SettingsUpdate:
 				GameLog::log("Game event: settings update!");
 				this->grender->updateSettings(); // update render settings
-				// update audio settings here
+				AudioManager::updateSettings(Settings::getMusicVolume(),Settings::getSoundVolume()); // update audio settings
 				Settings::saveSettings(); // save settings to file
 				this->resetEventSent();
 				break;
