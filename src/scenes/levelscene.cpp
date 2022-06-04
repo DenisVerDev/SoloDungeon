@@ -166,6 +166,9 @@ void LevelScene::loadResources()
 	// load resources
 	this->levelmain_texture.loadFromFile(GameResources::level_path + "mainlevbuild.png");
 
+	AudioManager::initSound(this->lose_sound, SFXType::GameLose);
+	AudioManager::initSound(this->win_sound, SFXType::GameWin);
+
 	// player texture
 	this->player->setTexture(this->levelmain_texture);
 
@@ -203,6 +206,9 @@ void LevelScene::checkResult()
 	if (this->player->getIsAlive() == false)
 	{
 		GameLog::log("Player has died!");
+		
+		this->lose_sound.play();	// play game lose sound
+
 		this->result_text.setFillColor(sf::Color(191, 10, 48));
 		this->result_text.setString("YOU ARE DEAD!");
 		this->result = true;
@@ -210,6 +216,9 @@ void LevelScene::checkResult()
 	else if (this->current_room == 4 && this->rooms[this->current_room]->getIsFinished() == true)
 	{
 		GameLog::log("Player has won!");
+		
+		this->win_sound.play();		// play game win sound
+
 		this->result_text.setFillColor(GameResources::hover_text_color);
 		this->result_text.setString("YOU HAVE WON!");
 		this->result = true;

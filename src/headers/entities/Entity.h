@@ -1,6 +1,7 @@
 #pragma once
 #include"../../headers/tools/ICollision.h"
 #include"../../headers/render/Animation.h"
+#include"../../headers/tools/AudioManager.h"
 #include"SFML/Graphics.hpp"
 
 /*-------------------------------------------------------------------------------------------
@@ -66,6 +67,8 @@ protected:
 
 	int effect_duration;		// max effect duration(hit or death effect)
 	int effect_count;			// effect times count
+
+	sf::Sound hitted;			// sound when entity gets damage
 
 	//------PRIVATE METHODS------
 

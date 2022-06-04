@@ -5,6 +5,7 @@
 #include"../headers/scenes/LevelScene.h"
 #include"../headers/tools/MouseData.h"
 #include"../headers/tools/GameInput.h"
+#include"../headers/tools/AudioManager.h"
 
 /*-------------------------------------------------------------------------------------------
 	GameCycle class:

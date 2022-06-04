@@ -20,6 +20,8 @@ private:
 
 	Sword* sword;				// player's main weapon
 
+	sf::Sound sword_attack;		// sound when player uses his sword
+
 	//------PRIVATE VARS------
 
 	float camera_radius;		// radius where camera is not allowed to move, if player is in its borders

@@ -13,6 +13,9 @@ Entity::Entity()
 
 	this->turnHandle();
 	this->resetMove();
+
+	// init sound
+	AudioManager::initSound(this->hitted, SFXType::EntityHitted);
 }
 
 //------Methods definition------
@@ -72,6 +75,9 @@ void Entity::getHit(Entity& attacker)
 {
 	if (this->isAlive == true)
 	{
+		// play sound
+		this->hitted.play();
+
 		// check in which side entity should repulse
 		TurnType attack_turn = attacker.getTurnType();
 

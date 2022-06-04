@@ -34,6 +34,9 @@ Player::Player() : Entity()
 
 	// animation initialization
 	this->initAnim();
+
+	// init sound
+	AudioManager::initSound(this->sword_attack, SFXType::SwordHit);
 }
 
 Player::~Player()
@@ -120,6 +123,9 @@ void Player::update()
 
 void Player::attack(Entity& entity)
 {
+	// play sound
+	this->sword_attack.play();
+
 	// check if entity is in our attack range distance
 
 	sf::Vector2f entity_pos = entity.getPosition();
