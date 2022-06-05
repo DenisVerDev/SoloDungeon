@@ -56,9 +56,6 @@ public:
 	// start 'MainMenue' scene thread
 	virtual void start();
 
-	// wait 'MainMenue' scene thread
-	virtual void stop();
-
 	// draw whole 'MainMenue' scene
 	virtual void draw(sf::RenderTarget& target);
 

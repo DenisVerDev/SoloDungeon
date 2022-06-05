@@ -7,8 +7,6 @@
 /*-------------------------------------------------------------------------------------------
 	GameResources class:
 	- stores all constant paths
-	- stores all graphical objects like sprite sheets
-	- stores all threads
 	- stores all game related resources
 	- private constructor => only static functions and variables
 	- loads resources
@@ -60,6 +58,6 @@ public:
 	// load all game audio
 	static void loadAudio();
 
-	// change base colors depending on the current game scene
-	static void changeColors();
+	// init all text colors
+	static void initColors();
 };

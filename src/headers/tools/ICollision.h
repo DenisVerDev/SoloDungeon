@@ -1,6 +1,11 @@
 #pragma once
 #include"SFML/Graphics.hpp"
 
+/*-------------------------------------------------------------------------------------------
+	ICollision class/interface:
+	- interface that allows to check collision between two objects
+-------------------------------------------------------------------------------------------*/
+
 class ICollision
 {
 

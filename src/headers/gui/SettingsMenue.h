@@ -9,6 +9,7 @@
 
 /*-------------------------------------------------------------------------------------------
 	SettingsMenue class:
+	- simple menue where player can change game's settings
 -------------------------------------------------------------------------------------------*/
 
 class GameButton;
@@ -49,14 +50,6 @@ private:
 	sf::Text vert_sync_text;		// vertical sync text
 
 	GameSwitch* vert_sync_switch;	// vertical sync switch
-
-	sf::Text fr_dp_text;			// frame dependecy text
-
-	GameSwitch* fr_dp_switch;		// frame dependency switch
-
-	sf::Text fr_lim_text;			// frame limit text
-
-	GameSlider* fr_lim_slider;		// frame limit slider
 
 	//------AUDIO SETTINGS COMPONENTS------
 
@@ -99,8 +92,14 @@ private:
 	// set check mode false to previous tab button
 	void uncheckTabButton();
 
-	// handle video settings tab
-	void videoStateHandle();
+	// handle tab buttons click event
+	void tabClickHandle();
+
+	// handle back, standart and apply buttons click event
+	void btnClickHandle();
+
+	// get settigs from gui and apply it
+	void applySettings();
 
 public:
 
@@ -117,17 +116,8 @@ public:
 	// settings menue logic
 	virtual void logic();
 
-	// handle tab buttons click event
-	void tabClickHandle();
-
-	// handle back, standart and apply buttons click event
-	void btnClickHandle();
-
 	// draw whole settings menue
 	virtual void draw(sf::RenderTarget& target);
-
-	// get settigs from gui and apply it
-	void applySettings();
 
 	// set settings menue position
 	void setPosition(sf::Vector2f position);

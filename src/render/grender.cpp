@@ -80,13 +80,11 @@ const bool GameRender::running() const
 
 void GameRender::setRefreshRate()
 {
-	this->rwindow->setVerticalSyncEnabled(Settings::vertical_sync);
-
-	if (Settings::dependency_mode == FrameDependency::Free) this->rwindow->setFramerateLimit(0);
+	if (Settings::vertical_sync == false) this->rwindow->setFramerateLimit(Settings::frame_limit);
 	else
 	{
-		if(Settings::vertical_sync == false) this->rwindow->setFramerateLimit(Settings::getFrameLimit());
-		else this->rwindow->setFramerateLimit(0);
+		this->rwindow->setVerticalSyncEnabled(Settings::vertical_sync);
+		this->rwindow->setFramerateLimit(0);
 	}
 }
 

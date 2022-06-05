@@ -84,16 +84,9 @@ MenueScene::~MenueScene()
 
 void MenueScene::start()
 {
-	if(this->isLoaded == false) this->loadResources();
 	this->logic_thread.launch();
 
 	GameLog::log("Menue scene thread has started!");
-}
-
-void MenueScene::stop()
-{
-	this->logic_thread.wait();
-	GameLog::log("Menue scene thread has stopped!");
 }
 
 void MenueScene::logic()
@@ -101,7 +94,7 @@ void MenueScene::logic()
 	// logic here
 	while (GameCycle::getCurrentState() == GameState::MainMenue)
 	{
-		if (GameCycle::isPaused == false)
+		if (GameCycle::isSM == false)
 		{
 			try
 			{
@@ -148,7 +141,7 @@ void MenueScene::buttonsClickHandle()
 		this->smenue->setSettings();
 
 		this->isEventSent = true;
-		GameCycle::addGameEvent(GameEvent::StartPause);
+		GameCycle::addGameEvent(GameEvent::StartSM);
 	}
 
 	if (this->btn_quit->getIsClicked() && this->isEventSent == false)	// quit from game
@@ -163,7 +156,7 @@ void MenueScene::draw(sf::RenderTarget& target)
 {
 	try
 	{
-		if (GameCycle::isPaused == false)
+		if (GameCycle::isSM == false)
 		{
 			// drawing game logo
 			target.draw(this->game_title);

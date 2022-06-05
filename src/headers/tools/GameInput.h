@@ -11,8 +11,8 @@
 	- private constructor
 -------------------------------------------------------------------------------------------*/
 
-/* player actions in the game
-   * list is not finished */
+// player actions in the game
+
 enum class PlayerAction
 {
 	Default,
@@ -20,8 +20,8 @@ enum class PlayerAction
 	MoveDown,
 	MoveRight,
 	MoveLeft,
-	Attack,
-	HeavyAttack
+	Back,
+	Attack
 };
 
 class GameInput

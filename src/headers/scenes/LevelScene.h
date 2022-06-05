@@ -72,9 +72,6 @@ public:
 	// start Level scene thread
 	virtual void start();
 
-	// wait Level scene thread
-	virtual void stop();
-
 	// draw whole Level scene
 	virtual void draw(sf::RenderTarget& target);
 

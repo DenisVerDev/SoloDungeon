@@ -1,5 +1,7 @@
 #include"../../src/headers/entities/Enemy.h"
 
+//------Constructor/Destructor definition------
+
 Enemy::Enemy() : Entity()
 {
 	this->player = nullptr;
@@ -34,7 +36,8 @@ void Enemy::update()
 	{
 		if (this->entity_state != EntityState::Flee && this->entity_state != EntityState::Hitted && this->entity_state != EntityState::Death)
 		{
-			if (this->player->getState() != EntityState::Death)
+			EntityState player_state = this->player->getState();
+			if (player_state != EntityState::Hitted && player_state != EntityState::Death)
 			{
 				this->followPlayer();
 				this->attack(*this->player);

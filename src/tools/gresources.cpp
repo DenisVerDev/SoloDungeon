@@ -24,10 +24,10 @@ sf::Font GameResources::text_font;
 
 //------Initializing colors------
 
-sf::Color GameResources::text_color = sf::Color::White;
-sf::Color GameResources::hover_text_color = sf::Color::Yellow;
+sf::Color GameResources::text_color;
+sf::Color GameResources::hover_text_color;
 
-sf::Color GameResources::additional_color = sf::Color(105, 105, 105);
+sf::Color GameResources::additional_color;
 
 //------Methods definition------
 
@@ -55,27 +55,25 @@ void GameResources::loadFonts()
 
 void GameResources::loadAudio()
 {
-	if (AudioManager::loadAudio(GameResources::audio_path))
+	try
 	{
-		GameLog::log("Audio was loaded!");
+		if (AudioManager::loadAudio(GameResources::audio_path))
+		{
+			GameLog::log("Audio was loaded!");
+		}
+		else throw GameException("Audio was not loaded!", GeType::Logic, __FILE__, __LINE__);
 	}
-	else
+	catch (std::exception& e)
 	{
-		GameException ge("Audio was not loaded!", GeType::Logic, __FILE__, __LINE__);
-		GameLog::log(ge);
+		GameLog::log(e);
 	}
 
 	AudioManager::updateSettings(Settings::getMusicVolume(), Settings::getSoundVolume());
 }
 
-void GameResources::changeColors()
+void GameResources::initColors()
 {
-	switch (GameCycle::getCurrentState())
-	{
-		case GameState::MainMenue:
-			GameResources::text_color = sf::Color::White;
-			GameResources::hover_text_color = sf::Color::Yellow;
-			GameResources::additional_color = sf::Color(105, 105, 105);
-			break;
-	}
+	GameResources::text_color = sf::Color::White;
+	GameResources::hover_text_color = sf::Color::Yellow;
+	GameResources::additional_color = sf::Color(105, 105, 105);
 }
