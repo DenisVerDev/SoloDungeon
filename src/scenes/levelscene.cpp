@@ -64,12 +64,6 @@ void LevelScene::start()
 	GameLog::log("Level scene thread has started!");
 }
 
-void LevelScene::stop()
-{
-	this->logic_thread.wait();
-	GameLog::log("Level scene thread has stopped!");
-}
-
 
 void LevelScene::logic()
 {
@@ -78,7 +72,7 @@ void LevelScene::logic()
 	{
 		try
 		{
-			if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+			if (!sf::Keyboard::isKeyPressed(GameInput::getKeyByAction(PlayerAction::Back)))
 			{
 				// update HUD
 				this->hud->update(this->player->getHealth());

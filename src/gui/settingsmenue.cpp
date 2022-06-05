@@ -89,21 +89,6 @@ SettingsMenue::SettingsMenue() : Scene()
 
 	this->vert_sync_switch = new GameSwitch();
 
-	this->fr_dp_text.setFont(GameResources::text_font);
-	this->fr_dp_text.setCharacterSize(30);
-	this->fr_dp_text.setFillColor(GameResources::text_color);
-	this->fr_dp_text.setString("Frame dependency");
-
-	this->fr_dp_switch = new GameSwitch();
-
-	this->fr_lim_text.setFont(GameResources::text_font);
-	this->fr_lim_text.setCharacterSize(30);
-	this->fr_lim_text.setFillColor(GameResources::text_color);
-	this->fr_lim_text.setString("Frame limit");
-
-	this->fr_lim_slider = new GameSlider(Settings::min_frame_limit, Settings::max_frame_limit, Settings::getFrameLimit());
-	this->fr_lim_slider->setTexture(this->slider_texture);
-
 	// initializing audio settings components
 	this->sound_text.setFont(GameResources::text_font);
 	this->sound_text.setCharacterSize(30);
@@ -130,7 +115,7 @@ SettingsMenue::SettingsMenue() : Scene()
 		this->actions_text[i].setFont(GameResources::text_font);
 		this->actions_text[i].setCharacterSize(30);
 		this->actions_text[i].setFillColor(GameResources::text_color);
-		this->actions_text[i].setString(GameInput::getActionString((PlayerAction)(i+1)));
+		this->actions_text[i].setString(GameInput::getActionString((PlayerAction)(i + 1)));
 	}
 
 	this->action_plates = new GamePlate[actions_count];
@@ -142,8 +127,8 @@ SettingsMenue::SettingsMenue() : Scene()
 	this->action_plates[1].setText("S");
 	this->action_plates[2].setText("D");
 	this->action_plates[3].setText("A");
-	this->action_plates[4].setText("Btn1");
-	this->action_plates[5].setText("Btn2");
+	this->action_plates[4].setText("Esc");
+	this->action_plates[5].setText("Btn1");
 
 	this->warning_text.setFont(GameResources::text_font);
 	this->warning_text.setCharacterSize(28);
@@ -176,12 +161,6 @@ SettingsMenue::~SettingsMenue()
 	// delete video settings components
 	delete this->vert_sync_switch;
 	this->vert_sync_switch = nullptr;
-
-	delete this->fr_dp_switch;
-	this->fr_dp_switch = nullptr;
-
-	delete this->fr_lim_slider;
-	this->fr_lim_slider = nullptr;
 
 	// delete audio settings components
 	delete this->sound_slider;
@@ -223,13 +202,7 @@ void SettingsMenue::logic()
 	{
 		case STab::Video:
 			this->vert_sync_switch->update(GameCycle::mouse_data);
-			this->fr_dp_switch->update(GameCycle::mouse_data);
-			this->fr_lim_slider->update(GameCycle::mouse_data);
-
 			this->vert_sync_switch->clickHandle();
-			this->fr_dp_switch->clickHandle();
-
-			this->videoStateHandle();
 			break;
 
 		case STab::Audio:
@@ -276,7 +249,7 @@ void SettingsMenue::btnClickHandle()
 	if (this->btn_back->getIsClicked() && this->isEventSent == false)
 	{
 		this->isEventSent = true;
-		GameCycle::addGameEvent(GameEvent::EndPause);
+		GameCycle::addGameEvent(GameEvent::EndSM);
 	}
 
 	if (this->btn_standart->getIsClicked() && this->isEventSent == false)
@@ -315,38 +288,6 @@ void SettingsMenue::uncheckTabButton()
 	}
 }
 
-void SettingsMenue::videoStateHandle()
-{
-
-	if (this->fr_dp_switch->getState() == SwitchState::OFF)
-	{
-		if (this->fr_lim_slider->getIsEnabled())
-		{
-			this->fr_lim_text.setFillColor(GameResources::additional_color);
-			this->fr_lim_slider->setEnable(false);
-		}
-	}
-	else
-	{
-		if (this->vert_sync_switch->getState() == SwitchState::OFF)
-		{
-			if (this->fr_lim_slider->getIsEnabled() == false)
-			{
-				this->fr_lim_text.setFillColor(GameResources::text_color);
-				this->fr_lim_slider->setEnable(true);
-			}
-		}
-		else
-		{
-			if (this->fr_lim_slider->getIsEnabled())
-			{
-				this->fr_lim_text.setFillColor(GameResources::additional_color);
-				this->fr_lim_slider->setEnable(false);
-			}
-		}
-	}
-}
-
 void SettingsMenue::draw(sf::RenderTarget& target)
 {
 	// draw tab buttons
@@ -367,11 +308,7 @@ void SettingsMenue::draw(sf::RenderTarget& target)
 	{
 		case STab::Video:
 			target.draw(this->vert_sync_text);
-			target.draw(this->fr_dp_text);
-			target.draw(this->fr_lim_text);
 			this->vert_sync_switch->draw(target);
-			this->fr_dp_switch->draw(target);
-			this->fr_lim_slider->draw(target);
 			break;
 
 		case STab::Audio:
@@ -396,12 +333,9 @@ void SettingsMenue::draw(sf::RenderTarget& target)
 void SettingsMenue::applySettings()
 {
 	Settings::setVerticalSync(!(bool)this->vert_sync_switch->getState());
-	Settings::setDependencyMode((int)this->fr_dp_switch->getState());
-	Settings::setFrameLimit(this->fr_lim_slider->getValue());
 
 	Settings::setSoundVolume(this->sound_slider->getValue());
 	Settings::setMusicVolume(this->music_slider->getValue());
-	
 }
 
 void SettingsMenue::setPosition(sf::Vector2f position)
@@ -423,12 +357,8 @@ void SettingsMenue::setPosition(sf::Vector2f position)
 
 	// set video settings components position
 	this->vert_sync_text.setPosition(this->position.x + 50, this->position.y + 150);
-	this->fr_dp_text.setPosition(this->position.x + 50, this->position.y + 230);
-	this->fr_lim_text.setPosition(this->position.x + 50, this->position.y + 310);
 	
 	this->vert_sync_switch->setPosition(dt::getCenteredPostion(sf::Vector2f(400, 80), this->vert_sync_switch->getSize(), sf::Vector2f(this->position.x + 400, this->position.y + 132)));
-	this->fr_dp_switch->setPosition(dt::getCenteredPostion(sf::Vector2f(400, 80), this->fr_dp_switch->getSize(), sf::Vector2f(this->position.x + 400, this->position.y + 212)));
-	this->fr_lim_slider->setPosition(dt::getCenteredPostion(sf::Vector2f(400, 80), this->fr_lim_slider->getSize(), sf::Vector2f(this->position.x + 400, this->position.y + 292)));
 
 	// set audio settings components position
 	this->sound_text.setPosition(this->position.x + 50, this->position.y + 150);
@@ -466,9 +396,6 @@ void SettingsMenue::setSettings()
 {
 	// init video settings
 	this->vert_sync_switch->setState((SwitchState)(!Settings::vertical_sync));
-	this->fr_dp_switch->setState((SwitchState)Settings::dependency_mode);
-	this->fr_lim_slider->setValue(Settings::getFrameLimit());
-	this->videoStateHandle();
 
 	// init audio settings
 	this->sound_slider->setValue(Settings::getSoundVolume());

@@ -2,14 +2,11 @@
 
 //------Initializing constants------
 
-const unsigned int Settings::max_frame_limit = 144;
-const unsigned int Settings::min_frame_limit = 30;
+const unsigned int Settings::frame_limit = 144; // comfort frame limit
 
 const sf::VideoMode Settings::video_mode = sf::VideoMode::getFullscreenModes()[0]; //gets the highest resolution possible
 
 //------Initializing variables------
-
-unsigned int Settings::frame_limit = 60;
 
 float Settings::music_volume = 100.f;
 float Settings::sound_volume = 100.f;
@@ -18,8 +15,6 @@ bool Settings::vertical_sync = false;
 
 std::string Settings::window_title = "Standart game window";
 std::string Settings::iconfile_name = "NONE";
-
-FrameDependency Settings::dependency_mode = FrameDependency::Dependent;
 
 //------Methods definition------
 
@@ -33,13 +28,11 @@ void Settings::saveSettings() //save settings to file
 
 		if (ostream.good())
 		{
-			ostream << "frame_limit=" << Settings::frame_limit << "\n";
 			ostream << "vertical_sync=" << Settings::vertical_sync << "\n";
 			ostream << "music_volume=" << Settings::music_volume << "\n";
 			ostream << "sound_volume=" << Settings::sound_volume << "\n";
 			ostream << "iconfile_name=" << Settings::iconfile_name << "\n";
 			ostream << "window_title=" << Settings::window_title << "\n";
-			ostream << "dependency_mode=" << (int)Settings::dependency_mode << "\n";
 
 			GameLog::log("Settings were successfully saved!");
 		}
@@ -64,12 +57,6 @@ void Settings::loadSettings() //load settings from file
 		if (istream.good())
 		{
 			std::string buff;
-
-			std::getline(istream, buff, '=');
-			unsigned int fl;
-			istream >> fl;
-			Settings::setFrameLimit(fl);
-			rEnd(istream, buff)
 
 			std::getline(istream, buff, '=');
 			istream >> Settings::vertical_sync;
@@ -97,11 +84,6 @@ void Settings::loadSettings() //load settings from file
 			std::string wt;
 			std::getline(istream, wt);
 			Settings::setWindowTitle(wt);
-			//- dont require rEnd there because [>>] stops at first space
-
-			std::getline(istream, buff, '=');
-			istream >> Settings::dependency_mode;
-			rEnd(istream, buff)
 
 			GameLog::log("Settings were successfully loaded!");
 		}
@@ -121,19 +103,11 @@ void Settings::loadSettings() //load settings from file
 
 void Settings::setStandartSettings()
 {
-	Settings::setFrameLimit(60);
 	Settings::setVerticalSync(false);
-	Settings::setDependencyMode(0);	// dependent mode
 	Settings::setMusicVolume(100.f);
 	Settings::setSoundVolume(100.f);
 
 	GameLog::log("Settings have been reset!");
-}
-
-void Settings::setFrameLimit(unsigned int frame_limit)
-{
-	if (frame_limit >= Settings::min_frame_limit && frame_limit <= Settings::max_frame_limit) Settings::frame_limit = frame_limit;
-	else Settings::frame_limit = 60;
 }
 
 void Settings::setVerticalSync(bool vertical_sync)
@@ -181,18 +155,7 @@ void Settings::setWindowTitle(std::string title)
 	else Settings::window_title = "Standart game window";
 }
 
-void Settings::setDependencyMode(unsigned int dependecy_mode)
-{
-	if (dependecy_mode == 0 || dependecy_mode == 1) Settings::dependency_mode = (FrameDependency)dependecy_mode;
-	else Settings::dependency_mode = FrameDependency::Dependent;
-}
-
 //------Getters definition------
-
-int Settings::getFrameLimit()
-{
-	return Settings::frame_limit;
-}
 
 float Settings::getMusicVolume()
 {
@@ -212,14 +175,4 @@ std::string Settings::getIconFileName()
 std::string Settings::getWindowTitle()
 {
 	return Settings::window_title;
-}
-
-//------Overload operators definition------
-
-std::ifstream& operator>>(std::ifstream& stream, FrameDependency& fd)
-{
-	int idm; //int dependecy_mode
-	stream >> idm;
-	Settings::setDependencyMode(idm);
-	return stream;
 }

@@ -9,7 +9,9 @@
 	Types of game exceptions:
 	1) Standart - standart C++ exception
 	2) Settings - exception that was caused while working with the settings
-	*  Final amount of types is not defined yet
+	3) Resources - exception that occures when loading resources goes bad
+	4) Rendering - exception that occures during drawing process
+	5) Logic - exception that occures during game scene's [update] method
 	
 	GameException class:
 	- unites custom and standart exceptions
@@ -54,7 +56,7 @@ public:
 	// create full exception message
 	GameException(std::string header, std::string exception_text, GeType type, std::string file = "NONE", int line = -1);
 
-	// create full exception message
+	// create full exception message(for standart C++ exceptions)
 	GameException(std::string header, const std::exception& e, GeType type, std::string file = "NONE", int line = -1);
 
 	// create exception message without custom header(for standart C++ exceptions)

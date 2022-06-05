@@ -10,7 +10,7 @@ MouseData GameCycle::mouse_data;
 
 bool GameCycle::running = false;
 
-bool GameCycle::isPaused = false;
+bool GameCycle::isSM = false;
 
 //------Constructor/Destructor definition------
 
@@ -20,9 +20,9 @@ GameCycle::GameCycle() : gamelog_thread(&GameLog::handleLogs)
 	Settings::loadSettings();
 	GameInput::loadInput();
 
+	GameResources::initColors();
 	GameResources::loadFonts();
 	GameResources::loadAudio();
-	GameResources::changeColors();
 
 	this->mscene = new MenueScene();
 
@@ -140,15 +140,15 @@ void GameCycle::handleGameEvents()
 				this->resetEventSent();
 				break;
 
-			case GameEvent::StartPause:
-				GameLog::log("Game event: game is paused!");
-				this->isPaused = true;
+			case GameEvent::StartSM:
+				GameLog::log("Game event: settings menue opened!");
+				this->isSM = true;
 				this->resetEventSent();
 				break;
 
-			case GameEvent::EndPause:
-				GameLog::log("Game event: game is resumed!");
-				this->isPaused = false;
+			case GameEvent::EndSM:
+				GameLog::log("Game event: settings menue closed!");
+				this->isSM = false;
 				this->resetEventSent();
 				break;
 

@@ -40,9 +40,6 @@ public:
 	// start game scene thread
 	virtual void start() = 0;
 
-	// wait gamescene thread
-	virtual void stop() = 0;
-
 	bool getIsLoaded()
 	{
 		return this->isLoaded;

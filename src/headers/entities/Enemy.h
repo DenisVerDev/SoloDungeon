@@ -2,6 +2,11 @@
 #include"Entity.h"
 #include"../../headers/tools/DifferentTools.h"
 
+/*-------------------------------------------------------------------------------------------
+	Enemy class:
+	- basicly entity class modification to fit in encounter behaviour with player
+-------------------------------------------------------------------------------------------*/
+
 enum class MoveAxis
 {
 	X,

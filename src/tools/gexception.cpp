@@ -101,13 +101,12 @@ const std::string GameException::typeToString()
 void GameException::formatExceptionText()
 {
 	std::ostringstream stream;
-	if (this->file != "NONE" && this->line > 0)
-	{
-		stream << '[' << this->typeToString() << "] File: " << this->file << ", Line: " << this->line << "\n";
-		stream << "-HEADER: " << this->header << "\n";
-		if (!this->exception_text.empty()) stream << "-INFO: " << this->exception_text << "\n";
-	}
-	else stream << '[' << this->typeToString() << "] Failed exception: no needed information";
+
+	if (this->file != "NONE" && this->line > 0) stream << '[' << this->typeToString() << "] File: " << this->file << ", Line: " << this->line << "\n";
+	else stream << '[' << this->typeToString() << "]:" << "\n";
+
+	stream << "-HEADER: " << this->header << "\n";
+	if (!this->exception_text.empty()) stream << "-INFO: " << this->exception_text << "\n";
 
 	this->formatted_exception_text = stream.str();
 }

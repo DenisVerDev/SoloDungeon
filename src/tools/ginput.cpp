@@ -2,8 +2,8 @@
 
 //------Initializing constants------
 
-const int GameInput::key_actions_count = 4;
-const int GameInput::mouse_actions_count = 2;
+const int GameInput::key_actions_count = 5;
+const int GameInput::mouse_actions_count = 1;
 
 //------Initializing variables------
 
@@ -22,10 +22,10 @@ void GameInput::setStandartInput()
 	GameInput::key_actions.push_back(std::pair<PlayerAction, sf::Keyboard::Key>(PlayerAction::MoveDown, sf::Keyboard::Key::S));
 	GameInput::key_actions.push_back(std::pair<PlayerAction, sf::Keyboard::Key>(PlayerAction::MoveRight, sf::Keyboard::Key::D));
 	GameInput::key_actions.push_back(std::pair<PlayerAction, sf::Keyboard::Key>(PlayerAction::MoveLeft, sf::Keyboard::Key::A));
+	GameInput::key_actions.push_back(std::pair<PlayerAction, sf::Keyboard::Key>(PlayerAction::Back, sf::Keyboard::Key::Escape));
 
 	//	add mouse actions
 	GameInput::mouse_actions.push_back(std::pair<PlayerAction, sf::Mouse::Button>(PlayerAction::Attack, sf::Mouse::Button::Left));
-	GameInput::mouse_actions.push_back(std::pair<PlayerAction, sf::Mouse::Button>(PlayerAction::HeavyAttack, sf::Mouse::Button::Right));
 
 	GameLog::log("Game input was reseted!");
 
@@ -173,8 +173,8 @@ PlayerAction GameInput::getActionByName(std::string action)
 	else if(action == "Move down") return PlayerAction::MoveDown;
 	else if (action == "Move right") return PlayerAction::MoveRight;
 	else if (action == "Move left") return PlayerAction::MoveLeft;
+	else if (action == "Back") return PlayerAction::Back;
 	else if (action == "Attack") return PlayerAction::Attack;
-	else if (action == "Heavy attack") return PlayerAction::HeavyAttack;
 
 	return PlayerAction::Default;
 }
@@ -204,12 +204,12 @@ std::string GameInput::getActionString(PlayerAction action)
 			return "Move left";
 			break;
 
-		case PlayerAction::Attack:
-			return "Attack";
+		case PlayerAction::Back:
+			return "Back";
 			break;
 
-		case PlayerAction::HeavyAttack:
-			return "Heavy attack";
+		case PlayerAction::Attack:
+			return "Attack";
 			break;
 	}
 }
